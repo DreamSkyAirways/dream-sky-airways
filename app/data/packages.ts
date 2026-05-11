@@ -49,6 +49,62 @@ export const packages = [
       "Any extra service not mentioned",
     ],
   },
+  {
+    id: 111,
+    title: "Haridwar Tour Package",
+    slug: "haridwar-tour-package",
+    location: "haridwar",
+    price: "₹9,999",
+    days: "3 Days / 2 Nights",
+
+    images: [
+      "/Packages/haridwar/haridwar-1.png",
+      "/Packages/haridwar/haridwar-2.png",
+      "/Packages/haridwar/haridwar-3.png",
+      "/Packages/haridwar/haridwar-4.png",
+      "/Packages/haridwar/haridwar-5.png",
+    ],
+
+    description:
+      "Haridwar is one of the holiest cities in India, located on the banks of the sacred Ganga River.\n\nIt is famous for spiritual experiences, ancient temples, Ganga Aarti, and peaceful surroundings. This package is perfect for travelers seeking devotion, relaxation, and cultural beauty.\n\nThe tour includes a comfortable stay, local sightseeing, and smooth travel arrangements, making it ideal for families, couples, and senior travelers.",
+
+    stayStops: [
+      "Check-in at a hotel in Haridwar",
+      "2 Nights stay in Haridwar",
+      "Clean and comfortable hotel rooms",
+      "Hotel near Har Ki Pauri or main market",
+      "Peaceful and spiritual environment",
+    ],
+
+    journeyDetails: [
+      "Arrival at Haridwar railway station / bus stand",
+      "Pickup and transfer to hotel",
+      "Hotel check-in and rest",
+      "Visit Har Ki Pauri and local temples",
+      "Attend evening Ganga Aarti",
+      "Local sightseeing and temple visits",
+      "Overnight stay at hotel",
+      "Drop on departure day",
+    ],
+
+    includedServices: [
+      "Hotel accommodation",
+      "Daily breakfast, lunch, and dinner",
+      "Pickup and drop",
+      "Local sightseeing",
+      "Ganga Aarti visit",
+      "Travel assistance",
+    ],
+
+    notIncludedServices: [
+      "Adventure activities",
+      "Personal expenses",
+      "Meals other than mentioned",
+      "Local guide charges",
+      "Entry tickets if applicable",
+      "Any extra service not mentioned",
+    ],
+  },
 
   {
     id: 2,
@@ -244,6 +300,67 @@ export const packages = [
       "Any extra services not listed"
     ],
   },
+  {
+  id: 301,
+
+  title: "Jim Corbett National Park Tour Package",
+
+  slug: "jim-corbett-national-park-tour-package",
+
+  location: "jim-corbett",
+
+  price: "₹14,999",
+
+  days: "3 Days / 2 Nights",
+
+  images: [
+    "/Packages/JimCorbett/JimCorbett1.png",
+    "/Packages/JimCorbett/JimCorbett2.png",
+    "/Packages/JimCorbett/JimCorbett3.png",
+    "/Packages/JimCorbett/JimCorbett4.png",
+    "/Packages/JimCorbett/JimCorbett5.png",
+  ],
+
+  description:
+    "Jim Corbett National Park is one of the most famous wildlife destinations in India, located in Uttarakhand.\n\nIt is known for jungle safari, Bengal tigers, rich wildlife, rivers, forests, and peaceful natural surroundings. This package is perfect for nature lovers, wildlife photographers, families, and adventure travelers.\n\nThe tour includes comfortable resort stay, jungle safari experience, sightseeing, and smooth travel arrangements for a memorable wildlife holiday.",
+
+  stayStops: [
+    "Check-in at jungle resort in Jim Corbett",
+    "2 Nights stay near Corbett National Park",
+    "Comfortable and nature-view rooms",
+    "Resort surrounded by forest environment",
+    "Campfire and peaceful evening atmosphere",
+  ],
+
+  journeyDetails: [
+    "Arrival at Ramnagar / Jim Corbett",
+    "Pickup and transfer to resort",
+    "Hotel check-in and refreshment",
+    "Visit nearby river and local sightseeing",
+    "Morning jungle safari experience",
+    "Wildlife photography and nature exploration",
+    "Leisure time at resort",
+    "Departure drop on final day",
+  ],
+
+  includedServices: [
+    "Resort accommodation",
+    "Daily breakfast and dinner",
+    "Pickup and drop",
+    "Local sightseeing",
+    "Jungle safari assistance",
+    "Travel support",
+  ],
+
+  notIncludedServices: [
+    "Safari permit charges",
+    "Personal expenses",
+    "Lunch",
+    "Adventure activities",
+    "Camera fees",
+    "Anything not mentioned in inclusions",
+  ],
+},
 
   // {
   //   id: 6,
@@ -299,9 +416,9 @@ export const packages = [
     price: "₹13,499",
     days: "3 Days / 2 Nights",
     images: [
-    //   "https://images.unsplash.com/photo-1599658880436-6b2d7e7f4c8f",
-    //   "https://images.unsplash.com/photo-1580130684518-9e9d6d3d7e0f",
-    //   "https://images.unsplash.com/photo-1542359649-31b0e1e4c9c8",
+      //   "https://images.unsplash.com/photo-1599658880436-6b2d7e7f4c8f",
+      //   "https://images.unsplash.com/photo-1580130684518-9e9d6d3d7e0f",
+      //   "https://images.unsplash.com/photo-1542359649-31b0e1e4c9c8",
       "https://images.unsplash.com/photo-1605640840605-14ac1855827b"
     ],
     description: "Jaipur, the Pink City, is a treasure trove of royal palaces, majestic forts, and vibrant bazaars.\n\nThis premium package lets you experience the grandeur of Rajasthan's heritage with visits to Amber Fort, City Palace, Hawa Mahal, and Jantar Mantar.",
@@ -426,4 +543,68 @@ export const packages = [
       "Travel insurance"
     ],
   },
+  {
+  id: 20,
+
+  title: "Rajasthan Tour Package",
+
+  slug: "rajasthan-tour-package",
+
+  location: "rajasthan",
+
+  price: "₹24,999",
+
+  days: "6 Days / 5 Nights",
+
+  images: [
+    "/Packages/rajasthan/rajasthan-1.png",
+    "/Packages/rajasthan/rajasthan-2.png",
+    "/Packages/rajasthan/rajasthan-3.png",
+    "/Packages/rajasthan/rajasthan-4.png",
+    "/Packages/rajasthan/rajasthan-5.png",
+    "/Packages/rajasthan/rajasthan-6.png",
+    "/Packages/rajasthan/rajasthan-7.png",
+    
+  ],
+
+  description:
+    "Rajasthan is known for its royal palaces, historic forts, desert landscapes, and colorful culture.\n\nThis package covers Jaipur, Udaipur, and Jaisalmer, offering a perfect blend of heritage, adventure, and local traditions.\n\nThe tour includes hotel stay, sightseeing, and comfortable travel arrangements for families, couples, and groups.",
+
+  stayStops: [
+    "2 Nights stay in Jaipur",
+    "2 Nights stay in Udaipur",
+    "1 Night stay in Jaisalmer",
+    "Comfortable hotel accommodation",
+    "Hotels near tourist attractions",
+  ],
+
+  journeyDetails: [
+    "Arrival at Jaipur",
+    "Pickup and hotel transfer",
+    "Jaipur local sightseeing",
+    "Travel to Udaipur",
+    "Visit lakes and palaces",
+    "Travel to Jaisalmer",
+    "Desert safari and cultural evening",
+    "Departure drop",
+  ],
+
+  includedServices: [
+    "Hotel accommodation",
+    "Daily breakfast and dinner",
+    "Pickup and drop",
+    "Local sightseeing",
+    "Private transportation",
+    "Travel assistance",
+  ],
+
+  notIncludedServices: [
+    "Personal expenses",
+    "Lunch",
+    "Camel ride charges",
+    "Entry tickets",
+    "Adventure activities",
+    "Anything not mentioned",
+  ],
+},
 ];

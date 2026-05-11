@@ -30,7 +30,7 @@ export default function BookingTabs() {
               onClick={() => setActive(tab.id)}
               className={`relative flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg transition-all duration-300 whitespace-nowrap
                 ${isActive 
-                  ? "bg-[#0D6269]/20 text-[#0D6269] shadow-sm" 
+                  ? "bg-[#0D6269]/20 text-gray-200 shadow-sm" 
                   : "text-gray-400 hover:text-gray-200 hover:bg-white/5"}`}
             >
               <Image

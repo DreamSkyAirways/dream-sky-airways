@@ -142,7 +142,7 @@ export default function FlightForm() {
                 value={from}
                 onChange={(e) => setFrom(e.target.value)}
                 onFocus={() => setShowFrom(true)}
-                className="glass-input text-white placeholder:text-white/50"
+                className="glass-input text-white placeholder:text-white/20"
                 placeholder="Select city"
               />
               {showFrom && (
