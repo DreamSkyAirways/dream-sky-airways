@@ -169,10 +169,10 @@
                             +91 8750610304
                           </a>
                           <a
-                            href="tel:+911204580951"
+                            href="tel:+911205213312"
                             className="block text-lg font-semibold text-[#0D6269] hover:underline"
                           >
-                            +91 1204580951
+                           +91 1205213312
                           </a>
                         </div>
                       </div>
