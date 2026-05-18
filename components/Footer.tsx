@@ -219,10 +219,10 @@ export default function Footer() {
                 <p className="group">
                   Phone:{" "}
                   <a
-                    href="tel:+911204580951"
+                    href="tel:+911205213312"
                     className="text-gray-200 hover:text-white transition-colors duration-300 group-hover:underline underline-offset-4 decoration-[#0E5B63]/60"
                   >
-                    +91-1204580951
+                    +91-1205213312
                   </a>
                 </p>
                 <p className="group">
