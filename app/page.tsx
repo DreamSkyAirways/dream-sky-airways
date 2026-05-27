@@ -5,6 +5,8 @@ import AboutSection from "@/components/about/AboutSection";
 import VisionValues from "@/components/about/VisionValues";
 import Hero from "../components/Hero";
 import TestimonialsPage from "./testimonials/page";
+import Flights from "@/components/homePage/Flights";
+import TopDestination from "@/components/homePage/TopDestination";
 
 import AirlineSlider from "@/components/AirlineSlider";
 import PackageSection from "@/components/PackageSection";
@@ -51,6 +53,33 @@ export default function Home() {
           </p>
         </div>
         <PackageSection />
+
+        {/*Flights*/}
+        <div className="text-center mt-8 sm:mt-10 mb-4 sm:mb-6">
+  <p className="text-[#0D6269] font-semibold uppercase tracking-[3px] text-xs sm:text-sm">
+    Dream Sky Airways
+  </p>
+
+  <h2 className="text-2xl sm:text-4xl font-bold text-gray-900 mt-1">
+    Search & Book Your Flights Worldwide
+  </h2>
+</div>
+
+<Flights />
+
+
+          {/*Destination's */}
+        <div className="text-center mt-10 mb-8">
+  <p className="text-[#0D6269] font-semibold uppercase tracking-[3px] text-sm">
+    Top Destinations
+  </p>
+
+  <h2 className="text-3xl sm:text-5xl font-bold text-gray-900 mt-2">
+    Explore Dream Destinations
+  </h2>
+</div>
+
+<TopDestination />
 
         {/* Offers */}
         <div className="text-center mt-8 sm:mt-10 mb-4 sm:mb-6">
