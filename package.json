@@ -1,0 +1,56 @@
+{
+  "name": "dream-sky",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "aos": "^2.3.4",
+    "axios": "^1.13.5",
+    "date-fns": "^4.4.0",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^12.27.5",
+    "gsap": "^3.15.0",
+    "lucide-react": "^0.564.0",
+    "next": "16.1.4",
+    "react": "19.2.3",
+    "react-day-picker": "^10.0.1",
+    "react-dom": "19.2.3",
+    "react-hot-toast": "^2.6.0",
+    "react-icons": "^5.6.0",
+    "react-tailwindcss-datepicker": "^2.0.0",
+    "react-toastify": "^11.1.0",
+    "sweetalert2": "^11.26.17",
+    "swiper": "^12.0.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/aos": "^3.0.7",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.4",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "description": "\u0000\r \u0000",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DreamSkyAirways/dream-sky-airways.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/DreamSkyAirways/dream-sky-airways/issues"
+  },
+  "homepage": "https://github.com/DreamSkyAirways/dream-sky-airways#readme"
+}

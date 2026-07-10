@@ -1,0 +1,161 @@
+// auth/SignIn.tsx
+'use client'
+import React, { useState } from 'react';
+import Link from "next/link"
+import api from '@/server/api';
+import { toast } from 'react-hot-toast';
+import { router } from 'next/client';
+
+const SignIn: React.FC = () => {
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
+
+    const [rememberMe, setRememberMe] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  try {
+    console.log(formData);
+    const res =await api.post("/auth/signin", formData)
+    router.push("/");
+  } catch (error) {
+    
+  }
+};
+    return (
+        <div className="min-h-screen flex items-center justify-center p-10 rounded-full">
+            <div className="max-w-5xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col lg:flex-row">
+                {/* Left Side - Welcome Section */}
+                <div className="lg:w-7/12 bg-blue-600 text-white p-16 flex flex-col justify-center relative overflow-hidden">
+                    <div className="absolute -left-70 -top-10 w-full h-96 bg-blue-900/90 rounded-full"></div>
+                    <div className="absolute -right-16 bottom-10 w-80 h-80 bg-blue-900/80 rounded-full"></div>
+                    <div className="relative z-10">+
+                        <div className="flex items-center gap-3 mb-5">
+                            <div>
+                                <h1 className="text-3xl font-bold">Dream Sky Airways</h1>
+                                <p className="text-blue-200">Soar Beyond Limits</p>
+                            </div>
+                        </div>
+
+                        <h2 className="text-6xl font-bold leading-none mb-6">
+                            WELCOME<br />BACK
+                        </h2>
+
+                        <p className="text-xl text-blue-100 max-w-sm">
+                            Sign in to continue your journey with us.
+                            Discover amazing destinations around the world.
+                        </p>
+                    </div>
+                </div>
+                {/* Right Side - Sign In Form */}
+                <div className="lg:w-7/12 p-10 lg:p-16 flex items-center">
+                    <div className="w-full max-w-md mx-auto">
+                        <h3 className="text-4xl font-semibold text-gray-900 mb-2">Sign in</h3>
+                        <p className="text-gray-600 mb-10">
+                            Enter your credentials to access your account
+                        </p>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            {/* Email / Username */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Email / Username</label>
+                                <div className="relative">
+                                    <div className="absolute left-5 top-4 text-gray-400">👤</div>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full pl-12 pr-5 py-4 bg-gray-50 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-600 text-lg"
+                                        placeholder="Enter your email"
+                                    />
+                                </div>
+                            </div>
+                            {/* Password */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                <div className="relative">
+                                    <div className="absolute left-5 top-4 text-gray-400">🔒</div>
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full pl-12 pr-16 py-4 bg-gray-50 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-600 text-lg"
+                                        placeholder="Enter your password"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                        className="absolute right-6 top-4 text-blue-600 font-medium text-sm hover:text-blue-700 transition-colors"
+                                    >
+                                        {showPassword ? "HIDE" : "SHOW"}
+                                    </button>
+                                </div>
+                            </div>
+                            {/* Remember me + Forgot Password */}
+                            <div className="flex items-center justify-between">
+                                <label className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={rememberMe}
+                                        onChange={(e) => setRememberMe(e.target.checked)}
+                                        className="w-5 h-5 accent-blue-600"
+                                    />
+                                    <span className="text-gray-700">Remember me</span>
+                                </label>
+                                <Link href="#" className="text-blue-600 hover:underline text-sm font-medium">
+                                    Forgot Password?
+                                </Link>
+                            </div>
+
+                            {/* Sign In Button */}
+                            <button
+                                type="submit"
+                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-2xl text-xl transition-all active:scale-[0.98]"
+                            >
+                                Sign in
+                            </button>
+
+                            {/* Divider */}
+                            <div className="flex items-center gap-4 my-6">
+                                <div className="flex-1 h-px bg-gray-300"></div>
+                                <span className="text-gray-500 text-sm">Or</span>
+                                <div className="flex-1 h-px bg-gray-300"></div>
+                            </div>
+                            {/* Sign in with Other */}
+                            <button
+                                type="button"
+                                className="w-full border border-gray-400 hover:border-gray-600 text-gray-700 font-medium py-4 rounded-2xl transition-all"
+                            >
+                                Sign in with Google
+                            </button>
+
+                            {/* Sign Up Link */}
+                            <p className="text-center text-gray-600 mt-8">
+                                Dont have an account?{' '}
+                                <Link
+                                    href="/sign-up"
+                                    className="text-blue-600 font-semibold hover:underline"
+                                >
+                                    Sign Up
+                                </Link>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default SignIn;
