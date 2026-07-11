@@ -81,7 +81,7 @@ export default function PackageDetail({ pkg }: Props) {
               ✕
             </button>
 
-            <PackageBookingForm pkg={pkg} />
+            <PackageBookingForm pkg={pkg}  />
           </div>
         </div>
       )}

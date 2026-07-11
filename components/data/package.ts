@@ -127,27 +127,6 @@ export const packages = [
   },
 
   {
-    id: 7,
-    title: "Mathura Vrindavan Tour",
-    slug: "mathura-vrindavan-tour",
-    location: "Mathura, Uttar Pradesh",
-    duration: "2 Days / 1 Night",
-    price: "₹7,999",
-    rating: 4.7,
-    reviews: 140,
-    category: "Religious",
-    shortDescription:
-      "Explore Krishna Janmabhoomi, Banke Bihari Temple and Prem Mandir.",
-    images: [
-        "/Packages/Agra/Taj_mahal1.webp",
-      "/Packages/Agra/AgraView.webp",
-      "/Packages/Agra/Red_Ford.webp",
-      "/Packages/Agra/Taj_mahal.webp",
-      "/Packages/Agra/Agra.webp",
-    ],
-  },
-
-  {
     id: 8,
     title: "Manali Snow Adventure",
     slug: "manali-snow-adventure",
@@ -166,47 +145,6 @@ export const packages = [
       "/Packages/honeymoon/shimla_1_mall_road.webp",
       "/Packages/honeymoon/mussoorie_2_hills_view.webp",
       "/Packages/honeymoon/mussoorie_3_kempty_falls.webp",
-    ],
-  },
-  {
-    id: 9,
-    title: "Golden Triangle Tour",
-    slug: "golden-triangle-tour",
-    location: "Delhi, Agra & Jaipur",
-    duration: "5 Days / 4 Nights",
-    price: "₹21,999",
-    rating: 4.8,
-    reviews: 285,
-    category: "Heritage",
-    shortDescription:
-      "Explore Delhi, Agra's Taj Mahal and Jaipur's royal heritage.",
-    images: [
-      "/Packages/domestic/ayodhya_1_ram_mandir_sunrise.webp",
-      "/Packages/domestic/ayodhya_2_ram_mandir_front.webp",
-      "/Packages/domestic/ayodhya_3_ram_lalla_sanctum.webp",
-      "/Packages/domestic/ayodhya_4_ram_mandir_gardens.webp",
-      "/Packages/domestic/ayodhya_5_ram_mandir_side_view.webp",
-    ],
-  },
-
-  {
-    id: 10,
-    title: "Leh Ladakh Expedition",
-    slug: "leh-ladakh-expedition",
-    location: "Leh Ladakh",
-    duration: "7 Days / 6 Nights",
-    price: "₹29,999",
-    rating: 4.9,
-    reviews: 410,
-    category: "Adventure",
-    shortDescription:
-      "Discover Pangong Lake, Nubra Valley and the breathtaking Himalayan landscapes.",
-    images: [
-      "/Packages/Agra/Taj_mahal1.webp",
-      "/Packages/Agra/AgraView.webp",
-      "/Packages/Agra/Red_Ford.webp",
-      "/Packages/Agra/Taj_mahal.webp",
-      "/Packages/Agra/Agra.webp",
     ],
   },
 ];

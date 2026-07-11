@@ -1,7 +1,7 @@
 "use client";
 
+import api from "@/server/api";
 import { useState } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
 
 interface Props {
@@ -48,30 +48,27 @@ export default function PackageBookingForm({ pkg }: Props) {
     }));
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent
-  ) => {
-    e.preventDefault();
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+ console.log(FormData)
+  try {
+    setLoading(true);
 
-    try {
-      setLoading(true);
+    const payload = {
+      ...packageForm,
+      packageId: pkg.id,
+      packageName: pkg.title,
+      destination: pkg.location,
+      price: pkg.price,
+      duration: pkg.duration,
+    };
 
-      const payload = {
-        ...packageForm,
-        packageId: pkg.id,
-        packageName: pkg.title,
-        destination: pkg.location,
-        price: pkg.price,
-        duration: pkg.duration,
-      };
+    const res = await api.post("/package-enquiry/create", payload);
 
-    //   const { data } = await axios.post(
-    //     "/api/package-booking",
-    //     payload
-    //   );
-
-    //   toast.success(data.message);
-      toast.success("Package Booked");
+    if (res.data.success) {
+      toast.success(
+        res.data.message || "Enquiry submitted successfully!"
+      );
 
       setPackageForm({
         fullName: "",
@@ -82,15 +79,23 @@ export default function PackageBookingForm({ pkg }: Props) {
         children: 0,
         specialRequest: "",
       });
-    } catch (error: any) {
+
+    } else {
       toast.error(
-        error?.response?.data?.message ||
-          "Something went wrong"
+        res.data.message || "Failed to submit enquiry"
       );
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (error: any) {
+    console.error(error);
+
+    toast.error(
+      error?.response?.data?.message ||
+      "Something went wrong. Please try again."
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="p-6 sm:p-8 pt-24 mt-6">

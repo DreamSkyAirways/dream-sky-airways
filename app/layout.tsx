@@ -1,17 +1,16 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type {Metadata} from "next";
+import {Geist, Geist_Mono} from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import { ToastContainer } from "react-toastify";
+import {ToastContainer} from "react-toastify";
 
 import AOSProvider from "../components/AOSProvider";
-
 
 import DisclaimerModal from "@/components/DisclaimerModal";
 import AIAssistant from "@/components/layout/AIAssistant";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
-import { Toaster } from "react-hot-toast";
+import {Toaster} from "react-hot-toast";
 import SubscribeSection from "@/components/SubscribeSection";
 import JobFraudNoticeModal from "@/components/JobFraudNoticeModal";
 
@@ -50,8 +49,7 @@ export const metadata: Metadata = {
     google: "6wA_xd1DZyKUJf5mASIojsfTJkRYese0X5DEYYE0Wlg",
   },
   openGraph: {
-    title:
-      "Dream Sky Airways | Leading Tour and Travel Company in India",
+    title: "Dream Sky Airways | Leading Tour and Travel Company in India",
     description:
       "Plan your perfect journey with Dream Sky Airways, a leading tour and travel company in India, offering affordable flights, tours, buses and cabs for smooth trips.",
     url: "https://www.dreamskyairways.com",
@@ -69,19 +67,14 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "Dream Sky Airways | Leading Tour and Travel Company in India",
+    title: "Dream Sky Airways | Leading Tour and Travel Company in India",
     description:
       "Plan your perfect journey with Dream Sky Airways, a leading tour and travel company in India, offering affordable flights, tours, buses and cabs for smooth trips.",
     images: ["https://www.dreamskyairways.com/ogImage.webp"],
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
       <body
@@ -120,14 +113,13 @@ export default function RootLayout({
         <Navbar />
         <AOSProvider />
         <DisclaimerModal />
-        <JobFraudNoticeModal/>
-        
+        <JobFraudNoticeModal />
+
         {children}
-        <SubscribeSection />
-        <AIAssistant/>
+        {/* <SubscribeSection /> */}
+        <AIAssistant />
         <Footer />
 
-  
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-MXZW1GQPGL"
           strategy="afterInteractive"
@@ -140,11 +132,8 @@ export default function RootLayout({
             gtag('config', 'G-MXZW1GQPGL');
           `}
         </Script>
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          
-        />
+        <ToastContainer position="top-right" autoClose={3000} />
+        <Toaster position="top-right" reverseOrder={false} />
       </body>
     </html>
   );
