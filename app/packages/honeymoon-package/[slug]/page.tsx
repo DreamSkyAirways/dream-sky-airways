@@ -1,8 +1,11 @@
-import { domesticPackages } from "@/components/data/domesticPackage";
-import PackageCustomerReview from "@/components/package/PackageCustomerReview";
-import PackageDetail from "@/components/package/PackageDetail";
-import PackageGallery from "@/components/package/PackageGallery";
 import { notFound } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { MapPin, Star, Clock } from "lucide-react";
+import { honeymoonPackages } from "@/components/data/honeymoonPacakges";
+import PackageGallery from "@/components/package/PackageGallery";
+import PackageDetail from "@/components/package/PackageDetail";
+import PackageCustomerReview from "@/components/package/PackageCustomerReview";
 
 type Props = {
   params: Promise<{
@@ -10,10 +13,12 @@ type Props = {
   }>;
 };
 
-export default async function DomesticPackageDetails({ params }: Props) {
+export default async function HoneymoonPackageDetails({
+  params,
+}: Props) {
   const { slug } = await params;
 
-  const pkg = domesticPackages.find(
+  const pkg = honeymoonPackages.find(
     (item) => item.slug === slug
   );
 
@@ -22,7 +27,7 @@ export default async function DomesticPackageDetails({ params }: Props) {
   }
 
   return (
-   <div className="px-4 lg:px-10">
+    <div className="px-4 lg:px-10">
       <PackageGallery pkg={pkg} />
       <PackageDetail pkg={pkg} />
       <PackageCustomerReview />

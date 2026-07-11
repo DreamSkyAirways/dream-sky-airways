@@ -1,4 +1,4 @@
-import { domesticPackages } from "@/components/data/domesticPackage";
+import { familyPackages } from "@/components/data/familyPackage";
 import PackageCustomerReview from "@/components/package/PackageCustomerReview";
 import PackageDetail from "@/components/package/PackageDetail";
 import PackageGallery from "@/components/package/PackageGallery";
@@ -10,10 +10,12 @@ type Props = {
   }>;
 };
 
-export default async function DomesticPackageDetails({ params }: Props) {
+export default async function FamilyPackageDetails({
+  params,
+}: Props) {
   const { slug } = await params;
 
-  const pkg = domesticPackages.find(
+  const pkg = familyPackages.find(
     (item) => item.slug === slug
   );
 
@@ -22,7 +24,7 @@ export default async function DomesticPackageDetails({ params }: Props) {
   }
 
   return (
-   <div className="px-4 lg:px-10">
+    <div className="px-4 lg:px-10">
       <PackageGallery pkg={pkg} />
       <PackageDetail pkg={pkg} />
       <PackageCustomerReview />
