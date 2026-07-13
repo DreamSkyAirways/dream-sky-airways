@@ -174,15 +174,15 @@ export default function Footer() {
               <ul className="space-y-3.5">
                 {[
                   {
-                    href: "/packages/rishikesh",
+                    href: "/packages/rishikesh-adventure-tour",
                     label: "Rishikesh Tour Package",
                   },
-                  {href: "/packages", label: "Manali Tour Package"},
-                  {href: "/packages", label: "Shimla Tour Package"},
-                  {href: "/packages", label: "Kashmir Tour Package"},
-                  {href: "/packages", label: "Goa Holiday Package"},
-                  {href: "/packages", label: "Kerala Tour Package"},
-                  {href: "/packages", label: "Agra Tour Package"},
+                  {href: "/packages/delhi-heritage-tour", label: "Delhi Heritage Tour"},
+                  {href: "/packages/jaipur-royal-rajasthan-tour", label: "Jaipur Royal Rajasthan Tour"},
+                  {href: "/packages/manali-snow-adventure", label: "Manali Snow Adventure"},
+                  {href: "/packages/goa-beach-holiday", label: "Goa Beach Holiday"},
+                  {href: "/packages/honeymoon-package/kashmir-romantic-paradise", label: "Kashmir Romantic Paradise"},
+                  {href: "/packages/honeymoon-package/mussoorie-romantic-hills", label: "Mussoorie Romantic Hills"},
                 ].map((item) => (
                   <li key={item.label}>
                     <Link

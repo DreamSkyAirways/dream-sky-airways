@@ -5,6 +5,8 @@ import Link from "next/link";
 import api from "@/server/api";
 import {toast} from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { CiLock } from "react-icons/ci";
+import { FcGoogle } from "react-icons/fc";
 
 const SignIn: React.FC = () => {
     const router = useRouter();
@@ -47,8 +49,8 @@ const SignIn: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center p-10 rounded-full">
       <div className="max-w-5xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col lg:flex-row">
         {/* Left Side - Welcome Section */}
-        <div className="lg:w-7/12 bg-blue-600 text-white p-16 flex flex-col justify-center relative overflow-hidden">
-          <div className="absolute -left-70 -top-10 w-full h-96 bg-blue-900/90 rounded-full"></div>
+        <div className="lg:w-7/12 bg-blue-600 text-white p-10 flex flex-col justify-center relative overflow-hidden">
+          <div className="absolute -left-70 -top-10 w-full h-96 bg-blue-900/100 rounded-full"></div>
           <div className="absolute -right-16 bottom-10 w-80 h-80 bg-blue-900/80 rounded-full"></div>
           <div className="relative z-10">
             +
@@ -102,8 +104,8 @@ const SignIn: React.FC = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Password
                 </label>
-                <div className="relative">
-                  <div className="absolute left-5 top-4 text-gray-400">🔒</div>
+                <div className="relative ">
+                  <div className="absolute left-5 top-4 text-gray-400"><CiLock size={23} /></div>
                   <input
                     type={showPassword ? "text" : "password"}
                     name="password"
@@ -116,7 +118,7 @@ const SignIn: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-6 top-4 text-blue-600 font-medium text-sm hover:text-blue-700 transition-colors"
+                    className="absolute right-6 top-4 text-blue-600 font-medium text-sm hover:text-blue-700 transition-colors justify-center"
                   >
                     {showPassword ? "HIDE" : "SHOW"}
                   </button>
@@ -150,21 +152,22 @@ const SignIn: React.FC = () => {
               </button>
 
               {/* Divider */}
-              <div className="flex items-center gap-4 my-6">
+              <div className="flex items-center gap-2">
                 <div className="flex-1 h-px bg-gray-300"></div>
                 <span className="text-gray-500 text-sm">Or</span>
                 <div className="flex-1 h-px bg-gray-300"></div>
               </div>
               {/* Sign in with Other */}
-              <button
+             <button
                 type="button"
-                className="w-full border border-gray-400 hover:border-gray-600 text-gray-700 font-medium py-4 rounded-2xl transition-all"
+                className="w-full flex items-center justify-center gap-3 border border-gray-300 hover:border-gray-500 bg-white text-gray-700 font-medium py-4 rounded-2xl transition-all hover:shadow-md active:scale-[0.98]"
               >
-                Sign in with Google
+                <FcGoogle size={24} />
+                <span>Sign in with Google</span>
               </button>
 
               {/* Sign Up Link */}
-              <p className="text-center text-gray-600 mt-8">
+              <p className="text-center text-gray-600 ">
                 Dont have an account?{" "}
                 <Link
                   href="/sign-up"

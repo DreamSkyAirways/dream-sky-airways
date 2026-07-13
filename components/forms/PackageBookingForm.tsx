@@ -98,12 +98,12 @@ export default function PackageBookingForm({ pkg }: Props) {
 };
 
   return (
-    <div className="p-6 sm:p-8 pt-24 mt-6">
+    <div className="p-6 sm:p-8 pt-24 max-w-[70wh]">
       <h2 className="text-3xl font-bold text-center mb-2">
         Book {pkg.title}
       </h2>
 
-      <p className="text-center text-gray-500 mb-8">
+      <p className="text-center text-gray-500 mb-4">
         {pkg.location} • {pkg.duration}
       </p>
 
@@ -119,6 +119,7 @@ export default function PackageBookingForm({ pkg }: Props) {
           placeholder="Full Name"
           className="border rounded-xl p-4 outline-none focus:border-blue-500"
           required
+          autoFocus
         />
 
         <input
@@ -129,6 +130,7 @@ export default function PackageBookingForm({ pkg }: Props) {
           placeholder="Phone Number"
           className="border rounded-xl p-4 outline-none focus:border-blue-500"
           required
+          maxLength={10}
         />
 
         <input
@@ -183,7 +185,6 @@ export default function PackageBookingForm({ pkg }: Props) {
         <button
           type="submit"
           disabled={loading}
-        //   onClick={()=>setLoading(true)}
           className="md:col-span-2 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-semibold transition-all disabled:opacity-50"
         >
           {loading

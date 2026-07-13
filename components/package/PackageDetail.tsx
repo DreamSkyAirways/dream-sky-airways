@@ -71,8 +71,8 @@ export default function PackageDetail({ pkg }: Props) {
 
       {/* Booking Modal */}
       {showBookingForm && (
-        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 mt-18">
-          <div className="relative bg-white rounded-3xl w-full max-w-4xl max-h-[100vh] overflow-y-auto shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 mt-16 ">
+          <div className="relative bg-white rounded-md w-full max-w-4xl max-h-[85vh] overflow-y-auto shadow-2xl">
             
             <button
               onClick={() => setShowBookingForm(false)}

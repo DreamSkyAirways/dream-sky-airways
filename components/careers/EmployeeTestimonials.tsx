@@ -8,7 +8,7 @@ const testimonials = [
     id: 1,
     name: "Priya Sharma",
     role: "HR Executive",
-    image: "/images/careers/testimonial-1.jpg",
+    image: "/reviews/review-1.png",
     review:
       "Working at Dream Sky Airways has been an incredible journey. The supportive culture and growth opportunities have helped me advance both professionally and personally.",
   },
@@ -16,7 +16,7 @@ const testimonials = [
     id: 2,
     name: "Rahul Verma",
     role: "Frontend Developer",
-    image: "/images/careers/testimonial-2.jpg",
+    image:  "/reviews/review-2.png",
     review:
       "The technology team encourages innovation and collaboration. Every project gives us the freedom to learn new skills and build meaningful products.",
   },
@@ -24,7 +24,7 @@ const testimonials = [
     id: 3,
     name: "Anjali Singh",
     role: "Tour Manager",
-    image: "/images/careers/testimonial-3.jpg",
+    image: "/reviews/review-3.png", 
     review:
       "I love being part of a company that values customer happiness and employee well-being equally. Every day brings exciting challenges and experiences.",
   },

@@ -5,7 +5,7 @@ const PackageCustomerReview = () => {
     {
       id: 1,
       name: "Priya Sharma",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      image: "/reviews/review-1.png",
       rating: 5,
       date: "2 weeks ago",
       feedback: "This Bali trip was absolutely magical! The itinerary was perfectly balanced between adventure and relaxation. The Nusa Penida snorkeling was the highlight. Everything was well organized and the hotels were fantastic.",
@@ -14,7 +14,7 @@ const PackageCustomerReview = () => {
     {
       id: 2,
       name: "Rahul Verma",
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
+      image: "/reviews/review-2.png",
       rating: 5,
       date: "1 month ago",
       feedback: "Best family vacation we've had! Our kids loved the jungle swing and rice terrace trekking. The guide was very knowledgeable and friendly. Highly recommended for families.",
@@ -23,7 +23,7 @@ const PackageCustomerReview = () => {
     {
       id: 3,
       name: "Ananya Patel",
-      image: "https://randomuser.me/api/portraits/women/68.jpg",
+      image: "/reviews/review-3.png",
       rating: 4,
       date: "3 weeks ago",
       feedback: "The sunset dinner in Seminyak was unforgettable. Beautiful villas with private pools. Only suggestion - more vegetarian food options could be added. Overall a wonderful experience!",
@@ -32,7 +32,7 @@ const PackageCustomerReview = () => {
     {
       id: 4,
       name: "Vikram Singh",
-      image: "https://randomuser.me/api/portraits/men/45.jpg",
+      image: "/reviews/review-4.png",
       rating: 5,
       date: "2 months ago",
       feedback: "Professional team and seamless execution. From airport pickup to drop-off, everything was on time. The temples tour was very insightful. Will definitely book again with them.",

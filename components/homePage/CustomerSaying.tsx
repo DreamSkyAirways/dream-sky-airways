@@ -17,7 +17,7 @@ const testimonials: Testimonial[] = [
     id: 1,
     name: "Rahul Sharma",
     role: "Delhi",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    image: "/reviews/review-1.png",
     review:
       "I got best traveeling experience through dream sky airways.",
   },
@@ -25,7 +25,7 @@ const testimonials: Testimonial[] = [
     id: 2,
     name: "Priya Verma",
     role: "Mumbai",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    image: "/reviews/review-2.png",
     review:
       "The best flight & bus booking site i ever visited",
   },
@@ -33,7 +33,7 @@ const testimonials: Testimonial[] = [
     id: 3,
     name: "Amit Kumar",
     role: "Banglore",
-    image: "https://randomuser.me/api/portraits/men/12.jpg",
+    image: "/reviews/review-3.png", 
     review:
       "I got the best hotels through this site , best experience ever",
   },
@@ -41,7 +41,7 @@ const testimonials: Testimonial[] = [
     id: 4,
     name: "Neha Singh",
     role: "Goa",
-    image: "https://randomuser.me/api/portraits/women/24.jpg",
+    image: "/reviews/review-4.png",
     review:
       "Packages section are very helpful and affordable.",
   },
@@ -49,7 +49,7 @@ const testimonials: Testimonial[] = [
     id: 5,
     name: "Vikash Gupta",
     role: "Pune",
-    image: "https://randomuser.me/api/portraits/men/54.jpg",
+    image: "/reviews/review-5.png",
     review:
       "UI of this site is so good like MakemyTrip.",
   },

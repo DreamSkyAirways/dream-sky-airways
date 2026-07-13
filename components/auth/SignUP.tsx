@@ -1,12 +1,11 @@
 "use client";
 // auth/SignUp.tsx
 import api from "@/server/api";
-import Link from "next/link"; // assuming you use react-rou
-import {useRouter} from "next/navigation";
-import React, {useState} from "react";
-import {toast} from "react-toastify";
-
-// auth/SignUp.tsx
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { Eye, EyeOff, Plane } from "lucide-react";
 
 const SignUp: React.FC = () => {
   const router = useRouter();
@@ -16,95 +15,99 @@ const SignUp: React.FC = () => {
     password: "",
   });
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
-    setFormData((prev) => ({...prev, [name]: value}));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      if (!acceptTerms) {
-        alert("Please accept the terms and conditions");
-        return;
-      }
-      console.log(formData);
-      const res = await api.post("/auth/signup", formData);
-      if (res.data.success) {
-        toast.success(res.data.message || "Account created successfully!");
-        setFormData({
-          username: "",
-          email: "",
-          password: "",
-        });
-      } else {
-        toast.error(res.data.message);
-      }
+    if (!acceptTerms) {
+      toast.warning("Please accept the terms and conditions");
+      return;
+    }
 
-      router.push("/sign-in");
-    } catch (error) {
-      console.log("Error....", error);
-      toast.error("Failed to create account. Please try again.");
+    setIsLoading(true);
+    try {
+      const res = await api.post("/auth/signup", formData);
+
+      if (res.data.success) {
+        toast.success(res.data.message || "Account created successfully! 🎉");
+        setFormData({ username: "", email: "", password: "" });
+        router.push("/sign-in");
+      } else {
+        toast.error(res.data.message || "Something went wrong");
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response?.data?.message || "Failed to create account");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center overflow-hidden relative rounded-md">
-      <div className="max-w-7xl w-full mx-auto flex flex-col lg:flex-row items-center p-6">
-        {/* Left Side - Hero Image */}
-        <div className="hidden lg:flex w-1/2 h-[670px] relative shadow-2xl item-center">
-          <img
-            src="/aviation.png"
-            alt="Dream Sky Airways"
-            className="absolute inset-0 w-full h-[670px] object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <div className="bg-white  max-w-5xl gap-6 w-full mx-auto flex flex-col lg:flex-row items-center rounded-3xl">
+        
+        {/* Left Side - Hero Section */}
+        <div className="hidden lg:flex w-1/2 flex-col justify-center relative">
+          <div className="relative h-[650px] overflow-hidden shadow-2xl rounded-l-3xl">
+            <img
+              src="/aviation.png"
+              alt="Dream Sky Airways"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/60 to-black/40" />
 
-          {/* Overlay Content */}
-          <div className="absolute inset-0 flex flex-col justify-end p-12 text-white">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-14 h-14 bg-gradient-to-br from-blue-200-500 to-blue-300 rounded-2xl flex items-center justify-center text-4xl shadow-lg">
-                ✈️
+            <div className="absolute inset-0 flex flex-col justify-end p-12 text-white">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20">
+                  <Plane className="w-9 h-9 text-sky-400" />
+                </div>
+                <div>
+                  <h1 className="text-4xl font-bold tracking-tighter">Dream Sky Airways</h1>
+                  <p className="text-sky-300 text-lg">Soar Beyond Limits</p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-4xl font-bold tracking-tight">
-                  Dream Sky Airways
-                </h1>
-                <p className="text-blue-300">Soar Beyond Limits</p>
-              </div>
+
+              <h2 className="text-6xl font-bold leading-tight tracking-tighter mb-6">
+                Your Journey<br />Begins Here
+              </h2>
+              <p className="text-xl text-gray-200 max-w-md">
+                Join thousands of travelers discovering the world with comfort, luxury, and unforgettable experiences.
+              </p>
             </div>
 
-            <h2 className="text-5xl font-bold leading-tight mb-4">
-              Start Your
-              <br />
-              Journey Today
-            </h2>
-            <p className="text-xl text-gray-300 max-w-md">
-              Join thousands of travelers exploring the world with comfort and
-              style.
-            </p>
-          </div>
-
-          {/* Decorative badge */}
-          <div className="absolute top-8 right-8 bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20 text-white flex items-center gap-2">
-            <span className="text-blue-400">★</span> Trusted by 50k+ Travelers
+            {/* Trust Badges */}
+            <div className="absolute top-8 right-8 flex flex-col gap-3">
+              <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20 text-white flex items-center gap-3 text-sm">
+                <span className="text-2xl">⭐</span>
+                <div>
+                  <p className="font-semibold">50k+ Happy Travelers</p>
+                  <p className="text-xs text-sky-300">Worldwide</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Right Side - Signup Form */}
-        <div className="w-full lg:w-1/2 h-[680px] max-w-md">
-          <div className="bg-white shadow border  shadow-gray-300  p-8 shadow-2xl">
-            <div className="mb-10">
-              <h2 className="text-4xl font-semibold text-gray-800">
+        <div className="w-full lg:w-6/12">
+          <div className=" p-5 lg:p-5">
+            <div className="mb-10 text-center lg:text-left">
+              <h2 className="text-4xl font-semibold text-gray-900 mb-2">
                 Create Account
               </h2>
-              <p className="text-blue-300">Join Dream Sky Airways family</p>
+              <p className="text-gray-600">Join the Dream Sky family today</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm text-gray-400 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Full Name
                 </label>
                 <input
@@ -113,13 +116,13 @@ const SignUp: React.FC = () => {
                   value={formData.username}
                   onChange={handleChange}
                   required
-                  className="w-full bg-[#1a1a1a] border border-gray-700 focus:border-blue-500 rounded-2xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none transition-all"
+                  className="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all text-gray-900 placeholder:text-gray-400"
                   placeholder="John Doe"
                 />
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Email Address
                 </label>
                 <input
@@ -128,63 +131,65 @@ const SignUp: React.FC = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full bg-[#1a1a1a] border border-gray-700 focus:border-blue-500 rounded-2xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none transition-all"
+                  className="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all text-gray-900 placeholder:text-gray-400"
                   placeholder="you@example.com"
                 />
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Password
                 </label>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  className="w-full bg-[#1a1a1a] border border-gray-700 focus:border-blue-500 rounded-2xl px-6 py-4 text-white placeholder-gray-500 focus:outline-none transition-all"
-                  placeholder="••••••••"
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all text-gray-900 placeholder:text-gray-400"
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                  </button>
+                </div>
               </div>
 
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-3 pt-2">
                 <input
                   type="checkbox"
                   id="terms"
                   checked={acceptTerms}
                   onChange={(e) => setAcceptTerms(e.target.checked)}
-                  className="mt-1 w-5 h-5 accent-blue-600 cursor-pointer"
+                  className="mt-1 w-5 h-5 accent-sky-600 cursor-pointer rounded"
                 />
-                <label
-                  htmlFor="terms"
-                  className="text-sm text-gray-400 cursor-pointer"
-                >
+                <label htmlFor="terms" className="text-sm text-gray-600 cursor-pointer leading-relaxed">
                   I agree to the{" "}
-                  <span className="text-blue-500 hover:underline">
-                    Terms of Service
-                  </span>{" "}
-                  and{" "}
-                  <span className="text-blue-500 hover:underline">
-                    Privacy Policy
-                  </span>
+                  <span className="text-sky-600 hover:underline">Terms of Service</span> and{" "}
+                  <span className="text-sky-600 hover:underline">Privacy Policy</span>
                 </label>
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-blue-500 hover:bg-blue-600 hover:to-amber-700 py-4 rounded-2xl text-white font-semibold text-lg transition-all active:scale-95 shadow-lg shadow-blue-500/30"
+                disabled={isLoading}
+                className="w-full mt-6 bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white font-semibold py-4 rounded-2xl text-lg transition-all active:scale-[0.985] shadow-lg shadow-sky-500/30 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Create Account
+                {isLoading ? "Creating Account..." : "Create Account"}
               </button>
             </form>
 
-            <div className="mt-8 text-center">
-              <p className="text-gray-400">
+            <div className="mt-2 text-center">
+              <p className="text-gray-600">
                 Already have an account?{" "}
                 <Link
                   href="/sign-in"
-                  className="text-blue-500 font-semibold hover:text-blue-400 transition-colors"
+                  className="text-sky-600 font-semibold hover:text-sky-700 transition-colors"
                 >
                   Sign in
                 </Link>
