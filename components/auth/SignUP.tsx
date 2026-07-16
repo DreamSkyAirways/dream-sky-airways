@@ -2,29 +2,51 @@
 // auth/SignUp.tsx
 import api from "@/server/api";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { Eye, EyeOff, Plane } from "lucide-react";
+import {useRouter} from "next/navigation";
+import React, {useState} from "react";
+import {toast} from "react-toastify";
+import {Eye, EyeOff, Plane} from "lucide-react";
+import Swal from "sweetalert2";
 
 const SignUp: React.FC = () => {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
-  const [acceptTerms, setAcceptTerms] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const {name, value} = e.target;
+    setFormData((prev) => ({...prev, [name]: value}));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.password || !formData.confirmPassword) {
+      Swal.fire({
+        icon: "warning",
+        title: "Required Fields",
+        text: "Please enter both Password and Confirm Password.",
+      });
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      Swal.fire({
+        icon: "error",
+        title: "Password Mismatch",
+        text: "Password and Confirm Password do not match.",
+        confirmButtonColor: "#0284C7",
+      });
+      return;
+    }
     if (!acceptTerms) {
       toast.warning("Please accept the terms and conditions");
       return;
@@ -32,11 +54,29 @@ const SignUp: React.FC = () => {
 
     setIsLoading(true);
     try {
-      const res = await api.post("/auth/signup", formData);
+      const payload = {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        role: "user",
+      };
+
+      const res = await api.post("/auth/signup", payload);
 
       if (res.data.success) {
-        toast.success(res.data.message || "Account created successfully! 🎉");
-        setFormData({ username: "", email: "", password: "" });
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          text: res.data.message,
+          timer: 1800,
+          showConfirmButton: false,
+        });
+        setFormData({
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
         router.push("/sign-in");
       } else {
         toast.error(res.data.message || "Something went wrong");
@@ -52,7 +92,6 @@ const SignUp: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="bg-white  max-w-5xl gap-6 w-full mx-auto flex flex-col lg:flex-row items-center rounded-3xl">
-        
         {/* Left Side - Hero Section */}
         <div className="hidden lg:flex w-1/2 flex-col justify-center relative">
           <div className="relative h-[650px] overflow-hidden shadow-2xl rounded-l-3xl">
@@ -69,16 +108,21 @@ const SignUp: React.FC = () => {
                   <Plane className="w-9 h-9 text-sky-400" />
                 </div>
                 <div>
-                  <h1 className="text-4xl font-bold tracking-tighter">Dream Sky Airways</h1>
+                  <h1 className="text-4xl font-bold tracking-tighter">
+                    Dream Sky Airways
+                  </h1>
                   <p className="text-sky-300 text-lg">Soar Beyond Limits</p>
                 </div>
               </div>
 
               <h2 className="text-6xl font-bold leading-tight tracking-tighter mb-6">
-                Your Journey<br />Begins Here
+                Your Journey
+                <br />
+                Begins Here
               </h2>
               <p className="text-xl text-gray-200 max-w-md">
-                Join thousands of travelers discovering the world with comfort, luxury, and unforgettable experiences.
+                Join thousands of travelers discovering the world with comfort,
+                luxury, and unforgettable experiences.
               </p>
             </div>
 
@@ -160,6 +204,36 @@ const SignUp: React.FC = () => {
                 </div>
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Confirm Password
+                </label>
+
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
+                    placeholder="••••••••"
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff size={20} />
+                    ) : (
+                      <Eye size={20} />
+                    )}
+                  </button>
+                </div>
+              </div>
+
               <div className="flex items-start gap-3 pt-2">
                 <input
                   type="checkbox"
@@ -168,10 +242,18 @@ const SignUp: React.FC = () => {
                   onChange={(e) => setAcceptTerms(e.target.checked)}
                   className="mt-1 w-5 h-5 accent-sky-600 cursor-pointer rounded"
                 />
-                <label htmlFor="terms" className="text-sm text-gray-600 cursor-pointer leading-relaxed">
+                <label
+                  htmlFor="terms"
+                  className="text-sm text-gray-600 cursor-pointer leading-relaxed"
+                >
                   I agree to the{" "}
-                  <span className="text-sky-600 hover:underline">Terms of Service</span> and{" "}
-                  <span className="text-sky-600 hover:underline">Privacy Policy</span>
+                  <span className="text-sky-600 hover:underline">
+                    Terms of Service
+                  </span>{" "}
+                  and{" "}
+                  <span className="text-sky-600 hover:underline">
+                    Privacy Policy
+                  </span>
                 </label>
               </div>
 

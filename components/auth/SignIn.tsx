@@ -4,12 +4,14 @@ import React, {useState} from "react";
 import Link from "next/link";
 import api from "@/server/api";
 import {toast} from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import { CiLock } from "react-icons/ci";
-import { FcGoogle } from "react-icons/fc";
+import {useRouter} from "next/navigation";
+import {CiLock} from "react-icons/ci";
+import {FcGoogle} from "react-icons/fc";
+import Swal from "sweetalert2";
+import {Eye, EyeOff} from "lucide-react";
 
 const SignIn: React.FC = () => {
-    const router = useRouter();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -17,6 +19,7 @@ const SignIn: React.FC = () => {
 
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;
@@ -26,23 +29,40 @@ const SignIn: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const payload = {
+      email: formData.email,
+      password: formData.password,
+      role: "user",
+    };
+
     try {
-      const res = await api.post("/auth/signin", formData);
+      setLoading(true);
+
+      const res = await api.post("/auth/signin", payload);
 
       if (res.data.success) {
-        toast.success(res.data.message || "Login successful");
+        localStorage.setItem("token", res.data.token);
 
-      router.push("/");
-      } else {
-        toast.error(res.data.message || "Login failed");
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+
+        Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          text: res.data.message,
+          timer: 1800,
+          showConfirmButton: false,
+        });
+
+        router.push("/");
       }
     } catch (error: any) {
-      toast.error(
-        error?.response?.data?.message ||
-          "Something went wrong. Please try again.",
-      );
-
-      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: error.response?.data?.message || "Invalid Email or Password",
+      });
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -104,23 +124,28 @@ const SignIn: React.FC = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Password
                 </label>
-                <div className="relative ">
-                  <div className="absolute left-5 top-4 text-gray-400"><CiLock size={23} /></div>
+
+                <div className="relative">
+                  <div className="absolute left-5 top-4 text-gray-400">
+                    <CiLock size={22} />
+                  </div>
+
                   <input
                     type={showPassword ? "text" : "password"}
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
                     required
-                    className="w-full pl-12 pr-16 py-4 bg-gray-50 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-600 text-lg"
+                    className="w-full pl-12 pr-14 py-4 bg-gray-50 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-600 text-lg"
                     placeholder="Enter your password"
                   />
+
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-6 top-4 text-blue-600 font-medium text-sm hover:text-blue-700 transition-colors justify-center"
+                    className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-600"
                   >
-                    {showPassword ? "HIDE" : "SHOW"}
+                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
                 </div>
               </div>
@@ -146,9 +171,10 @@ const SignIn: React.FC = () => {
               {/* Sign In Button */}
               <button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-2xl text-xl transition-all active:scale-[0.98]"
+                disabled={loading}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-2xl text-xl transition-all disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Sign in
+                {loading ? "Signing In..." : "Sign In"}
               </button>
 
               {/* Divider */}
@@ -158,7 +184,7 @@ const SignIn: React.FC = () => {
                 <div className="flex-1 h-px bg-gray-300"></div>
               </div>
               {/* Sign in with Other */}
-             <button
+              <button
                 type="button"
                 className="w-full flex items-center justify-center gap-3 border border-gray-300 hover:border-gray-500 bg-white text-gray-700 font-medium py-4 rounded-2xl transition-all hover:shadow-md active:scale-[0.98]"
               >
