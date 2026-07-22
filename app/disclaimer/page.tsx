@@ -7,10 +7,14 @@ export const metadata : Metadata = {
   keywords: [
     "Dream Sky Airways disclaimer",
      "legal notice",
-     "website disclaimer",
-     "liability policy",
-     "terms of use",
+    "website disclaimer",
+    "liability policy",
+    "terms of use",
     "aviation services disclaimer",
+    "travel booking disclaimer",
+    "third party travel providers",
+    "dreamskyairways disclaimer",
+    "tour and travel company legal notice",
   ],
   alternates:{
     canonical:"https://www.dreamskyairways.com/disclaimer",

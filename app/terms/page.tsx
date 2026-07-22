@@ -16,6 +16,10 @@ import Link from "next/link";
       "tour package agreements",
       "visa guidance disclaimer",
       "refund policy travel services",
+      "Dream Sky Airways terms",
+      "dreamskyairways terms and conditions",
+      "booking cancellation policy",
+      "travel agency terms India",
   ],
   alternates:{
     canonical: "https://www.dreamskyairways.com/terms",

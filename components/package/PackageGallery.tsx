@@ -12,21 +12,22 @@ interface PackageGalleryProps {
 }
 
 const PackageGallery = ({ pkg }: PackageGalleryProps) => {
-  const [mainImage, setMainImage] = useState(pkg.images[0]);
+  const images = pkg.images?.length ? pkg.images : ["/ogImage.webp"];
+  const [mainImage, setMainImage] = useState(images[0]);
 
   const handlePrevious = () => {
-    const currentIndex = pkg.images.indexOf(mainImage);
+    const currentIndex = images.indexOf(mainImage);
     const prevIndex =
-      (currentIndex - 1 + pkg.images.length) % pkg.images.length;
+      (currentIndex - 1 + images.length) % images.length;
 
-    setMainImage(pkg.images[prevIndex]);
+    setMainImage(images[prevIndex]);
   };
 
   const handleNext = () => {
-    const currentIndex = pkg.images.indexOf(mainImage);
-    const nextIndex = (currentIndex + 1) % pkg.images.length;
+    const currentIndex = images.indexOf(mainImage);
+    const nextIndex = (currentIndex + 1) % images.length;
 
-    setMainImage(pkg.images[nextIndex]);
+    setMainImage(images[nextIndex]);
   };
 
   return (
@@ -65,7 +66,7 @@ const PackageGallery = ({ pkg }: PackageGalleryProps) => {
           </h2>
 
           <div className="grid grid-cols-2 gap-3">
-            {pkg.images.map((img, index) => (
+            {images.map((img, index) => (
               <div
                 key={index}
                 onClick={() => setMainImage(img)}

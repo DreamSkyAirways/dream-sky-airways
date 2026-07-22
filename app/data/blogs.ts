@@ -1,4 +1,3 @@
-import Link from "next/link";
 export const blogs = [
   {
     title: "Why India is the Best Travel Destination in the World",
@@ -547,7 +546,161 @@ Choosing the right season improves comfort and travel experience. Weather, schoo
     <td>Rajasthan, Kerala, Goa</td>
     <td>Pleasant climate</td>
   </tr>
+</table>
+
+<p>
+Book smarter with <a href="/packages" class="text-blue-600 font-medium hover:underline"><strong>Dream Sky Airways tour packages</strong></a> and enjoy transparent pricing with complete travel support.
+</p>
 `
   },
-
+  {
+    title: "Best Cheap Holiday Packages in India 2026 – Budget Travel Guide",
+    slug: "cheap-holiday-packages-india-2026",
+    image: "/ogImage.webp",
+    excerpt:
+      "Find the best cheap holiday packages in India for 2026. Compare budget domestic tours, weekend getaways, and affordable family holidays with Dream Sky Airways.",
+    content: `
+<h2>Cheap Holiday Packages India – Travel More, Spend Less</h2>
+<p>
+Looking for <strong>cheap holiday packages in India</strong> without compromising comfort? In 2026, smart travelers are choosing curated domestic tour packages that include hotels, sightseeing support, and transparent pricing. At <a href="/" class="text-blue-600 font-medium hover:underline"><strong>Dream Sky Airways</strong></a>, we specialize in affordable holiday packages for families, couples, and first-time travelers.
+</p>
+<p>
+Popular budget destinations include Rishikesh, Jaipur, Delhi, Ayodhya, Varanasi, Goa, and Manali. These locations offer excellent value for money and are perfect for weekend trips and short vacations.
+</p>
+<h2>Top Budget Destinations for 2026</h2>
+<ul>
+  <li><strong>Rishikesh adventure packages</strong> – rafting, camping, and spiritual vibes</li>
+  <li><strong>Jaipur Rajasthan tour packages</strong> – forts, culture, and shopping</li>
+  <li><strong>Ayodhya & Varanasi spiritual packages</strong> – meaningful short pilgrimages</li>
+  <li><strong>Goa beach holiday packages</strong> – sun, sand, and nightlife</li>
+  <li><strong>Manali snow packages</strong> – mountains and honeymoon escapes</li>
+</ul>
+<h2>How to Save on Domestic Tour Packages</h2>
+<ul>
+  <li>Book early for peak seasons (summer & winter holidays)</li>
+  <li>Choose mid-week departures for better hotel rates</li>
+  <li>Pick packages with breakfast included</li>
+  <li>Compare inclusions before booking cheap online deals</li>
+</ul>
+<p>
+Explore all deals on our <a href="/packages" class="text-blue-600 font-medium hover:underline"><strong>tour packages page</strong></a> and book your next affordable India holiday online.
+</p>
+`,
+  },
+  {
+    title: "Best Honeymoon Destinations in India for Couples",
+    slug: "best-honeymoon-destinations-india",
+    image: "/ogImage.webp",
+    excerpt:
+      "Discover the best honeymoon destinations in India—Kashmir, Manali, Goa, Mussoorie and more. Book romantic honeymoon packages with Dream Sky Airways.",
+    content: `
+<h2>Best Honeymoon Destinations India – Romantic Getaways</h2>
+<p>
+Planning a romantic escape? India offers stunning <strong>honeymoon destinations</strong> for every couple—snowy mountains, serene valleys, beaches, and royal heritage cities. Dream Sky Airways designs <strong>honeymoon packages India</strong> with couple-friendly hotels, private transfers, and flexible sightseeing.
+</p>
+<h2>Top Honeymoon Places to Visit</h2>
+<ul>
+  <li><strong>Kashmir</strong> – houseboats, gardens, and mountain romance</li>
+  <li><strong>Manali</strong> – snow, Solang Valley, and cozy stays</li>
+  <li><strong>Goa</strong> – beaches, sunsets, and nightlife</li>
+  <li><strong>Mussoorie & Nainital</strong> – peaceful hill honeymoons</li>
+  <li><strong>Jaipur</strong> – royal heritage for unique couple trips</li>
+</ul>
+<h2>What Makes a Great Honeymoon Package?</h2>
+<p>
+A good honeymoon package includes comfortable rooms with views, light itineraries, privacy, and optional experiences like candlelight dinners. Browse our <a href="/packages/honeymoon-package" class="text-blue-600 font-medium hover:underline"><strong>honeymoon packages</strong></a> and customize your dream trip.
+</p>
+<p>
+Book early for peak wedding seasons and enjoy special couple deals with complete travel support from Dream Sky Airways.
+</p>
+`,
+  },
+  {
+    title: "Goa Tour Package Guide – Beaches, Timing & Budget Tips",
+    slug: "goa-tour-package-guide",
+    image: "/ogImage.webp",
+    excerpt:
+      "Complete Goa tour package guide for couples, families and friends. Best time to visit, North vs South Goa, budget tips, and how to book with Dream Sky Airways.",
+    content: `
+<h2>Goa Tour Package – Complete Travel Guide</h2>
+<p>
+Goa remains one of India’s most searched beach destinations. Whether you want a <strong>Goa holiday package</strong>, <strong>Goa honeymoon package</strong>, or a fun trip with friends, planning the right itinerary saves both money and time.
+</p>
+<h2>North Goa vs South Goa</h2>
+<ul>
+  <li><strong>North Goa:</strong> lively beaches, nightlife, water sports, cafes</li>
+  <li><strong>South Goa:</strong> quieter beaches, luxury resorts, romantic vibe</li>
+</ul>
+<h2>Best Time to Visit Goa</h2>
+<p>
+October to March is ideal for pleasant weather. Monsoon is beautiful but water sports may be limited. For cheap Goa packages, consider shoulder months like September and April.
+</p>
+<h2>What to Include in Your Goa Package</h2>
+<ul>
+  <li>Beachside or nearby hotel stay</li>
+  <li>Local sightseeing (forts, churches, markets)</li>
+  <li>Optional water sports and cruise</li>
+  <li>Airport/railway transfers</li>
+</ul>
+<p>
+Book our ready <a href="/packages/goa-beach-holiday" class="text-blue-600 font-medium hover:underline"><strong>Goa Beach Holiday package</strong></a> with Dream Sky Airways for verified stays and transparent pricing.
+</p>
+`,
+  },
+  {
+    title: "Manali Tour Package from Delhi – Itinerary & Cost Guide",
+    slug: "manali-tour-package-from-delhi",
+    image: "/ogImage.webp",
+    excerpt:
+      "Plan the best Manali tour package from Delhi. See sample itinerary, snow season tips, honeymoon ideas, and affordable Himachal holiday options.",
+    content: `
+<h2>Manali Tour Package from Delhi – 2026 Guide</h2>
+<p>
+Manali is a top choice for honeymoon couples, families, and adventure travelers from Delhi NCR. A well-planned <strong>Manali tour package from Delhi</strong> usually includes hotel stay, Solang Valley, local sightseeing, and optional snow activities.
+</p>
+<h2>Suggested 5 Days / 4 Nights Plan</h2>
+<ul>
+  <li>Day 1: Departure from Delhi & hotel check-in</li>
+  <li>Day 2: Local Manali sightseeing & Mall Road</li>
+  <li>Day 3: Solang Valley adventure</li>
+  <li>Day 4: Snow point / scenic excursion (seasonal)</li>
+  <li>Day 5: Return journey</li>
+</ul>
+<h2>Best Time for Snow & Honeymoon</h2>
+<p>
+December to February is best for snow. March to June is excellent for pleasant weather honeymoon packages. Book early during Christmas and New Year for better hotels.
+</p>
+<p>
+Explore our <a href="/packages/manali-snow-adventure" class="text-blue-600 font-medium hover:underline"><strong>Manali Snow Adventure package</strong></a> and more <a href="/packages" class="text-blue-600 font-medium hover:underline"><strong>Himachal holiday packages</strong></a> with Dream Sky Airways.
+</p>
+`,
+  },
+  {
+    title: "Rishikesh Travel Guide – Rafting, Yoga & Weekend Packages",
+    slug: "rishikesh-travel-guide-rafting-yoga",
+    image: "/ogImage.webp",
+    excerpt:
+      "Ultimate Rishikesh travel guide for adventure and spirituality. Rafting tips, best time to visit, yoga stays, and affordable Rishikesh tour packages.",
+    content: `
+<h2>Rishikesh Travel Guide – Adventure + Spirituality</h2>
+<p>
+Rishikesh is perfect for travelers searching <strong>Rishikesh tour package</strong>, weekend getaways from Delhi, adventure holidays, and yoga retreats. From Ganga rafting to Triveni Ghat aarti, the city offers thrill and peace together.
+</p>
+<h2>Top Things to Do in Rishikesh</h2>
+<ul>
+  <li>White-water rafting on the Ganga</li>
+  <li>Camping and bonfire nights</li>
+  <li>Ganga Aarti at Triveni Ghat</li>
+  <li>Laxman Jhula & Ram Jhula visits</li>
+  <li>Yoga and meditation sessions</li>
+</ul>
+<h2>Best Time to Visit Rishikesh</h2>
+<p>
+September to June is generally ideal. For rafting, check seasonal water levels and safety advisories. Winters are pleasant for spiritual stays and short holidays.
+</p>
+<p>
+Book the <a href="/packages/rishikesh-adventure-tour" class="text-blue-600 font-medium hover:underline"><strong>Rishikesh Adventure Tour</strong></a> with Dream Sky Airways for an affordable, well-planned weekend escape.
+</p>
+`,
+  },
 ];

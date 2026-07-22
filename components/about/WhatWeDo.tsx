@@ -31,7 +31,7 @@ import { motion } from "framer-motion";
 //   {
 //     title: "Digital Services & Brand Support",
 //     description:
-//       "Dream Sky Airways also delivers professional digital solutions including website development, SEO, and content creation to support travel businesses and startups in growing their online presence.",
+//       "Dream Sky Airways also delivers professional digital solutions including website development, online marketing, and content creation to support travel businesses and startups in growing their online presence.",
 //   },
 // ];
 const services = [
@@ -74,7 +74,7 @@ const services = [
     title: "Digital Services & Brand Support",
     image:"/images/digital-service.png",
     description:
-      "Dream Sky Airways also delivers professional digital solutions including website development, SEO, and content creation to support travel businesses and startups in growing their online presence.",
+      "Dream Sky Airways also delivers professional digital solutions including website development, online marketing, and content creation to support travel businesses and startups in growing their online presence.",
   },
 ];
 export default function WhatWeDo() {

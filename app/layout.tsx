@@ -6,7 +6,6 @@ import {ToastContainer} from "react-toastify";
 
 import AOSProvider from "../components/AOSProvider";
 
-import DisclaimerModal from "@/components/DisclaimerModal";
 import AIAssistant from "@/components/layout/AIAssistant";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
@@ -25,18 +24,29 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.dreamskyairways.com"),
   title: "Dream Sky Airways | Leading Tour and Travel Company in India",
   description:
-    "Plan your perfect journey with Dream Sky Airways, a leading tour and travel company in India, offering affordable flights, tours, buses and cabs for smooth trips.",
+    "Plan your perfect journey with Dream Sky Airways, a leading tour and travel company in India, offering affordable flights, holiday packages, hotels, buses, cabs, visa and travel insurance.",
   keywords: [
+    "Dream Sky Airways",
+    "dreamskyairways",
     "flight booking",
     "online flight booking India",
+    "cheap flights India",
     "tour and travel company",
     "travel agency India",
+    "best travel agency India",
     "holiday packages",
+    "domestic tour packages",
+    "honeymoon packages India",
+    "family holiday packages",
+    "hotel booking India",
     "bus booking",
     "cab services",
-    "Dream Sky Airways",
+    "visa services India",
+    "travel insurance India",
+    "book flights hotels packages online",
   ],
   alternates: {
     canonical: "https://www.dreamskyairways.com/",
@@ -44,14 +54,24 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
   verification: {
     google: "6wA_xd1DZyKUJf5mASIojsfTJkRYese0X5DEYYE0Wlg",
   },
+  other: {
+    "google-adsense-account": "ca-pub-3804438885787200",
+  },
   openGraph: {
     title: "Dream Sky Airways | Leading Tour and Travel Company in India",
     description:
-      "Plan your perfect journey with Dream Sky Airways, a leading tour and travel company in India, offering affordable flights, tours, buses and cabs for smooth trips.",
+      "Plan your perfect journey with Dream Sky Airways, a leading tour and travel company in India, offering affordable flights, holiday packages, hotels, buses, cabs, visa and travel insurance.",
     url: "https://www.dreamskyairways.com",
     siteName: "Dream Sky Airways",
     images: [
@@ -69,7 +89,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Dream Sky Airways | Leading Tour and Travel Company in India",
     description:
-      "Plan your perfect journey with Dream Sky Airways, a leading tour and travel company in India, offering affordable flights, tours, buses and cabs for smooth trips.",
+      "Plan your perfect journey with Dream Sky Airways, a leading tour and travel company in India, offering affordable flights, holiday packages, hotels, buses, cabs, visa and travel insurance.",
     images: ["https://www.dreamskyairways.com/ogImage.webp"],
   },
 };
@@ -77,6 +97,14 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
+      <head>
+        {/* Google AdSense — required in <head> on every page for verification & ads */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3804438885787200"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -93,7 +121,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
               url: "https://www.dreamskyairways.com",
               logo: "https://www.dreamskyairways.com/logo.png",
               description:
-                "Plan your perfect journey with Dream Sky Airways, a leading tour and travel company in India, offering affordable flights, tours, buses and cabs for smooth trips.",
+                "Plan your perfect journey with Dream Sky Airways, a leading tour and travel company in India, offering affordable flights, holiday packages, hotels, buses, cabs, visa and travel insurance.",
               contactPoint: {
                 "@type": "ContactPoint",
                 telephone: "+911204580951",
@@ -112,7 +140,6 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
 
         <Navbar />
         <AOSProvider />
-        <DisclaimerModal />
         <JobFraudNoticeModal />
 
         {children}

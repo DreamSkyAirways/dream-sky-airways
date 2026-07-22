@@ -2,11 +2,20 @@
 
 import { useEffect, useState } from "react";
 
+const STORAGE_KEY = "jobFraudNoticeSeenDate";
+
+function getTodayKey() {
+  return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+}
+
 export default function JobFraudNoticeModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
+    const seenDate = localStorage.getItem(STORAGE_KEY);
+    if (seenDate === getTodayKey()) return;
+
     setIsOpen(true);
 
     const timer = setTimeout(() => {
@@ -24,6 +33,7 @@ export default function JobFraudNoticeModal() {
   }, []);
 
   const handleAccept = () => {
+    localStorage.setItem(STORAGE_KEY, getTodayKey());
     setIsAnimating(false);
 
     setTimeout(() => {

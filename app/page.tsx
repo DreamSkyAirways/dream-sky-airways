@@ -14,7 +14,6 @@ import PopularDestinations from "@/components/homePage/PopularDestinations";
 import SpecialOffers from "@/components/homePage/SpecialOffers";
 import Statistics from "@/components/homePage/Statistics";
 import WhyChooseUs from "@/components/homePage/WhyChooseUs";
-import JobFraudNoticeModal from "@/components/JobFraudNoticeModal";
 import {Car, Hotel, Package, Plane} from "lucide-react";
 import {useState} from "react";
 import {IoBusOutline} from "react-icons/io5";

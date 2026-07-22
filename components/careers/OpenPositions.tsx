@@ -142,7 +142,7 @@ export const jobs = [
     responsibilities: [
       "Develop responsive user interfaces with React and Next.js.",
       "Collaborate with designers and backend developers.",
-      "Optimize applications for speed and SEO.",
+      "Optimize applications for speed and performance.",
       "Write clean, reusable, and maintainable code.",
     ],
   },
@@ -178,10 +178,10 @@ export const jobs = [
     image: "/images/careers/digital-marketing.png",
     secondaryImage: "/images/careers/digital-marketing.png",
     description:
-      "Promote Dream Sky Airways through digital campaigns, SEO, social media, and content marketing.",
+      "Promote Dream Sky Airways through digital campaigns, social media, and content marketing.",
     responsibilities: [
       "Manage social media platforms and campaigns.",
-      "Improve website SEO and online visibility.",
+      "Improve website visibility and online reach.",
       "Create engaging marketing content.",
       "Analyze campaign performance metrics.",
     ],

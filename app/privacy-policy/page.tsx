@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 
   keywords: [
     "Dream Sky Airways Privacy Policy",
+    "Dream Sky Airways pricing policy",
     "Data Protection Policy",
     "User Privacy",
     "Personal Data Security",
@@ -18,6 +19,13 @@ export const metadata: Metadata = {
     "Customer Data Protection",
     "Aviation Company Privacy Policy",
     "Secure Travel Services",
+    "GDPR travel company",
+    "cookie policy travel website",
+    "how Dream Sky Airways uses data",
+    "travel booking data privacy",
+    "refund and pricing transparency",
+    "dreamskyairways privacy",
+    "tour and travel company privacy policy India",
   ],
 
   alternates: {

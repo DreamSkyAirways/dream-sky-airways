@@ -45,6 +45,7 @@ export default function Footer() {
     {name: "Tour Packages", href: "/packages"},
     {name: "Cab Services", href: "/cabs"},
     {name: "Bus Booking", href: "/buses"},
+    {name: "Travel Blog", href: "/blog"},
     {name: "Visa Assistance", href: "/visa"},
     {name: "Travel Insurance", href: "/insurance"},
   ];
@@ -118,7 +119,7 @@ export default function Footer() {
                 {href: "/", label: "Home"},
                 {href: "/about", label: "About Us"},
                 {href: "/contact", label: "Contact Us"},
-                {href: "/blog", label: "Blogs"},
+                {href: "/blog", label: "Travel Blog"},
                 {href: "/careers", label: "Career"},
                 {href: "/faq", label: "FAQ"},
               ].map((item) => (
