@@ -9,6 +9,7 @@ import {CiLock} from "react-icons/ci";
 import {FcGoogle} from "react-icons/fc";
 import Swal from "sweetalert2";
 import {Eye, EyeOff} from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const SignIn: React.FC = () => {
   const router = useRouter();
@@ -16,7 +17,7 @@ const SignIn: React.FC = () => {
     email: "",
     password: "",
   });
-
+  const { getUser } = useAuth();
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -26,45 +27,55 @@ const SignIn: React.FC = () => {
     setFormData((prev) => ({...prev, [name]: value}));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    const payload = {
-      email: formData.email,
-      password: formData.password,
-      role: "user",
-    };
-
-    try {
-      setLoading(true);
-
-      const res = await api.post("/auth/signin", payload);
-
-      if (res.data.success) {
-        localStorage.setItem("token", res.data.token);
-
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-
-        Swal.fire({
-          icon: "success",
-          title: "Login Successful",
-          text: res.data.message,
-          timer: 1800,
-          showConfirmButton: false,
-        });
-
-        router.push("/");
-      }
-    } catch (error: any) {
-      Swal.fire({
-        icon: "error",
-        title: "Login Failed",
-        text: error.response?.data?.message || "Invalid Email or Password",
-      });
-    } finally {
-      setLoading(false);
-    }
+  const payload = {
+    email: formData.email,
+    password: formData.password,
+    role: "user",
   };
+
+  try {
+    setLoading(true);
+
+    const res = await api.post(
+      "/auth/signin",
+      payload,
+      {
+        withCredentials: true,
+      }
+    );
+
+    if (res.data.success) {
+      // Agar backend cookie use karta hai to localStorage ki zarurat nahi
+      // localStorage.setItem("token", res.data.token);
+      // localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      // AuthContext update
+      await getUser();
+
+      await Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        text: res.data.message,
+        timer: 1800,
+        showConfirmButton: false,
+      });
+
+      router.refresh();
+      router.push("/");
+    }
+  } catch (error: any) {
+    Swal.fire({
+      icon: "error",
+      title: "Login Failed",
+      text: error.response?.data?.message || "Invalid Email or Password",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="min-h-screen flex items-center justify-center p-10 rounded-full">
       <div className="max-w-5xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col lg:flex-row">

@@ -1,22 +1,23 @@
 "use client";
 
-import {AnimatePresence, motion} from "framer-motion";
-import {ChevronDown, ChevronRight, Menu, X} from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import {useEffect, useRef, useState} from "react";
-import {FaArrowRightToBracket} from "react-icons/fa6";
-import {RiContactsLine} from "react-icons/ri";
-
+import { useEffect, useRef, useState } from "react";
+import { FaArrowRightToBracket } from "react-icons/fa6";
+import { RiContactsLine } from "react-icons/ri";
+import { useAuth } from "@/hooks/useAuth";
+import UserProfileDropdown from "./UserProfileDropdown";
 
 const packageMenu = [
-  {label: "Domestic Packages", href: "/packages/domestic-package"},
-  {label: "Honeymoon Packages", href: "/packages/honeymoon-package"},
-  {label: "Family Packages", href: "/packages/family-package"},
+  { label: "Domestic Packages", href: "/packages/domestic-package" },
+  { label: "Honeymoon Packages", href: "/packages/honeymoon-package" },
+  { label: "Family Packages", href: "/packages/family-package" },
 ];
 
 // Desktop Dropdown Section
-function DesktopDropdown({href, label, items}: any) {
+function DesktopDropdown({ href, label, items }: any) {
   return (
     <section className="relative group">
       <Link
@@ -46,7 +47,7 @@ function DesktopDropdown({href, label, items}: any) {
 }
 
 // Mobile Accordion Item
-function MobileAccordion({href, label, items, onClose}: any) {
+function MobileAccordion({ href, label, items, onClose }: any) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -73,10 +74,10 @@ function MobileAccordion({href, label, items, onClose}: any) {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{height: 0, opacity: 0}}
-            animate={{height: "auto", opacity: 1}}
-            exit={{height: 0, opacity: 0}}
-            transition={{duration: 0.25}}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25 }}
             className="overflow-hidden bg-gray-50"
           >
             {items.map((item: any) => (
@@ -99,28 +100,29 @@ function MobileAccordion({href, label, items, onClose}: any) {
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
- 
   const menuRef = useRef<HTMLDivElement | null>(null);
-  // Close menu on outside click
- 
-useEffect(() => {
-  const handleClick = (e: MouseEvent) => {
-    if (
-      menuRef.current &&
-      !menuRef.current.contains(e.target as Node)
-    ) {
-      setMenuOpen(false);
+
+  const { user, loading, logout } = useAuth();
+  console.log(user)
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target as Node)
+      ) {
+        setMenuOpen(false);
+      }
+    };
+
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClick);
     }
-  };
 
-  if (menuOpen) {
-    document.addEventListener("mousedown", handleClick);
-  }
-
-  return () => {
-    document.removeEventListener("mousedown", handleClick);
-  };
-}, [menuOpen]);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  }, [menuOpen]);
 
   // Prevent body scroll when mobile menu open
   useEffect(() => {
@@ -143,9 +145,9 @@ useEffect(() => {
             onClick={closeMenu}
           >
             <motion.div
-              initial={{opacity: 0, y: -12}}
-              animate={{opacity: 1, y: 0}}
-              whileHover={{scale: 1.05}}
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.05 }}
               className="flex items-center gap-2"
             >
               <Image
@@ -183,13 +185,6 @@ useEffect(() => {
               items={packageMenu}
             />
 
-            {/* <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 px-3 py-2 text-black text-md font-bold transition border-b-2 border-transparent hover:border-blue-600 hover:text-blue-600  rounded-md"
-            >
-              Blog
-            </Link> */}
-
             <Link
               href="/careers"
               className="inline-flex items-center gap-2 px-3 py-2 text-black text-md font-bold transition border-b-2 border-transparent hover:border-blue-600 hover:text-blue-600 rounded-md"
@@ -198,38 +193,42 @@ useEffect(() => {
             </Link>
             <Link
               href="/contact"
-              className="items-center gap-2 px-3 py-2  rounded-md text-nd font-bold  transition border-b-2  border-transparent hover:border-blue-600 hover:text-blue-600"
+              className="items-center gap-2 px-3 py-2 rounded-md text-md font-bold transition border-b-2 border-transparent hover:border-blue-600 hover:text-blue-600"
             >
               Contact Us
             </Link>
           </div>
 
-          {/* Right Buttons */}
+          {/* Desktop Right Action Area */}
           <div className="hidden md:flex items-center gap-2 shrink-0">
-            <Link
-              href="/sign-up"
-              className="inline-flex items-center gap-2 px-3 py-2 bg-blue-700 text-white rounded-md text-md font-bold hover:bg-blue-800 transition"
-            >
-              Create a Account
-            </Link>
+            {loading ? (
+              <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse" />
+            ) : user ? (
+              <UserProfileDropdown user={user} logout={logout} />
+            ) : (
+              <Link
+                href="/sign-up"
+                className="inline-flex items-center gap-2 px-3 py-2 bg-blue-700 text-white rounded-md text-md font-bold hover:bg-blue-800 transition"
+              >
+                Create an Account
+              </Link>
+            )}
           </div>
 
-          {/* Mobile: compact buttons + hamburger */}
+          {/* Mobile: buttons / Avatar + hamburger */}
           <div className="flex items-center gap-2 md:hidden">
-            {/* <Link
-              href="/contact"
-              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-gray-800 text-white rounded-md text-xs font-medium hover:bg-gray-700 transition"
-            >
-              <RiContactsLine size={13} />
-              <span className="hidden xs:inline">Contact</span>
-            </Link> */}
-            <Link
-              href="/sign-in"
-              className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-700 text-white rounded-md text-xs font-medium hover:bg-blue-800 transition"
-            >
-              <FaArrowRightToBracket size={13} />
-              <span className="hidden xs:inline">Sign In</span>
-            </Link>
+            {!loading && user ? (
+              <UserProfileDropdown user={user} logout={logout} />
+            ) : (
+              <Link
+                href="/sign-in"
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-700 text-white rounded-md text-xs font-medium hover:bg-blue-800 transition"
+              >
+                <FaArrowRightToBracket size={13} />
+                <span className="hidden xs:inline">Sign In</span>
+              </Link>
+            )}
+
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="p-2 rounded-md text-gray-700 hover:bg-gray-100 transition"
@@ -248,9 +247,9 @@ useEffect(() => {
             {/* Backdrop */}
             <motion.div
               key="backdrop"
-              initial={{opacity: 0}}
-              animate={{opacity: 1}}
-              exit={{opacity: 0}}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               className="fixed inset-0 bg-black/40 z-[998] md:hidden"
               onClick={closeMenu}
             />
@@ -259,25 +258,27 @@ useEffect(() => {
             <motion.div
               key="drawer"
               ref={menuRef}
-              initial={{x: "100%"}}
-              animate={{x: 0}}
-              exit={{x: "100%"}}
-              transition={{type: "spring", stiffness: 300, damping: 30}}
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="fixed top-0 right-0 h-full w-[80%] max-w-xs bg-white z-[999] shadow-2xl flex flex-col md:hidden overflow-y-auto"
             >
               {/* Drawer Header */}
-              <div className="flex items-center justify-between px-4 pl-4 py-4 border-b border-gray-200 bg-blue-900">
-                <Image
-                  src="/logo.png"
-                  alt="Dream Sky Airways Logo"
-                  width={40}
-                  height={40}
-                  priority
-                  className="object-contain w-8 h-8 sm:w-10 sm:h-10"
-                />
-                <span className="text-white font-bold text-base">
-                  Dream Sky Airways
-                </span>
+              <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200 bg-blue-900">
+                <div className="flex items-center gap-2">
+                  <Image
+                    src="/logo.png"
+                    alt="Dream Sky Airways Logo"
+                    width={32}
+                    height={32}
+                    priority
+                    className="object-contain w-8 h-8"
+                  />
+                  <span className="text-white font-bold text-base">
+                    Dream Sky Airways
+                  </span>
+                </div>
                 <button
                   onClick={closeMenu}
                   className="text-white hover:text-gray-300 transition"
@@ -301,7 +302,7 @@ useEffect(() => {
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-4 py-3 text-sm font-semibold text-gray-800 hover:text-blue-600 border-b border-gray-100"
                 >
-                  About US
+                  About Us
                 </Link>
 
                 <MobileAccordion
@@ -338,21 +339,23 @@ useEffect(() => {
                   <RiContactsLine size={16} />
                   Contact Us
                 </Link>
-                <Link
-                  href="/sign-in"
-                  onClick={closeMenu}
-                  className="flex items-center justify-center gap-2 w-full py-2.5 bg-blue-700 text-white rounded-md text-sm font-medium hover:bg-blue-800 transition"
-                >
-                  <FaArrowRightToBracket size={16} />
-                  Sign In
-                </Link>
+                {!user && (
+                  <Link
+                    href="/sign-in"
+                    onClick={closeMenu}
+                    className="flex items-center justify-center gap-2 w-full py-2.5 bg-blue-700 text-white rounded-md text-sm font-medium hover:bg-blue-800 transition"
+                  >
+                    <FaArrowRightToBracket size={16} />
+                    Sign In
+                  </Link>
+                )}
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
 
-      {/* Spacer to push content below fixed navbar */}
+      {/* Spacer */}
       <div className="h-[60px] sm:h-[68px]" />
     </>
   );

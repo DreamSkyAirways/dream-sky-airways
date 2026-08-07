@@ -42,7 +42,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/packages/family-package",
     "/buses",
     "/cabs",
-    "/visa",
     "/blog",
     "/careers",
     "/services",

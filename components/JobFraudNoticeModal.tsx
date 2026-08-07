@@ -22,13 +22,8 @@ export default function JobFraudNoticeModal() {
       setIsAnimating(true);
     }, 100);
 
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
-
     return () => {
       clearTimeout(timer);
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
     };
   }, []);
 
@@ -38,8 +33,6 @@ export default function JobFraudNoticeModal() {
 
     setTimeout(() => {
       setIsOpen(false);
-      document.body.style.overflow = "";
-      document.documentElement.style.overflow = "";
     }, 300);
   };
 
@@ -52,31 +45,31 @@ export default function JobFraudNoticeModal() {
           ? "opacity-100"
           : "opacity-0 pointer-events-none"
       }`}
-      style={{ background: "rgba(2,6,23,0.80)" }}
+      style={{ background: "rgba(2,6,23,0.75)" }}
     >
-      <div className="absolute inset-0 backdrop-blur-md" />
+      <div className="absolute inset-0 backdrop-blur-sm" />
 
       <div
-        className={`relative w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-2xl transition-all duration-500 ${
+        className={`relative w-full max-w-xl max-h-[85vh] overflow-y-auto rounded-2xl bg-white shadow-2xl transition-all duration-300 ${
           isAnimating
             ? "translate-y-0 scale-100 opacity-100"
             : "translate-y-4 scale-95 opacity-0"
         }`}
       >
         {/* Header */}
-        <div className="bg-blue-950 px-6 py-4 text-white">
+        <div className="bg-blue-950 px-6 py-5 text-white">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-red-500 text-xl">
-              ⚠️
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-800 text-lg">
+              ℹ️
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold">
-                Recruitment Fraud Alert
+              <h2 className="text-xl font-bold">
+                Official Recruitment Advisory
               </h2>
 
-              <p className="text-sm text-blue-200">
-                Important Notice from Dream Sky Airways
+              <p className="text-xs text-blue-200">
+                Dream Sky Airways • Official Careers Guidance
               </p>
             </div>
           </div>
@@ -89,65 +82,54 @@ export default function JobFraudNoticeModal() {
             <strong className="text-blue-950">
               Dream Sky Airways
             </strong>{" "}
-            follows a transparent recruitment process. Please stay alert
-            against fake job offers and recruitment fraud.
+            is committed to a merit-based, transparent hiring policy. Please review our official candidate guidelines below.
           </p>
 
-          {/* Warning Box */}
-          <div className="rounded-xl border border-red-200 bg-red-50 p-4">
-            <h3 className="mb-3 text-lg font-bold text-red-700">
-              Important Warning
+          {/* Guidelines Box */}
+          <div className="rounded-xl border border-blue-200 bg-blue-50/50 p-4">
+            <h3 className="mb-3 text-base font-bold text-blue-950">
+              Candidate Guidelines & Hiring Process
             </h3>
 
-            <ul className="list-disc space-y-2 pl-5 text-sm leading-6">
+            <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-gray-700">
               <li>
-                Dream Sky Airways <strong>never charges any money</strong>
-                &nbsp;for recruitment, interviews, training or employment.
+                All official job openings and application forms are hosted exclusively on our verified portal.
               </li>
 
               <li>
-                No consultant, agent or third party is authorized to collect
-                money on behalf of Dream Sky Airways.
+                Our HR team does not request processing fees, deposits, or registration charges at any stage.
               </li>
 
               <li>
-                Anyone asking for payment in the name of Dream Sky Airways is
-                committing recruitment fraud.
+                Formal interview communications are conducted only through official company domain emails.
               </li>
 
               <li>
-                Never share money, banking details or confidential information
-                with unknown persons.
+                Candidates are advised not to share sensitive financial details during preliminary screening.
               </li>
             </ul>
           </div>
 
-          {/* Policy */}
-          <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
-            <h3 className="mb-2 text-base font-bold text-blue-950">
-              Official Recruitment Policy
+          {/* Official Verification Notice */}
+          <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+            <h3 className="mb-1 text-sm font-bold text-gray-900">
+              Verification Portal
             </h3>
 
-            <p className="text-sm leading-6">
-              Recruitment updates are published only through the official
-              Dream Sky Airways website and official communication channels.
+            <p className="text-xs leading-5 text-gray-600">
+              Always verify job listings and communication channels directly through our official website before submitting your applications.
             </p>
           </div>
 
-          <p className="text-center text-xs text-gray-500">
-            By clicking <strong>"I Understand"</strong>, you confirm that
-            you have read this recruitment fraud advisory.
-          </p>
-
           <button
             onClick={handleAccept}
-            className="w-full rounded-xl bg-blue-950 py-3 text-base font-semibold text-white transition hover:bg-blue-900 active:scale-[0.98]"
+            className="w-full rounded-xl bg-blue-950 py-3 text-sm font-semibold text-white transition hover:bg-blue-900 active:scale-[0.98]"
           >
-            I Understand
+            Acknowledge & Proceed
           </button>
 
           <p className="text-center text-[11px] text-gray-400">
-            Stay Alert • Stay Safe • Dream Sky Airways never asks for money.
+            Official Career Advisory • Dream Sky Airways
           </p>
         </div>
       </div>
