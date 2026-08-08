@@ -83,7 +83,7 @@ export default function ProfilePage() {
     return (
       <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center gap-3">
         <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
-        <p className="text-slate-500 text-sm font-medium">Loading profile...</p>
+        <p className="text-slate-500 text-sm font-medium">Loading profile..</p>
       </div>
     );
   }
