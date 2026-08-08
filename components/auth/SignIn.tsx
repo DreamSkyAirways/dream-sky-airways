@@ -1,14 +1,14 @@
 // auth/SignIn.tsx
 "use client";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import api from "@/server/api";
-import {toast} from "react-hot-toast";
-import {useRouter} from "next/navigation";
-import {CiLock} from "react-icons/ci";
-import {FcGoogle} from "react-icons/fc";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { CiLock } from "react-icons/ci";
+import { FcGoogle } from "react-icons/fc";
 import Swal from "sweetalert2";
-import {Eye, EyeOff} from "lucide-react";
+import { Eye, EyeOff, Plane } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 const SignIn: React.FC = () => {
@@ -23,121 +23,130 @@ const SignIn: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
-    setFormData((prev) => ({...prev, [name]: value}));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const payload = {
-    email: formData.email,
-    password: formData.password,
-    role: "user",
-  };
+    const payload = {
+      email: formData.email,
+      password: formData.password,
+      role: "user",
+    };
 
-  try {
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const res = await api.post(
-      "/auth/signin",
-      payload,
-      {
-        withCredentials: true,
+      const res = await api.post(
+        "/auth/signin",
+        payload,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (res.data.success) {
+        // AuthContext update
+        await getUser();
+
+        await Swal.fire({
+          icon: "success",
+          title: "Login Successful",
+          text: res.data.message,
+          timer: 1800,
+          showConfirmButton: false,
+        });
+
+        router.refresh();
+        router.push("/");
       }
-    );
-
-    if (res.data.success) {
-      // Agar backend cookie use karta hai to localStorage ki zarurat nahi
-      // localStorage.setItem("token", res.data.token);
-      // localStorage.setItem("user", JSON.stringify(res.data.user));
-
-      // AuthContext update
-      await getUser();
-
-      await Swal.fire({
-        icon: "success",
-        title: "Login Successful",
-        text: res.data.message,
-        timer: 1800,
-        showConfirmButton: false,
+    } catch (error: any) {
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: error.response?.data?.message || "Invalid Email or Password",
       });
-
-      router.refresh();
-      router.push("/");
+    } finally {
+      setLoading(false);
     }
-  } catch (error: any) {
-    Swal.fire({
-      icon: "error",
-      title: "Login Failed",
-      text: error.response?.data?.message || "Invalid Email or Password",
-    });
-  } finally {
-    setLoading(false);
-  }
-};
+  };
   return (
-    <div className="min-h-screen flex items-center justify-center p-10 rounded-full">
-      <div className="max-w-5xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col lg:flex-row">
-        {/* Left Side - Welcome Section */}
-        <div className="lg:w-7/12 bg-blue-600 text-white p-10 flex flex-col justify-center relative overflow-hidden">
-          <div className="absolute -left-70 -top-10 w-full h-96 bg-blue-900/100 rounded-full"></div>
-          <div className="absolute -right-16 bottom-10 w-80 h-80 bg-blue-900/80 rounded-full"></div>
-          <div className="relative z-10">
-            +
-            <div className="flex items-center gap-3 mb-5">
-              <div>
-                <h1 className="text-3xl font-bold">Dream Sky Airways</h1>
-                <p className="text-blue-200">Soar Beyond Limits</p>
-              </div>
+    <div className="min-h-screen relative flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-cover bg-center bg-no-repeat bg-fixed"
+      style={{ backgroundImage: "url('/aeroplaneSignupLogin.jpg')" }}>
+
+      <div className="absolute inset-0 bg-black/15" />
+      <div className="relative z-10 max-w-5xl w-full mx-auto flex flex-col lg:flex-row items-stretch rounded-3xl overflow-hidden bg-white/10 backdrop-blur-xs border border-white/25 shadow-2xl my-8">
+        {/* Left Side - Welcome Section (Glass Panel) */}
+
+
+        <div className="hidden lg:flex w-1/2 flex-col justify-between p-12 bg-transparent border-r border-white/15 text-white">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-16 h-16 bg-white/10 backdrop-blur-xs rounded-2xl flex items-center justify-center border border-white/30 shadow-md">
+              <Plane className="w-9 h-9 text-sky-300" />
             </div>
-            <h2 className="text-6xl font-bold leading-none mb-6">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight text-white drop-shadow-sm">
+                Dream Sky Airways
+              </h1>
+              <p className="text-sky-300 text-base font-medium">Soar Beyond Limits</p>
+            </div>
+          </div>
+
+          <div className="my-auto py-8">
+            <h2 className="text-5xl font-extrabold leading-tight tracking-tight text-white mb-6 drop-shadow-sm">
               WELCOME
               <br />
-              BACK
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-200 via-white to-sky-300">
+                BACK
+              </span>
             </h2>
-            <p className="text-xl text-blue-100 max-w-sm">
-              Sign in to continue your journey with us. Discover amazing
-              destinations around the world.
+            <p className="text-lg text-white/90 max-w-md leading-relaxed drop-shadow-xs">
+              Sign in to continue your journey with us. Discover amazing destinations around the world.
             </p>
+          </div>
+
+          <div className="text-xs text-white/60 font-light">
+            © Dream Sky Airways. Premium Aviation Services.
           </div>
         </div>
         {/* Right Side - Sign In Form */}
         <div className="lg:w-7/12 p-10 lg:p-16 flex items-center">
           <div className="w-full max-w-md mx-auto">
-            <h3 className="text-4xl font-semibold text-gray-900 mb-2">
+            <h3 className="text-4xl font-semibold text-white mb-2">
               Sign in
             </h3>
-            <p className="text-gray-600 mb-10">
+            <p className="text-white/70 mb-10">
               Enter your credentials to access your account
             </p>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Email / Username */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-white/70 mb-2">
                   Email / Username
                 </label>
                 <div className="relative">
-                  <div className="absolute left-5 top-4 text-gray-400">👤</div>
+                  <div className="absolute left-5 top-4 text-white/70">👤</div>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full pl-12 pr-5 py-4 bg-gray-50 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-600 text-lg"
+                    className="w-full pl-12 pr-5 py-4 b g-white/5 backdrop-blur-xs border border-white/20 rounded-2xl focus:outline-none focus:border-blue-600 text-lg"
                     placeholder="Enter your email"
                   />
                 </div>
               </div>
               {/* Password */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Password
                 </label>
 
                 <div className="relative">
-                  <div className="absolute left-5 top-4 text-gray-400">
+                  <div className="absolute left-5 top-4 text-gray-300">
                     <CiLock size={22} />
                   </div>
 
@@ -147,14 +156,14 @@ const handleSubmit = async (e: React.FormEvent) => {
                     value={formData.password}
                     onChange={handleChange}
                     required
-                    className="w-full pl-12 pr-14 py-4 bg-gray-50 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-600 text-lg"
+                    className="w-full pl-12 pr-14 py-4 bg-gray-50 border border-gray-300 rounded-2xl focus:outline-none focus:border-blue-600 text-lg text-white"
                     placeholder="Enter your password"
                   />
 
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-600"
+                    className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-200 hover:text-blue-600"
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
@@ -169,11 +178,11 @@ const handleSubmit = async (e: React.FormEvent) => {
                     onChange={(e) => setRememberMe(e.target.checked)}
                     className="w-5 h-5 accent-blue-600"
                   />
-                  <span className="text-gray-700">Remember me</span>
+                  <span className="text-gray-300">Remember me</span>
                 </label>
                 <Link
                   href="#"
-                  className="text-blue-600 hover:underline text-sm font-medium"
+                  className="text-gray-200 hover:underline text-sm font-medium"
                 >
                   Forgot Password?
                 </Link>
@@ -204,7 +213,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               </button>
 
               {/* Sign Up Link */}
-              <p className="text-center text-gray-600 ">
+              <p className="text-center text-gray-200 ">
                 Dont have an account?{" "}
                 <Link
                   href="/sign-up"

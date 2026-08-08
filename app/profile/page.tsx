@@ -18,6 +18,8 @@ import {
   Loader2,
 } from "lucide-react";
 import api from "@/server/api";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 interface UserProfile {
   _id?: string;
@@ -32,6 +34,8 @@ interface UserProfile {
 }
 
 export default function ProfilePage() {
+  const router = useRouter();
+  const { logout } = useAuth();
   const [activeTab, setActiveTab] = useState<"overview" | "bookings" | "security">("overview");
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -109,13 +113,13 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-slate-50 py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-8">
-        
+
         {/* TOP PROFILE HEADER CARD */}
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-blue-100/60 to-transparent rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6">
-            
+
             {/* Avatar Section */}
             <div className="relative group">
               <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-white shadow-md relative">
@@ -125,7 +129,7 @@ export default function ProfilePage() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <button 
+              <button
                 type="button"
                 className="absolute bottom-1 right-1 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full shadow-md transition-transform active:scale-95"
                 title="Change Avatar"
@@ -146,7 +150,7 @@ export default function ProfilePage() {
                     {user.email}
                   </p>
                 </div>
-                
+
                 <button
                   type="button"
                   className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs sm:text-sm rounded-xl transition"
@@ -174,31 +178,28 @@ export default function ProfilePage() {
         <div className="flex border-b border-slate-200 gap-8 text-sm font-semibold">
           <button
             onClick={() => setActiveTab("overview")}
-            className={`pb-4 transition-all border-b-2 ${
-              activeTab === "overview"
+            className={`pb-4 transition-all border-b-2 ${activeTab === "overview"
                 ? "border-blue-600 text-blue-600"
                 : "border-transparent text-slate-500 hover:text-slate-900"
-            }`}
+              }`}
           >
             Overview
           </button>
           <button
             onClick={() => setActiveTab("bookings")}
-            className={`pb-4 transition-all border-b-2 ${
-              activeTab === "bookings"
+            className={`pb-4 transition-all border-b-2 ${activeTab === "bookings"
                 ? "border-blue-600 text-blue-600"
                 : "border-transparent text-slate-500 hover:text-slate-900"
-            }`}
+              }`}
           >
             My Bookings
           </button>
           <button
             onClick={() => setActiveTab("security")}
-            className={`pb-4 transition-all border-b-2 ${
-              activeTab === "security"
+            className={`pb-4 transition-all border-b-2 ${activeTab === "security"
                 ? "border-blue-600 text-blue-600"
                 : "border-transparent text-slate-500 hover:text-slate-900"
-            }`}
+              }`}
           >
             Security & Password
           </button>
@@ -260,7 +261,7 @@ export default function ProfilePage() {
                 <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
                   Travel Summary
                 </h3>
-                
+
                 <div className="flex items-center justify-between p-4 bg-blue-50/50 rounded-xl border border-blue-100">
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 bg-blue-600 text-white rounded-lg">
@@ -289,7 +290,11 @@ export default function ProfilePage() {
               <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
                 <button
                   type="button"
-                  className="w-full flex items-center justify-center gap-2 text-rose-600 bg-rose-50 hover:bg-rose-100 font-semibold py-3 rounded-xl text-sm transition"
+                  onClick={async () => {
+                    await logout();
+                    router.push("/sign-in");
+                  }}
+                  className="w-full flex items-center justify-center gap-2 text-rose-600 bg-rose-50 hover:bg-rose-100 font-semibold py-3 rounded-xl text-sm transition cursor-pointer"
                 >
                   <LogOut className="w-4 h-4" />
                   Sign Out Account
@@ -327,11 +332,10 @@ export default function ProfilePage() {
 
                   <div className="flex items-center justify-between w-full sm:w-auto gap-6 border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-200">
                     <span
-                      className={`inline-flex items-center gap-1 text-xs font-bold px-3 py-1 rounded-full ${
-                        item.status === "Confirmed"
+                      className={`inline-flex items-center gap-1 text-xs font-bold px-3 py-1 rounded-full ${item.status === "Confirmed"
                           ? "bg-emerald-100 text-emerald-800"
                           : "bg-slate-200 text-slate-700"
-                      }`}
+                        }`}
                     >
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       {item.status}

@@ -7,7 +7,7 @@ interface User {
   id: string;
   username: string;
   email: string;
-  role:string;
+  role: string;
 }
 
 interface AuthContextType {
@@ -19,7 +19,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthProvider = ({children}: {children: ReactNode}) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -28,8 +28,8 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
       const res = await api.get("/auth/me", {
         withCredentials: true,
       });
-       console.log("ME API:", res.data.user);
-      
+      console.log("ME API:", res.data.user);
+
       setUser(res.data.user);
     } catch {
       setUser(null);
@@ -39,15 +39,19 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
   };
 
   const logout = async () => {
-    await api.post(
-      "/auth/logout",
-      {},
-      {
-        withCredentials: true,
-      },
-    );
-
-    setUser(null);
+    try {
+      await api.post(
+        "/auth/logout",
+        {},
+        {
+          withCredentials: true,
+        },
+      );
+    } catch (error) {
+      console.error("Logout API error:", error);
+    } finally {
+      setUser(null);
+    }
   };
 
   useEffect(() => {

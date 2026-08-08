@@ -2,10 +2,10 @@
 // auth/SignUp.tsx
 import api from "@/server/api";
 import Link from "next/link";
-import {useRouter} from "next/navigation";
-import React, {useState} from "react";
-import {toast} from "react-toastify";
-import {Eye, EyeOff, Plane} from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { Eye, EyeOff, Plane } from "lucide-react";
 import Swal from "sweetalert2";
 
 const SignUp: React.FC = () => {
@@ -23,8 +23,8 @@ const SignUp: React.FC = () => {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
-    setFormData((prev) => ({...prev, [name]: value}));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -90,193 +90,195 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white  max-w-5xl gap-6 w-full mx-auto flex flex-col lg:flex-row items-center rounded-3xl">
-        {/* Left Side - Hero Section */}
-        <div className="hidden lg:flex w-1/2 flex-col justify-center relative">
-          <div className="relative h-[650px] overflow-hidden shadow-2xl rounded-l-3xl">
-            <img
-              src="/aviation.png"
-              alt="Dream Sky Airways"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/60 to-black/40" />
+    <div
+      className="min-h-screen relative flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-cover bg-center bg-no-repeat bg-fixed"
+      style={{ backgroundImage: "url('/aeroplaneSignupLogin.jpg')" }}
+    >
+      {/* Light Background Overlay without heavy blur */}
+      <div className="absolute inset-0 bg-black/15" />
 
-            <div className="absolute inset-0 flex flex-col justify-end p-12 text-white">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20">
-                  <Plane className="w-9 h-9 text-sky-400" />
-                </div>
-                <div>
-                  <h1 className="text-4xl font-bold tracking-tighter">
-                    Dream Sky Airways
-                  </h1>
-                  <p className="text-sky-300 text-lg">Soar Beyond Limits</p>
-                </div>
+      {/* Sheer Glass Container with Minimal Blur Filter */}
+      <div className="relative z-10 max-w-5xl w-full mx-auto flex flex-col lg:flex-row items-stretch rounded-3xl overflow-hidden bg-white/10 backdrop-blur-xs border border-white/25 shadow-2xl">
+        {/* Left Side - Hero Section (Glass without blur filter distortion) */}
+        <div className="hidden lg:flex w-1/2 flex-col justify-between p-12 bg-transparent border-r border-white/15 text-white">
+          {/* Trust Badge */}
+          <div className="flex items-center gap-3 bg-white/10 backdrop-blur-xs px-5 py-2.5 rounded-2xl border border-white/20 w-fit">
+            <span className="text-xl">⭐</span>
+            <div>
+              <p className="font-semibold text-xs text-white">50k+ Happy Travelers</p>
+              <p className="text-[10px] text-sky-300 font-medium">Worldwide</p>
+            </div>
+          </div>
+
+          {/* Main Hero Content */}
+          <div className="my-auto py-8">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-16 h-16 bg-white/10 backdrop-blur-xs rounded-2xl flex items-center justify-center border border-white/30 shadow-md">
+                <Plane className="w-9 h-9 text-sky-300" />
               </div>
+              <div>
+                <h1 className="text-3xl font-bold tracking-tight text-white drop-shadow-sm">
+                  Dream Sky Airways
+                </h1>
+                <p className="text-sky-300 text-base font-medium">Soar Beyond Limits</p>
+              </div>
+            </div>
 
-              <h2 className="text-6xl font-bold leading-tight tracking-tighter mb-6">
-                Your Journey
-                <br />
+            <h2 className="text-5xl font-extrabold leading-tight tracking-tight text-white mb-6 drop-shadow-sm">
+              Your Journey
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-200 via-white to-sky-300">
                 Begins Here
-              </h2>
-              <p className="text-xl text-gray-200 max-w-md">
-                Join thousands of travelers discovering the world with comfort,
-                luxury, and unforgettable experiences.
-              </p>
-            </div>
+              </span>
+            </h2>
+            <p className="text-lg text-white/90 max-w-md leading-relaxed drop-shadow-xs">
+              Join thousands of travelers discovering the world with comfort,
+              luxury, and unforgettable experiences.
+            </p>
+          </div>
 
-            {/* Trust Badges */}
-            <div className="absolute top-8 right-8 flex flex-col gap-3">
-              <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20 text-white flex items-center gap-3 text-sm">
-                <span className="text-2xl">⭐</span>
-                <div>
-                  <p className="font-semibold">50k+ Happy Travelers</p>
-                  <p className="text-xs text-sky-300">Worldwide</p>
-                </div>
-              </div>
-            </div>
+          {/* Bottom Accent */}
+          <div className="text-xs text-white/60 font-light">
+            © Dream Sky Airways. Premium Aviation Services.
           </div>
         </div>
 
         {/* Right Side - Signup Form */}
-        <div className="w-full lg:w-6/12">
-          <div className=" p-5 lg:p-5">
-            <div className="mb-10 text-center lg:text-left">
-              <h2 className="text-4xl font-semibold text-gray-900 mb-2">
-                Create Account
-              </h2>
-              <p className="text-gray-600">Join the Dream Sky family today</p>
+        <div className="w-full lg:w-1/2 p-6 sm:p-10 lg:p-12 bg-white/5 backdrop-blur-xs flex flex-col justify-center">
+          <div className="mb-8 text-center lg:text-left">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2 tracking-tight drop-shadow-sm">
+              Create Account
+            </h2>
+            <p className="text-white/80 text-base">Join the Dream Sky family today</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium text-white/90 mb-2">
+                Full Name
+              </label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+                className="w-full px-5 py-3.5 bg-white/10 hover:bg-white/15 focus:bg-white/20 border border-white/25 rounded-2xl focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-300/30 transition-all text-white placeholder:text-white/50"
+                placeholder="John Doe"
+              />
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Full Name
-                </label>
+            <div>
+              <label className="block text-sm font-medium text-white/90 mb-2">
+                Email Address
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-5 py-3.5 bg-white/10 hover:bg-white/15 focus:bg-white/20 border border-white/25 rounded-2xl focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-300/30 transition-all text-white placeholder:text-white/50"
+                placeholder="you@example.com"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-white/90 mb-2">
+                Password
+              </label>
+              <div className="relative">
                 <input
-                  type="text"
-                  name="username"
-                  value={formData.username}
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all text-gray-900 placeholder:text-gray-400"
-                  placeholder="John Doe"
+                  className="w-full px-5 py-3.5 bg-white/10 hover:bg-white/15 focus:bg-white/20 border border-white/25 rounded-2xl focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-300/30 transition-all text-white placeholder:text-white/50 pr-12"
+                  placeholder="••••••••"
                 />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all text-gray-900 placeholder:text-gray-400"
-                  placeholder="you@example.com"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all text-gray-900 placeholder:text-gray-400"
-                    placeholder="••••••••"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                  >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </button>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Confirm Password
-                </label>
-
-                <div className="relative">
-                  <input
-                    type={showConfirmPassword ? "text" : "password"}
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
-                    placeholder="••••••••"
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff size={20} />
-                    ) : (
-                      <Eye size={20} />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3 pt-2">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  checked={acceptTerms}
-                  onChange={(e) => setAcceptTerms(e.target.checked)}
-                  className="mt-1 w-5 h-5 accent-sky-600 cursor-pointer rounded"
-                />
-                <label
-                  htmlFor="terms"
-                  className="text-sm text-gray-600 cursor-pointer leading-relaxed"
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors cursor-pointer"
                 >
-                  I agree to the{" "}
-                  <span className="text-sky-600 hover:underline">
-                    Terms of Service
-                  </span>{" "}
-                  and{" "}
-                  <span className="text-sky-600 hover:underline">
-                    Privacy Policy
-                  </span>
-                </label>
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
               </div>
+            </div>
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full mt-6 bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-700 hover:to-indigo-700 text-white font-semibold py-4 rounded-2xl text-lg transition-all active:scale-[0.985] shadow-lg shadow-sky-500/30 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            <div>
+              <label className="block text-sm font-medium text-white/90 mb-2">
+                Confirm Password
+              </label>
+
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-5 py-3.5 bg-white/10 hover:bg-white/15 focus:bg-white/20 border border-white/25 rounded-2xl focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-300/30 transition-all text-white placeholder:text-white/50 pr-12"
+                  placeholder="••••••••"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors cursor-pointer"
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff size={20} />
+                  ) : (
+                    <Eye size={20} />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3 pt-1">
+              <input
+                type="checkbox"
+                id="terms"
+                checked={acceptTerms}
+                onChange={(e) => setAcceptTerms(e.target.checked)}
+                className="mt-1 w-5 h-5 accent-sky-500 cursor-pointer rounded border-white/30 bg-white/10"
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm text-white/90 cursor-pointer leading-relaxed"
               >
-                {isLoading ? "Creating Account..." : "Create Account"}
-              </button>
-            </form>
-
-            <div className="mt-2 text-center">
-              <p className="text-gray-600">
-                Already have an account?{" "}
-                <Link
-                  href="/sign-in"
-                  className="text-sky-600 font-semibold hover:text-sky-700 transition-colors"
-                >
-                  Sign in
-                </Link>
-              </p>
+                I agree to the{" "}
+                <span className="text-sky-300 hover:text-sky-200 underline font-medium transition-colors">
+                  Terms of Service
+                </span>{" "}
+                and{" "}
+                <span className="text-sky-300 hover:text-sky-200 underline font-medium transition-colors">
+                  Privacy Policy
+                </span>
+              </label>
             </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full mt-6 bg-sky-600/90 hover:bg-sky-500 text-white font-semibold py-4 rounded-2xl text-lg transition-all active:scale-[0.985] shadow-lg shadow-sky-600/30 border border-white/20 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+            >
+              {isLoading ? "Creating Account..." : "Create Account"}
+            </button>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-white/80">
+              Already have an account?{" "}
+              <Link
+                href="/sign-in"
+                className="text-sky-300 font-semibold hover:text-sky-200 hover:underline transition-colors ml-1"
+              >
+                Sign in
+              </Link>
+            </p>
           </div>
         </div>
       </div>
@@ -285,3 +287,4 @@ const SignUp: React.FC = () => {
 };
 
 export default SignUp;
+
