@@ -1,9 +1,10 @@
 "use client";
 
-import React, {useState} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {CalendarDays, ChevronDown, Search, Users} from "lucide-react";
 import DepartureCalendar from "./DepartureCalendar";
 import {useRouter} from "next/navigation";
+import CityInputField from "./CitySelectDropdown";
 
 const hotelFilters = [
   "Free Breakfast",
@@ -24,6 +25,44 @@ const HotelForm = () => {
   };
 
   const [showGuests, setShowGuests] = useState(false);
+  const guestRef = useRef<HTMLDivElement | null>(null);
+
+  const toggleGuests = () => {
+    const nextState = !showGuests;
+    setShowGuests(nextState);
+    if (nextState && typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("form-popover-open", { detail: { id: "hotel-guests-popover" } })
+      );
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (guestRef.current && !guestRef.current.contains(e.target as Node)) {
+        setShowGuests(false);
+      }
+    };
+
+    const handleOtherPopoverOpen = (e: Event) => {
+      const customEvt = e as CustomEvent;
+      if (customEvt.detail?.id !== "hotel-guests-popover") {
+        setShowGuests(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    if (typeof window !== "undefined") {
+      window.addEventListener("form-popover-open", handleOtherPopoverOpen);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("form-popover-open", handleOtherPopoverOpen);
+      }
+    };
+  }, []);
   const [guestInfo, setGuestInfo] = useState({
     adults: 2,
     children: 0,
@@ -90,31 +129,16 @@ const HotelForm = () => {
         <form onSubmit={handleSubmit} className="p-4 sm:p-6 lg:p-8">
           {/* Location */}
           <div className="mb-8">
-            <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
-              <Search size={20} />
-              <span>Where do you want to stay?</span>
-            </div>
-            <input
-              type="text"
+            <CityInputField
+              label="Where do you want to stay?"
+              icon={<Search size={20} />}
               name="location"
               value={formData.location}
-              onChange={handleChange}
+              onChange={(val) => setFormData((prev) => ({ ...prev, location: val }))}
               placeholder="Mumbai, Maharashtra"
-              className="
-                w-full
-                text-xl
-                sm:text-2xl
-                lg:text-3xl
-                font-semibold
-                outline-none
-                placeholder:text-gray-400
-                border-b
-                pb-3
-                "
+              subLabel="Hotels, resorts, apartments & more"
+              inputClassName="w-full text-xl sm:text-2xl lg:text-3xl font-semibold outline-none placeholder:text-gray-400 border-b pb-3 bg-transparent"
             />
-            <p className="text-gray-500 text-sm mt-1">
-              Hotels, resorts, apartments & more
-            </p>
           </div>
 
           {/* Dates & Guests */}
@@ -152,9 +176,9 @@ const HotelForm = () => {
             </div>
 
             {/* Guests & Rooms */}
-            <div className="xl:col-span-4 relative">
+            <div ref={guestRef} className="xl:col-span-4 relative">
               <div
-                onClick={() => setShowGuests(!showGuests)}
+                onClick={toggleGuests}
                 className="cursor-pointer"
               >
                 <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">

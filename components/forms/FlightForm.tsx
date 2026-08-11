@@ -1,7 +1,7 @@
 "use client";
 
-import React, {useState} from "react";
-import {GoArrowSwitch} from "react-icons/go";
+import React, { useState, useRef, useEffect } from "react";
+import { GoArrowSwitch } from "react-icons/go";
 import {
   CalendarDays,
   PlaneLanding,
@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import DepartureCalendar from "./DepartureCalendar";
 import { useRouter } from "next/navigation";
+import CityInputField from "./CitySelectDropdown";
 
 const TripTabs = ["One Way", "Round Trip", "Multi City"];
 
@@ -26,6 +27,45 @@ interface FlightFormData {
 const FlightForm = () => {
   const router = useRouter();
   const [showTraveller, setShowTraveller] = useState(false);
+  const travellerRef = useRef<HTMLDivElement | null>(null);
+
+  const toggleTraveller = () => {
+    const nextState = !showTraveller;
+    setShowTraveller(nextState);
+    if (nextState && typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("form-popover-open", { detail: { id: "flight-traveller-popover" } })
+      );
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (travellerRef.current && !travellerRef.current.contains(e.target as Node)) {
+        setShowTraveller(false);
+      }
+    };
+
+    const handleOtherPopoverOpen = (e: Event) => {
+      const customEvt = e as CustomEvent;
+      if (customEvt.detail?.id !== "flight-traveller-popover") {
+        setShowTraveller(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    if (typeof window !== "undefined") {
+      window.addEventListener("form-popover-open", handleOtherPopoverOpen);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("form-popover-open", handleOtherPopoverOpen);
+      }
+    };
+  }, []);
+
   const [travellers, setTravellers] = useState({
     adults: 1,
     children: 0,
@@ -56,13 +96,13 @@ const FlightForm = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    const {name, value} = e.target;
-    setFormData((prev) => ({...prev, [name]: value}));
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Search Data:", {tripType, ...formData});
+    console.log("Search Data:", { tripType, ...formData });
     // axios.post("/api/flights/search", { tripType, ...formData });
     router.push("/flights");
   };
@@ -76,10 +116,9 @@ const FlightForm = () => {
             key={trip}
             onClick={() => setTripType(trip as typeof tripType)}
             className={`px-6 py-3 rounded-2xl font-medium transition-all duration-200 border   shadow-sm text-sm sm:text-base
-              ${
-                tripType === trip
-                  ? "bg-blue-600 text-white border-blue-600 shadow-lg"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400"
+              ${tripType === trip
+                ? "bg-blue-600 text-white border-blue-600 shadow-lg"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400"
               }`}
           >
             {trip}
@@ -113,19 +152,16 @@ const FlightForm = () => {
                             xl:border-r
                             xl:border-b-0
                           ">
-                <div className="flex items-center gap-2 text-gray-500 text-sm mb-2 ">
-                  <PlaneTakeoff size={18} />
-                  <span>From</span>
-                </div>
-                <input
-                  type="text"
+                <CityInputField
+                  label="From"
+                  icon={<PlaneTakeoff size={18} />}
                   name="from"
                   value={formData.from}
-                  onChange={handleChange}
+                  onChange={(val) => setFormData((prev) => ({ ...prev, from: val }))}
                   placeholder="Delhi (DEL)"
-                  className="w-full text-2xl sm:text-3xl font-semibold outline-none placeholder:text-gray-400"
+                  subLabel="Departure City"
+                  inputClassName="w-full text-2xl sm:text-3xl font-semibold outline-none placeholder:text-gray-400 bg-transparent"
                 />
-                <p className="text-gray-500 text-sm mt-1">Departure City</p>
               </div>
 
               {/* Swap Button */}
@@ -148,19 +184,16 @@ const FlightForm = () => {
                       xl:border-r
                       xl:border-b-0
                     ">
-                <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
-                  <PlaneLanding size={18} />
-                  <span>To</span>
-                </div>
-                <input
-                  type="text"
+                <CityInputField
+                  label="To"
+                  icon={<PlaneLanding size={18} />}
                   name="to"
                   value={formData.to}
-                  onChange={handleChange}
-                  placeholder="Patna (PTN)"
-                  className="w-full text-2xl sm:text-3xl font-semibold outline-none placeholder:text-gray-400"
+                  onChange={(val) => setFormData((prev) => ({ ...prev, to: val }))}
+                  placeholder="Mumbai (BOM)"
+                  subLabel="Destination City"
+                  inputClassName="w-full text-2xl sm:text-3xl font-semibold outline-none placeholder:text-gray-400 bg-transparent"
                 />
-                <p className="text-gray-500 text-sm mt-1">Destination City</p>
               </div>
 
               <div className="
@@ -190,9 +223,9 @@ const FlightForm = () => {
               )}
 
               {/* Travellers & Class */}
-              <div className="lg:col-span-3 p-3 relative">
+              <div ref={travellerRef} className="lg:col-span-3 p-3 relative">
                 <div
-                  onClick={() => setShowTraveller(!showTraveller)}
+                  onClick={toggleTraveller}
                   className="cursor-pointer"
                 >
                   <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
@@ -349,11 +382,10 @@ const FlightForm = () => {
                               travelClass: item,
                             }))
                           }
-                          className={`border rounded-lg py-2 text-sm ${
-                            travellers.travelClass === item
+                          className={`border rounded-lg py-2 text-sm ${travellers.travelClass === item
                               ? "bg-blue-600 text-white"
                               : ""
-                          }`}
+                            }`}
                         >
                           {item}
                         </button>
@@ -391,19 +423,16 @@ const FlightForm = () => {
                           bg-gray-50 ">
                   {/* From */}
                   <div className="lg:col-span-3 border-r p-3 ">
-                    <div className="flex items-center gap-2 text-gray-500 text-sm mb-2 ">
-                      <PlaneTakeoff size={18} />
-                      <span>From</span>
-                    </div>
-                    <input
-                      type="text"
+                    <CityInputField
+                      label="From"
+                      icon={<PlaneTakeoff size={18} />}
                       name="from"
                       value={formData.from}
-                      onChange={handleChange}
+                      onChange={(val) => setFormData((prev) => ({ ...prev, from: val }))}
                       placeholder="Delhi (DEL)"
-                      className="w-full text-2xl sm:text-3xl font-semibold outline-none placeholder:text-gray-400"
+                      subLabel="Departure City"
+                      inputClassName="w-full text-2xl sm:text-3xl font-semibold outline-none placeholder:text-gray-400 bg-transparent"
                     />
-                    <p className="text-gray-500 text-sm mt-1">Departure City</p>
                   </div>
 
                   <div className="hidden lg:flex absolute left-[205px] top-[55%] -translate-y-1/2 z-999">
@@ -417,21 +446,16 @@ const FlightForm = () => {
                   </div>
 
                   <div className="lg:col-span-3 border-r p-3 ">
-                    <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
-                      <PlaneLanding size={18} />
-                      <span>To</span>
-                    </div>
-                    <input
-                      type="text"
+                    <CityInputField
+                      label="To"
+                      icon={<PlaneLanding size={18} />}
                       name="to"
                       value={formData.to}
-                      onChange={handleChange}
-                      placeholder="Patna (PTN)"
-                      className="w-full text-2xl sm:text-3xl font-semibold outline-none placeholder:text-gray-400"
+                      onChange={(val) => setFormData((prev) => ({ ...prev, to: val }))}
+                      placeholder="Mumbai (BOM)"
+                      subLabel="Destination City"
+                      inputClassName="w-full text-2xl sm:text-3xl font-semibold outline-none placeholder:text-gray-400 bg-transparent"
                     />
-                    <p className="text-gray-500 text-sm mt-1">
-                      Destination City
-                    </p>
                   </div>
 
                   <div className="lg:col-span-3 border-r p-3">
@@ -517,7 +541,7 @@ const FlightForm = () => {
                                   adults: prev.adults + 1,
                                 }))
                               }
-                               className=" text-1xl font-semibold mt-1"
+                              className=" text-1xl font-semibold mt-1"
                             >
                               +
                             </button>
@@ -540,7 +564,7 @@ const FlightForm = () => {
                                   children: Math.max(0, prev.children - 1),
                                 }))
                               }
-                               className=" text-2xl font-semibold"
+                              className=" text-2xl font-semibold"
                             >
                               -
                             </button>
@@ -554,7 +578,7 @@ const FlightForm = () => {
                                   children: prev.children + 1,
                                 }))
                               }
-                               className=" text-1xl font-semibold mt-1"
+                              className=" text-1xl font-semibold mt-1"
                             >
                               +
                             </button>
@@ -579,7 +603,7 @@ const FlightForm = () => {
                                   infants: Math.max(0, prev.infants - 1),
                                 }))
                               }
-                                className=" text-2xl font-semibold"
+                              className=" text-2xl font-semibold"
                             >
                               -
                             </button>
@@ -593,7 +617,7 @@ const FlightForm = () => {
                                   infants: prev.infants + 1,
                                 }))
                               }
-                                className=" text-1xl font-semibold mt-1"
+                              className=" text-1xl font-semibold mt-1"
                             >
                               +
                             </button>
@@ -619,11 +643,10 @@ const FlightForm = () => {
                                   travelClass: item,
                                 }))
                               }
-                              className={`border rounded-lg py-2 text-sm ${
-                                travellers.travelClass === item
+                              className={`border rounded-lg py-2 text-sm ${travellers.travelClass === item
                                   ? "bg-blue-600 text-white"
                                   : ""
-                              }`}
+                                }`}
                             >
                               {item}
                             </button>
@@ -654,8 +677,8 @@ const FlightForm = () => {
           {/* Search Button - Bottom (Common for all trip types) */}
           <div className="mt-10">
             <button
-              
-              
+
+
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 transition-all text-white py-5 rounded-2xl text-xl font-semibold flex items-center justify-center gap-3 shadow-lg shadow-blue-500/30 cursor-pointer"
             >

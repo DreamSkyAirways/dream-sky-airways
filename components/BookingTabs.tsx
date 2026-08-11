@@ -29,8 +29,8 @@ export default function BookingTabs() {
               key={tab.id}
               onClick={() => setActive(tab.id)}
               className={`relative flex items-center gap-2 sm:gap-3 px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg transition-all duration-300 whitespace-nowrap
-                ${isActive 
-                  ? "bg-[#0D6269]/20 text-gray-200 shadow-sm" 
+                ${isActive
+                  ? "bg-[#0D6269]/20 text-gray-200 shadow-sm"
                   : "text-gray-400 hover:text-gray-200 hover:bg-white/5"}`}
             >
               <Image
@@ -54,7 +54,7 @@ export default function BookingTabs() {
         })}
       </div>
 
-      
+
       <div className="bg-[#0b1220]/35 backdrop-blur-2xl border border-white/10 rounded-b-2xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-10 shadow-2xl">
         <div className="w-full">
           {active === "flight" && <FlightForm />}

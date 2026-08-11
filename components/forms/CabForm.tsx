@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { CalendarDays, MapPin, Search, Users, Clock } from "lucide-react";
 import DepartureCalendar from "./DepartureCalendar";
 import { useRouter } from "next/navigation";
+import CityInputField from "./CitySelectDropdown";
 
 const CarForm = () => {
   const router = useRouter();
@@ -35,36 +36,30 @@ const CarForm = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Pickup City */}
             <div className="lg:col-span-4">
-              <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
-                <MapPin size={20} />
-                <span>Pickup City</span>
-              </div>
-              <input
-                type="text"
+              <CityInputField
+                label="Pickup City"
+                icon={<MapPin size={20} />}
                 name="pickupCity"
                 value={carData.pickupCity}
-                onChange={handleChange}
+                onChange={(val) => setCarData((prev) => ({ ...prev, pickupCity: val }))}
                 placeholder="Delhi"
-                className="w-full text-3xl font-semibold outline-none placeholder:text-gray-400 border-b pb-3"
+                subLabel="Where do you want to start?"
+                inputClassName="w-full text-3xl font-semibold outline-none placeholder:text-gray-400 border-b pb-3 bg-transparent"
               />
-              <p className="text-gray-500 text-sm mt-1">Where do you want to start?</p>
             </div>
 
             {/* Drop City */}
             <div className="lg:col-span-4">
-              <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
-                <MapPin size={20} />
-                <span>Drop City</span>
-              </div>
-              <input
-                type="text"
+              <CityInputField
+                label="Drop City"
+                icon={<MapPin size={20} />}
                 name="dropCity"
                 value={carData.dropCity}
-                onChange={handleChange}
+                onChange={(val) => setCarData((prev) => ({ ...prev, dropCity: val }))}
                 placeholder="Jaipur (Optional)"
-                className="w-full text-3xl font-semibold outline-none placeholder:text-gray-400 border-b pb-3"
+                subLabel="Same as pickup if one-way"
+                inputClassName="w-full text-3xl font-semibold outline-none placeholder:text-gray-400 border-b pb-3 bg-transparent"
               />
-              <p className="text-gray-500 text-sm mt-1">Same as pickup if one-way</p>
             </div>
 
             {/* Pickup Date */}

@@ -28,32 +28,32 @@ interface Flight {
   arrivalAirport: string;
   duration: string;
   price: number;
-  stops:number;
+  stops: number;
   isNonStop: boolean;
   logo?: string;
 }
 
 const FlightComponent: React.FC = () => {
   const [selectedFilters, setSelectedFilters] = useState({
-  nonStop: true,
-  refundable: false,
-  indigo: true,
-  airIndia: false,
-  airIndiaExpress: false,
-  akasaAir: false,
-});
+    nonStop: true,
+    refundable: false,
+    indigo: true,
+    airIndia: false,
+    airIndiaExpress: false,
+    akasaAir: false,
+  });
   const [priceRange, setPriceRange] = useState([8400, 25500]);
   const [stopsFilter, setStopsFilter] = useState({
-  '0': true,   // Non-stop
-  '1': false,
-  '2': true,
-  '3+': true,
-});
+    '0': true,   // Non-stop
+    '1': false,
+    '2': true,
+    '3+': true,
+  });
   const [tripType, setTripType] = useState('Round Trip');
   const [from, setFrom] = useState('New Delhi, India');
   const [to, setTo] = useState('Bengaluru, India');
   const [passengersClass, setPassengersClass] = useState('1 Adult, Economy');
-  
+
 
   // Sample flight data (replace with real API data later)
   const flights: Flight[] = [
@@ -66,7 +66,7 @@ const FlightComponent: React.FC = () => {
       arrivalAirport: 'Noida',
       duration: '02 h 30 m',
       price: 8810,
-      stops:1,
+      stops: 1,
       isNonStop: true,
     },
     {
@@ -78,7 +78,7 @@ const FlightComponent: React.FC = () => {
       arrivalAirport: 'Bengaluru',
       duration: '02 h 45 m',
       price: 9687,
-      stops:0,
+      stops: 0,
 
       isNonStop: true,
     },
@@ -91,7 +91,7 @@ const FlightComponent: React.FC = () => {
       arrivalAirport: 'Bengaluru',
       duration: '03 h 15 m',
       price: 12450,
-      stops:2,
+      stops: 2,
       isNonStop: false,
     },
     {
@@ -103,45 +103,45 @@ const FlightComponent: React.FC = () => {
       arrivalAirport: 'Bengaluru',
       duration: '03 h 20 m',
       price: 10999,
-      stops:1,
+      stops: 1,
       isNonStop: true,
     },
   ];
 
   // Improved Filtering Logic
-const filteredFlights = flights.filter(flight => {
-  // Non-stop filter
-  if (selectedFilters.nonStop && !flight.isNonStop) return false;
+  const filteredFlights = flights.filter(flight => {
+    // Non-stop filter
+    if (selectedFilters.nonStop && !flight.isNonStop) return false;
 
-  // Airline filters
-  const airlineMatch =
-    (selectedFilters.indigo && flight.airline === 'IndiGo') ||
-    (selectedFilters.airIndia && flight.airline === 'Air India') ||
-    (selectedFilters.airIndiaExpress && flight.airline === 'Air India Express') ||
-    (selectedFilters.akasaAir && flight.airline === 'Akasa Air');
+    // Airline filters
+    const airlineMatch =
+      (selectedFilters.indigo && flight.airline === 'IndiGo') ||
+      (selectedFilters.airIndia && flight.airline === 'Air India') ||
+      (selectedFilters.airIndiaExpress && flight.airline === 'Air India Express') ||
+      (selectedFilters.akasaAir && flight.airline === 'Akasa Air');
 
-  // If no airline filter is selected, show all airlines
-  if (
-    selectedFilters.indigo ||
-    selectedFilters.airIndia ||
-    selectedFilters.airIndiaExpress ||
-    selectedFilters.akasaAir
-  ) {
-    if (!airlineMatch) return false;
-  }
+    // If no airline filter is selected, show all airlines
+    if (
+      selectedFilters.indigo ||
+      selectedFilters.airIndia ||
+      selectedFilters.airIndiaExpress ||
+      selectedFilters.akasaAir
+    ) {
+      if (!airlineMatch) return false;
+    }
 
-  // Price range filter
-  if (flight.price < priceRange[0] || flight.price > priceRange[1]) {
-    return false;
+    // Price range filter
+    if (flight.price < priceRange[0] || flight.price > priceRange[1]) {
+      return false;
 
-    const stopKey = flight.stops >= 3 ? '3+' : flight.stops.toString();
-  if (!stopsFilter[stopKey as keyof typeof stopsFilter]) {
-    return false;
-  }
-  }
+      const stopKey = flight.stops >= 3 ? '3+' : flight.stops.toString();
+      if (!stopsFilter[stopKey as keyof typeof stopsFilter]) {
+        return false;
+      }
+    }
 
-  return true;
-});
+    return true;
+  });
   const toggleFilter = (filter: keyof typeof selectedFilters) => {
     setSelectedFilters(prev => ({ ...prev, [filter]: !prev[filter] }));
   };
@@ -152,75 +152,75 @@ const filteredFlights = flights.filter(flight => {
       <div className="bg-white rounded-lg shadow p-4 mb-6">
         <div className="flex flex-wrap gap-4 items-end">
           <div>
-      <label className="block text-xs text-gray-500 mb-1">TRIP TYPE</label>
-      <select
-        value={tripType}
-        onChange={(e) => setTripType(e.target.value)}
-        className="px-4 py-2.5 border border-gray-300 rounded-lg bg-white focus:outline-none focus:border-blue-500 cursor-pointer w-full min-w-[140px]"
-      >
-        <option value="Round Trip">Round Trip</option>
-        <option value="One Way">One Way</option>
-        <option value="Multi City">Multi Trip</option>
-      </select>
-    </div>
+            <label className="block text-xs text-gray-500 mb-1">TRIP TYPE</label>
+            <select
+              value={tripType}
+              onChange={(e) => setTripType(e.target.value)}
+              className="px-4 py-2.5 border border-gray-300 rounded-lg bg-white focus:outline-none focus:border-blue-500 cursor-pointer w-full min-w-[140px]"
+            >
+              <option value="Round Trip">Round Trip</option>
+              <option value="One Way">One Way</option>
+              <option value="Multi City">Multi Trip</option>
+            </select>
+          </div>
           <div className="flex-1 min-w-[200px]">
-      <label className="block text-xs text-gray-500 mb-1">FROM</label>
-      <input
-        type="text"
-        value={from}
-        onChange={(e) => setFrom(e.target.value)}
-        placeholder="Departure City"
-        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1"
-      />
-    </div>
+            <label className="block text-xs text-gray-500 mb-1">FROM</label>
+            <input
+              type="text"
+              value={from}
+              onChange={(e) => setFrom(e.target.value)}
+              placeholder="Departure City"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1"
+            />
+          </div>
 
-    <div className="flex items-center justify-center text-3xl text-gray-400 pt-6">↔</div>
-         <div className="flex-1 min-w-[200px]">
-      <label className="block text-xs text-gray-500 mb-1">TO</label>
-      <input
-        type="text"
-        value={to}
-        onChange={(e) => setTo(e.target.value)}
-        placeholder="Arrival City"
-        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1"
-      />
-    </div>
+          <div className="flex items-center justify-center text-3xl text-gray-400 pt-6">↔</div>
+          <div className="flex-1 min-w-[200px]">
+            <label className="block text-xs text-gray-500 mb-1">TO</label>
+            <input
+              type="text"
+              value={to}
+              onChange={(e) => setTo(e.target.value)}
+              placeholder="Arrival City"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1"
+            />
+          </div>
           <div className="lg:col-span-3 border-r pl-2">
-                    <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
-                      <CalendarDays size={18} />
-                      <span>Depart</span>
-                    </div>
-                    <DepartureCalendar />
-                  </div>
+            <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
+              <CalendarDays size={18} />
+              <span>Depart</span>
+            </div>
+            <DepartureCalendar />
+          </div>
           <div className="lg:col-span-3 border-r pl-2">
-                    <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
-                      <CalendarDays size={18} />
-                      <span>Return</span>
-                    </div>
-                    <DepartureCalendar />
-                  </div>
+            <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
+              <CalendarDays size={18} />
+              <span>Return</span>
+            </div>
+            <DepartureCalendar />
+          </div>
 
           <div>
-      <label className="block text-xs text-gray-500 mb-1">PASSENGERS & CLASS</label>
-      <select
-        value={passengersClass}
-        onChange={(e) => setPassengersClass(e.target.value)}
-        className="px-4 py-2.5 border border-gray-300 rounded-lg bg-white focus:outline-none focus:border-blue-500 cursor-pointer w-full min-w-[170px]"
-      >
-        <option value="1 Adult, Economy">1 Adult, Economy</option>
-        <option value="1 Adult, Premium Economy">1 Adult, Premium Economy</option>
-        <option value="1 Adult, Business">1 Adult, Business</option>
-        <option value="2 Adults, Economy">2 Adults, Economy</option>
-        <option value="2 Adults, Premium Economy">2 Adults, Premium Economy</option>
-        <option value="2 Adults, Business">2 Adults, Business</option>
-        <option value="3 Adults, Economy">3 Adults, Economy</option>
-        <option value="1 Adult + 1 Child, Economy">1 Adult + 1 Child, Economy</option>
-        <option value="1 Adult, Economy + 1 Infant">1 Adult, Economy + 1 Infant</option>
-      </select>
-    </div>
+            <label className="block text-xs text-gray-500 mb-1">PASSENGERS & CLASS</label>
+            <select
+              value={passengersClass}
+              onChange={(e) => setPassengersClass(e.target.value)}
+              className="px-4 py-2.5 border border-gray-300 rounded-lg bg-white focus:outline-none focus:border-blue-500 cursor-pointer w-full min-w-[170px]"
+            >
+              <option value="1 Adult, Economy">1 Adult, Economy</option>
+              <option value="1 Adult, Premium Economy">1 Adult, Premium Economy</option>
+              <option value="1 Adult, Business">1 Adult, Business</option>
+              <option value="2 Adults, Economy">2 Adults, Economy</option>
+              <option value="2 Adults, Premium Economy">2 Adults, Premium Economy</option>
+              <option value="2 Adults, Business">2 Adults, Business</option>
+              <option value="3 Adults, Economy">3 Adults, Economy</option>
+              <option value="1 Adult + 1 Child, Economy">1 Adult + 1 Child, Economy</option>
+              <option value="1 Adult, Economy + 1 Infant">1 Adult, Economy + 1 Infant</option>
+            </select>
+          </div>
           <button
-          onClick={() => alert("Finding Flights!")}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold">
+            onClick={() => alert("Finding Flights!")}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold">
             SEARCH
           </button>
         </div>
@@ -302,68 +302,68 @@ const filteredFlights = flights.filter(flight => {
             </label>
           </div>
 
-         {/* Price Range */}
-<div className="mt-8">
-  <h3 className="font-semibold mb-4">Price Range</h3>
-  <input
-    type="range"
-    min="8400"
-    max="25500"
-    step="100"
-    value={priceRange[1]}
-    onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-    className="w-full accent-blue-600"
-  />
-  <div className="flex justify-between text-sm mt-2 font-medium">
-    <span>₹{priceRange[0]}</span>
-    <span>₹{priceRange[1]}</span>
-  </div>
-</div>
+          {/* Price Range */}
+          <div className="mt-8">
+            <h3 className="font-semibold mb-4">Price Range</h3>
+            <input
+              type="range"
+              min="8400"
+              max="25500"
+              step="100"
+              value={priceRange[1]}
+              onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
+              className="w-full accent-blue-600"
+            />
+            <div className="flex justify-between text-sm mt-2 font-medium">
+              <span>₹{priceRange[0]}</span>
+              <span>₹{priceRange[1]}</span>
+            </div>
+          </div>
           {/* Number of Stops Filter */}
-<div className="mt-8">
-  <h3 className="font-semibold mb-4">Number of Stops</h3>
-  <div className="space-y-3">
-    <label className="flex items-center gap-2 cursor-pointer">
-      <input
-        type="checkbox"
-        checked={stopsFilter['0']}
-        onChange={() => setStopsFilter(prev => ({ ...prev, '0': !prev['0'] }))}
-        className="w-5 h-5 accent-blue-600"
-      />
-      <span>Non Stop (0)</span>
-    </label>
+          <div className="mt-8">
+            <h3 className="font-semibold mb-4">Number of Stops</h3>
+            <div className="space-y-3">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={stopsFilter['0']}
+                  onChange={() => setStopsFilter(prev => ({ ...prev, '0': !prev['0'] }))}
+                  className="w-5 h-5 accent-blue-600"
+                />
+                <span>Non Stop (0)</span>
+              </label>
 
-    <label className="flex items-center gap-2 cursor-pointer">
-      <input
-        type="checkbox"
-        checked={stopsFilter['1']}
-        onChange={() => setStopsFilter(prev => ({ ...prev, '1': !prev['1'] }))}
-        className="w-5 h-5 accent-blue-600"
-      />
-      <span>1 Stop</span>
-    </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={stopsFilter['1']}
+                  onChange={() => setStopsFilter(prev => ({ ...prev, '1': !prev['1'] }))}
+                  className="w-5 h-5 accent-blue-600"
+                />
+                <span>1 Stop</span>
+              </label>
 
-    <label className="flex items-center gap-2 cursor-pointer">
-      <input
-        type="checkbox"
-        checked={stopsFilter['2']}
-        onChange={() => setStopsFilter(prev => ({ ...prev, '2': !prev['2'] }))}
-        className="w-5 h-5 accent-blue-600"
-      />
-      <span>2 Stops</span>
-    </label>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={stopsFilter['2']}
+                  onChange={() => setStopsFilter(prev => ({ ...prev, '2': !prev['2'] }))}
+                  className="w-5 h-5 accent-blue-600"
+                />
+                <span>2 Stops</span>
+              </label>
 
-    <label className="flex items-center gap-2 cursor-pointer">
-      <input
-        type="checkbox"
-        checked={stopsFilter['3+']}
-        onChange={() => setStopsFilter(prev => ({ ...prev, '3+': !prev['3+'] }))}
-        className="w-5 h-5 accent-blue-600"
-      />
-      <span>3+ Stops</span>
-    </label>
-  </div>
-</div>
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={stopsFilter['3+']}
+                  onChange={() => setStopsFilter(prev => ({ ...prev, '3+': !prev['3+'] }))}
+                  className="w-5 h-5 accent-blue-600"
+                />
+                <span>3+ Stops</span>
+              </label>
+            </div>
+          </div>
           {/* Dream Sky Branding */}
           <div className="mt-8 pt-6 border-t text-center">
             <div className="text-blue-600 font-bold text-xl">✈️ Dream Sky Airways</div>
@@ -431,12 +431,12 @@ const filteredFlights = flights.filter(flight => {
                   <div className="text-right" item-center justify-between >
                     <div className="text-3xl font-bold text-green-600">₹{flight.price}</div>
                     <div className="text-xs text-gray-500">per adult</div>
-                    <button 
-      onClick={() => alert("Flight booked successfully! 🎉")}
-      className="bg-blue-600 hover:bg-blue-700 mt-18 text-white px-10 py-3 rounded-xl font-semibold transition active:scale-95"
-    >
-      Book Now
-    </button>
+                    <button
+                      onClick={() => alert("Flight booked successfully! 🎉")}
+                      className="bg-blue-600 hover:bg-blue-700 mt-18 text-white px-10 py-3 rounded-xl font-semibold transition active:scale-95"
+                    >
+                      Book Now
+                    </button>
                   </div>
                 </div>
 

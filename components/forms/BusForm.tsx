@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import DepartureCalendar from "./DepartureCalendar";
 import {useRouter} from "next/navigation";
+import CityInputField from "./CitySelectDropdown";
 
 const BusForm = () => {
   const router = useRouter();
@@ -41,36 +42,30 @@ const BusForm = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* From */}
             <div className="lg:col-span-4">
-              <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
-                <PlaneTakeoff size={20} />
-                <span>From</span>
-              </div>
-              <input
-                type="text"
+              <CityInputField
+                label="From"
+                icon={<PlaneTakeoff size={20} />}
                 name="from"
                 value={busData.from}
-                onChange={handleChange}
+                onChange={(val) => setBusData((prev) => ({ ...prev, from: val }))}
                 placeholder="Delhi"
-                className="w-full text-3xl font-semibold outline-none placeholder:text-gray-400 border-b pb-3"
+                subLabel="Departure City"
+                inputClassName="w-full text-3xl font-semibold outline-none placeholder:text-gray-400 border-b pb-3 bg-transparent"
               />
-              <p className="text-gray-500 text-sm mt-1">Departure City</p>
             </div>
 
             {/* To */}
             <div className="lg:col-span-4">
-              <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
-                <PlaneLanding size={20} />
-                <span>To</span>
-              </div>
-              <input
-                type="text"
+              <CityInputField
+                label="To"
+                icon={<PlaneLanding size={20} />}
                 name="to"
                 value={busData.to}
-                onChange={handleChange}
+                onChange={(val) => setBusData((prev) => ({ ...prev, to: val }))}
                 placeholder="Jaipur"
-                className="w-full text-3xl font-semibold outline-none placeholder:text-gray-400 border-b pb-3"
+                subLabel="Destination City"
+                inputClassName="w-full text-3xl font-semibold outline-none placeholder:text-gray-400 border-b pb-3 bg-transparent"
               />
-              <p className="text-gray-500 text-sm mt-1">Destination City</p>
             </div>
 
             {/* Date */}

@@ -14,9 +14,9 @@ import PopularDestinations from "@/components/homePage/PopularDestinations";
 import SpecialOffers from "@/components/homePage/SpecialOffers";
 import Statistics from "@/components/homePage/Statistics";
 import WhyChooseUs from "@/components/homePage/WhyChooseUs";
-import {Car, Hotel, Package, Plane} from "lucide-react";
-import {useState} from "react";
-import {IoBusOutline} from "react-icons/io5";
+import { Car, Hotel, Package, Plane } from "lucide-react";
+import { useState } from "react";
+import { IoBusOutline } from "react-icons/io5";
 
 
 // export const metadata: Metadata = {
@@ -115,14 +115,13 @@ export default function Home(string: any) {
                             transition-all
                             duration-300
                             min-w-fit
-                            ${
-                              selectedOption === "Flight"
-                                ? "bg-blue-50 text-blue-600 shadow-md"
-                                : "text-gray-700 hover:bg-gray-100"
-                            }
+                            ${selectedOption === "Flight"
+                        ? "bg-blue-50 text-blue-600 shadow-md"
+                        : "text-gray-700 hover:bg-gray-100"
+                      }
                           `}
                   >
-                    <Plane  className="hidden sm:inline-block w-6 h-6 lg:w-7 lg:h-7"  />
+                    <Plane className="hidden sm:inline-block w-6 h-6 lg:w-7 lg:h-7" />
                     <span className="font-semibold text-sm sm:text-base lg:text-lg">Flight</span>
                   </li>
                   <li
@@ -141,14 +140,13 @@ export default function Home(string: any) {
                               transition-all
                               duration-300
                               min-w-fit
-                              ${
-                                selectedOption === "Hotel"
-                                  ? "bg-blue-50 text-blue-600 shadow-md"
-                                  : "text-gray-700 hover:bg-gray-100"
-                              }
+                              ${selectedOption === "Hotel"
+                        ? "bg-blue-50 text-blue-600 shadow-md"
+                        : "text-gray-700 hover:bg-gray-100"
+                      }
                             `}
-                              >
-                    <Hotel  className="hidden sm:inline-block w-6 h-6 lg:w-7 lg:h-7"  />
+                  >
+                    <Hotel className="hidden sm:inline-block w-6 h-6 lg:w-7 lg:h-7" />
                     <span className="font-semibold text-sm sm:text-base lg:text-lg">Hotel</span>
                   </li>
 
@@ -168,13 +166,12 @@ export default function Home(string: any) {
                                 transition-all
                                 duration-300
                                 min-w-fit
-                                ${
-                                  selectedOption === "Package"
-                                    ? "bg-blue-50 text-blue-600 shadow-md"
-                                    : "text-gray-700 hover:bg-gray-100"
-                                }
+                                ${selectedOption === "Package"
+                        ? "bg-blue-50 text-blue-600 shadow-md"
+                        : "text-gray-700 hover:bg-gray-100"
+                      }
                               `}  >
-                    <Package  className="hidden sm:inline-block w-6 h-6 lg:w-7 lg:h-7"  />
+                    <Package className="hidden sm:inline-block w-6 h-6 lg:w-7 lg:h-7" />
                     <span className="font-semibold text-sm sm:text-base lg:text-lg">Package</span>
                   </li>
 
@@ -194,14 +191,13 @@ export default function Home(string: any) {
                               transition-all
                               duration-300
                               min-w-fit
-                              ${
-                                selectedOption === "Bus"
-                                  ? "bg-blue-50 text-blue-600 shadow-md"
-                                  : "text-gray-700 hover:bg-gray-100"
-                              }
+                              ${selectedOption === "Bus"
+                        ? "bg-blue-50 text-blue-600 shadow-md"
+                        : "text-gray-700 hover:bg-gray-100"
+                      }
                             `}
-                         >
-                    <IoBusOutline  className="hidden sm:inline-block w-6 h-6 lg:w-7 lg:h-7"  />
+                  >
+                    <IoBusOutline className="hidden sm:inline-block w-6 h-6 lg:w-7 lg:h-7" />
                     <span className="font-semibold text-sm sm:text-base lg:text-lg">Bus</span>
                   </li>
                   <li
@@ -220,21 +216,20 @@ export default function Home(string: any) {
                                 transition-all
                                 duration-300
                                 min-w-fit
-                                ${
-                                  selectedOption === "CarRental"
-                                    ? "bg-blue-50 text-blue-600 shadow-md"
-                                    : "text-gray-700 hover:bg-gray-100"
-                                }
+                                ${selectedOption === "CarRental"
+                        ? "bg-blue-50 text-blue-600 shadow-md"
+                        : "text-gray-700 hover:bg-gray-100"
+                      }
                               `}
-                           >
-                    <Car  className="hidden sm:inline-block w-6 h-6 lg:w-7 lg:h-7"  />
+                  >
+                    <Car className="hidden sm:inline-block w-6 h-6 lg:w-7 lg:h-7" />
                     <span className="font-semibold text-sm sm:text-base lg:text-lg">Car </span>
                   </li>
                 </ul>
               </div>
 
-                  <div
-                        className="
+              <div
+                className="
                           bg-white
                           p-3
                           sm:p-5
@@ -245,7 +240,7 @@ export default function Home(string: any) {
                           rounded-2xl
                           shadow-xl
                         "
-                      >
+              >
                 {selectedOption === "Flight" && <FlightForm />}
 
                 {selectedOption == "Hotel" && <HotelForm />}

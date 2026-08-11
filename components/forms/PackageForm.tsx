@@ -1,9 +1,10 @@
 "use client";
 
-import React, {useState} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {CalendarDays, MapPinned, Search, Users} from "lucide-react";
 import DepartureCalendar from "./DepartureCalendar";
 import { useRouter } from "next/navigation";
+import CityInputField from "./CitySelectDropdown";
 
 const PackageTabs = [
   "Domestic Packages",
@@ -36,6 +37,44 @@ const PackageForm = () => {
   };
 
   const [showGuests, setShowGuests] = useState(false);
+  const guestRef = useRef<HTMLDivElement | null>(null);
+
+  const toggleGuests = () => {
+    const nextState = !showGuests;
+    setShowGuests(nextState);
+    if (nextState && typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("form-popover-open", { detail: { id: "package-guests-popover" } })
+      );
+    }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (guestRef.current && !guestRef.current.contains(e.target as Node)) {
+        setShowGuests(false);
+      }
+    };
+
+    const handleOtherPopoverOpen = (e: Event) => {
+      const customEvt = e as CustomEvent;
+      if (customEvt.detail?.id !== "package-guests-popover") {
+        setShowGuests(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    if (typeof window !== "undefined") {
+      window.addEventListener("form-popover-open", handleOtherPopoverOpen);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("form-popover-open", handleOtherPopoverOpen);
+      }
+    };
+  }, []);
 
   const [guestInfo, setGuestInfo] = useState({
     adults: 2,
@@ -82,21 +121,16 @@ const PackageForm = () => {
         <form onSubmit={handleSubmit} className="p-6 lg:p-8">
           {/* Destination */}
           <div className="mb-8">
-            <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
-              <MapPinned size={20} />
-              <span>Destination</span>
-            </div>
-            <input
-              type="text"
+            <CityInputField
+              label="Destination"
+              icon={<MapPinned size={20} />}
               name="destination"
               value={formData.destination}
-              onChange={handleChange}
-              placeholder="Goa, Bali, Dubai..."
-              className="w-full text-3xl font-semibold outline-none placeholder:text-gray-400 border-b pb-3"
+              onChange={(val) => setFormData((prev) => ({ ...prev, destination: val }))}
+              placeholder="Goa, Kashmir, Manali..."
+              subLabel="Explore amazing tour packages"
+              inputClassName="w-full text-3xl font-semibold outline-none placeholder:text-gray-400 border-b pb-3 bg-transparent"
             />
-            <p className="text-gray-500 text-sm mt-1">
-              Explore amazing tour packages
-            </p>
           </div>
 
           {/* Travel Date & Travelers */}
@@ -111,9 +145,9 @@ const PackageForm = () => {
             </div>
 
             {/* Travelers */}
-            <div className="lg:col-span-4 p-3 relative">
+            <div ref={guestRef} className="lg:col-span-4 p-3 relative">
               <div
-                onClick={() => setShowGuests(!showGuests)}
+                onClick={toggleGuests}
                 className="cursor-pointer"
               >
                 <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
