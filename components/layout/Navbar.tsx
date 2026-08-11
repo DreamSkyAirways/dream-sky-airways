@@ -9,6 +9,7 @@ import { FaArrowRightToBracket } from "react-icons/fa6";
 import { RiContactsLine } from "react-icons/ri";
 import { useAuth } from "@/hooks/useAuth";
 import UserProfileDropdown from "./UserProfileDropdown";
+import { useRouter } from "next/navigation";
 
 const packageMenu = [
   { label: "Domestic Packages", href: "/packages/domestic-package" },
@@ -101,9 +102,24 @@ function MobileAccordion({ href, label, items, onClose }: any) {
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
 
   const { user, loading, logout } = useAuth();
   console.log(user)
+
+
+  // logout method
+
+    const handleLogout = async () => {
+      try {
+        await logout();
+
+        // Logout ke baad home page
+        router.push("/");
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
+    };
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -204,7 +220,10 @@ export default function Navbar() {
             {loading ? (
               <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse" />
             ) : user ? (
-              <UserProfileDropdown user={user} logout={logout} />
+             <UserProfileDropdown
+                user={user}
+                logout={handleLogout}
+              />
             ) : (
               <Link
                 href="/sign-up"
