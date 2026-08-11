@@ -40,6 +40,7 @@ export default function Footer() {
   ];
 
   const services = [
+    {name: "All Services", href: "/services"},
     {name: "Flight Booking", href: "/flights"},
     {name: "Hotel Reservation", href: "/hotels"},
     {name: "Tour Packages", href: "/packages"},
@@ -118,6 +119,7 @@ export default function Footer() {
               {[
                 {href: "/", label: "Home"},
                 {href: "/about", label: "About Us"},
+                {href: "/services", label: "Services"},
                 {href: "/contact", label: "Contact Us"},
                 {href: "/blog", label: "Travel Blog"},
                 {href: "/careers", label: "Career"},
@@ -139,7 +141,12 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="relative mb-6">
               <h4 className="text-lg font-semibold text-gray-300 tracking-wide pb-2 relative inline-block">
-                Our Services
+                <Link
+                  href="/services"
+                  className="hover:text-white transition-colors"
+                >
+                  Our Services
+                </Link>
                 <span className="absolute -bottom-1 left-0 h-0.5 w-10 bg-[#0E5B63] rounded-full"></span>
               </h4>
             </div>

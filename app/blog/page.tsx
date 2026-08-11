@@ -1,29 +1,27 @@
-import Blogs from "@/components/blog/Blogs";
-import SeoPageIntro from "@/components/seo/SeoPageIntro";
+import React from "react";
+import BlogHeroOne from "@/components/blog/BlogHeroOne";
+import BlogFeaturedSlider from "@/components/blog/BlogFeaturedSlider";
+import BlogCategorySections from "@/components/blog/BlogCategorySections";
+
+export const metadata = {
+  title: "Travel Blog – Destination Guides & Holiday Ideas | Dream Sky Airways",
+  description:
+    "Explore handpicked destination guides, budget travel hacks, family holiday planning tips, and expert advice for India, Bali, and worldwide travel with Dream Sky Airways.",
+};
 
 export default function BlogPage() {
   return (
-    <div>
-      <SeoPageIntro
-        title="Travel Blog – Tips, Destination Guides & Holiday Ideas"
-        subtitle="Helpful travel guides to plan better trips"
-        paragraphs={[
-          "Welcome to the Dream Sky Airways Travel Blog—your hub for destination guides, cheap holiday tips, honeymoon ideas, family vacation planning, and domestic tour package advice across India.",
-          "Read expert articles on Goa tour packages, Manali trips from Delhi, Rishikesh adventure travel, honeymoon destinations India, and budget holiday packages. Every guide is written to help you travel smarter and book confidently.",
-        ]}
-        bullets={[
-          "Destination guides for popular travel spots",
-          "Budget and honeymoon planning tips",
-          "Package booking advice from travel experts",
-          "Quick links to book tours instantly",
-        ]}
-        links={[
-          {href: "/packages", label: "Browse Tour Packages"},
-          {href: "/packages/honeymoon-package", label: "Honeymoon Packages"},
-          {href: "/contact", label: "Ask Travel Expert"},
-        ]}
-      />
-      <Blogs />
-    </div>
+    <main className="bg-white text-black w-full overflow-x-hidden space-y-0">
+      {/* 3D Animated Title Section */}
+      <BlogHeroOne />
+
+      {/* Destination Hero Visual Slider */}
+      <BlogFeaturedSlider />
+
+      {/* Dedicated Category Sections (All, India, Family, Tips, Honeymoon, Adventure - 3 boxes per row) */}
+      <BlogCategorySections />
+
+
+    </main>
   );
 }
