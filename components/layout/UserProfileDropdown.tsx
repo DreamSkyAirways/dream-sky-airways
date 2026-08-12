@@ -97,10 +97,7 @@ export default function UserProfileDropdown({ user, logout }: UserProfileDropdow
           {/* Logout Section */}
           <div className="border-t border-gray-100/80 pt-1.5 px-1.5">
             <button
-              onClick={() => {
-                setIsOpen(false);
-                logout();
-              }}
+              onClick={logout}
               className="w-full flex items-center gap-2.5 px-3 py-2 text-xs sm:text-sm font-medium text-rose-600 hover:bg-rose-50/80 rounded-xl transition-all duration-150 text-left group"
             >
               <LogOut size={16} className="text-rose-500 group-hover:translate-x-0.5 transition-transform" />
