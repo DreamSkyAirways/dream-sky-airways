@@ -2,27 +2,26 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import {featuredHotels} from "@/components/data/featuredPackages";
-import {useRef, useEffect} from "react";
-import {FaChevronLeft, FaChevronRight} from "react-icons/fa";
+import { featuredHotels } from "@/components/data/featuredPackages";
+import { useRef, useEffect } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { Star, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
 
 const FeaturedPackages = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
     if (!sliderRef.current) return;
-
     sliderRef.current.scrollBy({
-      left: -400,
+      left: -420,
       behavior: "smooth",
     });
   };
 
   const scrollRight = () => {
     if (!sliderRef.current) return;
-
     const container = sliderRef.current;
-
     if (
       container.scrollLeft + container.clientWidth >=
       container.scrollWidth - 10
@@ -33,7 +32,7 @@ const FeaturedPackages = () => {
       });
     } else {
       container.scrollBy({
-        left: 365,
+        left: 420,
         behavior: "smooth",
       });
     }
@@ -42,150 +41,124 @@ const FeaturedPackages = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       scrollRight();
-    }, 4000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="py-10 bg-white md:px-15">
-      {" "}
-      <div className="container mx-auto px-4">
-        {/* Heading */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-12">
-          <div>
-            <span className="text-blue-700 font-semibold uppercase tracking-widest">
-              Featured Hotels
-            </span>
-
-            <h2 className="text-4xl font-bold text-gray-900 mt-3">
-              Handpicked Hotel Experiences
-            </h2>
-
-            <p className="text-gray-600 mt-4 max-w-2xl">
-              Discover our most popular tour packages designed for unforgettable
-              journeys across India.
-            </p>
-          </div>
-
-          {/* Navigation Buttons */}
-          <div className="hidden sm:flex items-center gap-2">
-            <button
-              onClick={scrollLeft}
-              className="w-12 h-12 rounded-full bg-blue-900 text-white flex items-center justify-center hover:bg-blue-800 transition-all duration-300"
-            >
-              <FaChevronLeft />
-            </button>
-
-            <button
-              onClick={scrollRight}
-              className="w-12 h-12 rounded-full bg-blue-900 text-white flex items-center justify-center hover:bg-blue-800 transition-all duration-300"
-            >
-              <FaChevronRight />
-            </button>
+    <section className="py-12 bg-white px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
+      <div className="container mx-auto">
+        {/* Centered Title Header */}
+        <div className="text-center mb-10">
+          <p className="text-2xl sm:text-2xl font-light tracking-wide text-gray-600 mb-1">
+            Handpicked Hotel
+          </p>
+          <div className="flex items-center justify-center gap-0.5 sm:gap-3 py-1">
+            {"EXPERIENCES".split("").map((letter, idx) => (
+              <motion.span
+                key={idx}
+                animate={{
+                  rotateX: [0, 360],
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  repeatDelay: 3.5,
+                  delay: idx * 0.08,
+                  ease: [0.45, 0.05, 0.25, 0.95],
+                }}
+                whileHover={{
+                  rotateX: 180,
+                  scale: 1.25,
+                  transition: { duration: 0.4 },
+                }}
+                className="text-2xl xs:text-3xl sm:text-7xl font-extrabold text-gray-900 tracking-tight inline-block cursor-pointer select-none will-change-transform"
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                {letter}
+              </motion.span>
+            ))}
           </div>
         </div>
 
-        {/* Slider */}
+        {/* Navigation Buttons Row */}
+        <div className="flex justify-end gap-2 mb-4">
+          <button
+            onClick={scrollLeft}
+            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-black hover:text-white text-gray-800 flex items-center justify-center transition-all duration-300 shadow-sm"
+            aria-label="Previous Hotels"
+          >
+            <FaChevronLeft size={14} />
+          </button>
+          <button
+            onClick={scrollRight}
+            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-black hover:text-white text-gray-800 flex items-center justify-center transition-all duration-300 shadow-sm"
+            aria-label="Next Hotels"
+          >
+            <FaChevronRight size={14} />
+          </button>
+        </div>
+
+        {/* Tall Cards Carousel Slider - 2 Images Visible on Mobile */}
         <div
           ref={sliderRef}
-          className="flex gap-2 overflow-x-auto scrollbar-hide scroll-smooth"
+          className="flex gap-2.5 sm:gap-5 overflow-x-auto scrollbar-hide scroll-smooth pb-4 pt-1"
         >
           {featuredHotels.map((hotel) => (
-            <Link
+            <div
               key={hotel.id}
-              href={`/hotels/${hotel.slug}`}
-              className="group flex-shrink-0 w-full sm:w-[48%] lg:w-[32%]"
+              className="flex-shrink-0 w-[calc(50%-5px)] sm:w-[340px] lg:w-[360px]"
             >
-              <div className="overflow-hidden rounded-3xl bg-white border border-gray-200 shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-                {/* Hotel Image */}
-                <div className="relative h-[260px] overflow-hidden">
+              <Link href={`/hotels/${hotel.slug}`}>
+                <div className="group relative h-[280px] sm:h-[480px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1.5 cursor-pointer bg-black">
+                  {/* Full Card Background Image */}
                   <Image
-                    src={hotel.images[0]}
+                    src={hotel.images?.[0] || "/placeholder.jpg"}
                     alt={hotel.title}
                     fill
-                    className="object-cover group-hover:scale-110 transition duration-700"
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
 
-                  {/* Category */}
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">
-                    {hotel.category}
+                  {/* Gradient Overlay for Text Visibility */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+
+                  {/* Top Floating Badges */}
+                  <div className="absolute top-2 left-2 right-2 sm:top-4 sm:left-4 sm:right-4 flex items-center justify-between z-10">
+                    <span className="bg-black/40 backdrop-blur-md text-white text-[9px] sm:text-xs font-medium px-1.5 py-0.5 sm:px-3 sm:py-1.5 rounded-full border border-white/20">
+                      {hotel.category || "Luxury Stay"}
+                    </span>
+
+                    <span className="bg-white/95 backdrop-blur-md text-gray-900 text-[9px] sm:text-sm font-bold px-1.5 py-0.5 sm:px-3 sm:py-1 rounded-full shadow-md flex items-center gap-0.5 sm:gap-1">
+                      <Star size={10} className="text-amber-500 fill-amber-500 sm:w-3.5 sm:h-3.5" />
+                      <span>{hotel.rating || "4.8"}</span>
+                    </span>
                   </div>
 
-                  {/* Rating */}
-                  <div className="absolute top-4 right-4 bg-blue-700 text-white text-sm px-3 py-1 rounded-full">
-                    ⭐ {hotel.rating}
-                  </div>
+                  {/* Bottom Text Content Overlaid on Image */}
+                  <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-6 z-10 text-white">
+                    <p className="text-[9px] sm:text-sm text-gray-300 font-medium flex items-center gap-1 mb-0.5 sm:mb-1">
+                      <MapPin size={10} className="text-gray-300 shrink-0 sm:w-3.5 sm:h-3.5" />
+                      <span className="truncate">{hotel.location}</span>
+                    </p>
 
-                  {/* Stars */}
-                  <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm">
-                    {"⭐".repeat(hotel.star)}
-                  </div>
-                </div>
+                    <h3 className="text-xs sm:text-2xl font-bold text-white leading-snug tracking-tight line-clamp-1 sm:line-clamp-2 drop-shadow-sm">
+                      {hotel.title}
+                    </h3>
 
-                {/* Content */}
-                <div className="p-6">
-                  <p className="text-gray-500 text-sm mb-2">
-                    📍 {hotel.location}
-                  </p>
-
-                  <h3 className="text-2xl font-bold text-gray-900 line-clamp-2">
-                    {hotel.title}
-                  </h3>
-
-                  <p className="text-sm text-gray-500 mt-2 line-clamp-1">
-                    {hotel.address}
-                  </p>
-
-                  {/* Quick Info */}
-                  <div className="grid grid-cols-3 gap-3 mt-5 text-center">
-                    <div className="bg-gray-50 rounded-xl py-3">
-                      <p className="text-xs text-gray-500">Rooms</p>
-                      <p className="font-semibold">{hotel.rooms}</p>
-                    </div>
-
-                    <div className="bg-gray-50 rounded-xl py-3">
-                      <p className="text-xs text-gray-500">Check-In</p>
-                      <p className="font-semibold">{hotel.checkIn}</p>
-                    </div>
-
-                    <div className="bg-gray-50 rounded-xl py-3">
-                      <p className="text-xs text-gray-500">Check-Out</p>
-                      <p className="font-semibold">{hotel.checkOut}</p>
-                    </div>
-                  </div>
-
-                  {/* Amenities */}
-                  <div className="flex flex-wrap gap-2 mt-5">
-                    {hotel.amenities.slice(0, 3).map((item) => (
-                      <span
-                        key={item}
-                        className="text-xs bg-blue-50 text-blue-700 px-3 py-1 rounded-full"
-                      >
-                        {item}
+                    <div className="mt-1.5 sm:mt-4 pt-1 sm:pt-3 border-t border-white/15 flex items-center justify-between">
+                      <div>
+                        <span className="text-[8px] sm:text-[11px] uppercase tracking-wider text-gray-300 block leading-none">Starting From</span>
+                        <span className="text-xs sm:text-xl font-extrabold text-white">{hotel.price}</span>
+                      </div>
+                      <span className="text-[9px] sm:text-xs font-bold text-white underline underline-offset-4 group-hover:text-amber-400 transition-colors">
+                        Book Now →
                       </span>
-                    ))}
-                  </div>
-
-                  {/* Footer */}
-                  <div className="flex items-center justify-between border-t mt-6 pt-5">
-                    <div>
-                      <p className="text-xs text-gray-500">Starting from</p>
-
-                      <p className="text-3xl font-bold text-blue-700">
-                        {hotel.price}
-                      </p>
-
-                      <p className="text-xs text-gray-400">per night</p>
                     </div>
-
-                    <button className="px-6 py-3 bg-blue-700 hover:bg-blue-800 text-white rounded-2xl font-medium transition">
-                      Book Now
-                    </button>
                   </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </div>
           ))}
         </div>
       </div>

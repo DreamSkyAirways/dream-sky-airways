@@ -81,9 +81,7 @@ export default function BlogHeroOne() {
       className="w-full bg-white text-black py-12 sm:py-16 px-4 sm:px-6 lg:px-8 font-sans select-none overflow-hidden text-center border-b border-gray-100"
     >
       <div className="max-w-5xl mx-auto space-y-6">
-        <span className="inline-block text-xs uppercase tracking-widest font-extrabold text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full border border-blue-100">
-          OFFICIAL DREAM SKY AIRWAYS EDITORIAL
-        </span>
+       
 
         {/* 3D Title */}
         <div className="perspective-1000">

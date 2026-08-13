@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { SlArrowLeft, SlArrowRight } from "react-icons/sl";
+import { useEffect, useState, useRef } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { FaQuoteRight } from "react-icons/fa";
+import { Star } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface Testimonial {
   id: number;
@@ -19,31 +21,31 @@ const testimonials: Testimonial[] = [
     role: "Delhi",
     image: "/reviews/review-1.png",
     review:
-      "I got best traveeling experience through dream sky airways.",
+      "I got the best traveling experience through Dream Sky Airways. Seamless flight bookings and top-notch customer support!",
   },
   {
     id: 2,
-    name: "Priya Verma",
+    name: "Ravi Verma",
     role: "Mumbai",
     image: "/reviews/review-2.png",
     review:
-      "The best flight & bus booking site i ever visited",
+      "The best flight & hotel booking site I've ever visited. Great pricing transparency and instant ticket confirmations.",
   },
   {
     id: 3,
     name: "Amit Kumar",
-    role: "Banglore",
-    image: "/reviews/review-3.png", 
+    role: "Bangalore",
+    image: "/reviews/review-3.png",
     review:
-      "I got the best hotels through this site , best experience ever",
+      "Booked our family staycation through Dream Sky Airways. Exceptional hotel choices and hassle-free cancellation options.",
   },
   {
     id: 4,
-    name: "Neha Singh",
+    name: "Gurkeerat Singh",
     role: "Goa",
     image: "/reviews/review-4.png",
     review:
-      "Packages section are very helpful and affordable.",
+      "The package deals section is super helpful and affordable. Highly recommend for any weekend getaway planning!",
   },
   {
     id: 5,
@@ -51,7 +53,7 @@ const testimonials: Testimonial[] = [
     role: "Pune",
     image: "/reviews/review-5.png",
     review:
-      "UI of this site is so good like MakemyTrip.",
+      "Sleek and modern user experience. Quick search, clear flight schedules, and very responsive customer care.",
   },
 ];
 
@@ -73,118 +75,167 @@ export default function CustomersSaying() {
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
-    }, 4000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="py-24 bg-gradient-to-b from-white to-slate-50 overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Heading */}
-        <div className="text-center mb-14">
-          <span className="text-blue-600 uppercase tracking-[4px] font-semibold">
-            Testimonials
-          </span>
+    <section className="py-16 sm:py-24 bg-white px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
+      <div className="container mx-auto">
 
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mt-4">
-            What Our Customers Say
-          </h2>
-
-          <p className="text-gray-500 mt-5 max-w-3xl mx-auto text-lg">
-            Real Experiences from travellers across india & abroad
+        {/* Centered Title Header */}
+        <div className="text-center mb-6 sm:mb-10">
+          <p className="text-2xl sm:text-2xl font-light tracking-wide text-gray-600 mb-1">
+            What Our
           </p>
-        </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-8 gap-y-1 py-1">
+            {/* TRAVELERS */}
+            <div className="flex items-center gap-0.5 sm:gap-2">
+              {"TRAVELERS".split("").map((letter, idx) => (
+                <motion.span
+                  key={idx}
+                  animate={{
+                    rotateX: [0, 360],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatDelay: 3.5,
+                    delay: idx * 0.08,
+                    ease: [0.45, 0.05, 0.25, 0.95],
+                  }}
+                  whileHover={{
+                    rotateX: 180,
+                    scale: 1.25,
+                    transition: { duration: 0.4 },
+                  }}
+                  className="text-2xl xs:text-3xl sm:text-6xl font-extrabold text-red-600 tracking-tight inline-block cursor-pointer select-none will-change-transform"
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </div>
 
-        <div className="relative">
-          {/* Slider */}
-          <div className="overflow-hidden">
-            <div
-              className="flex transition-transform duration-700 ease-in-out"
-              style={{
-                transform: `translateX(-${currentIndex * 100}%)`,
-              }}
-            >
-              {testimonials.map((item) => (
-                <div key={item.id} className="min-w-full px-4">
-                  <div className="relative bg-white rounded-[32px] border border-gray-100 shadow-xl p-10 md:p-12">
-                    {/* Quote Icon */}
-                    <div className="absolute top-8 right-8 text-blue-100">
-                      <FaQuoteRight size={70} />
-                    </div>
-
-                    {/* Rating */}
-                    <div className="flex gap-1 mb-6">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <span
-                          key={star}
-                          className="text-yellow-400 text-xl"
-                        >
-                          ★
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Review */}
-                    <p className="text-gray-600 text-lg md:text-xl leading-relaxed mb-10 max-w-4xl">
-                      "{item.review}"
-                    </p>
-
-                    {/* User */}
-                    <div className="flex items-center gap-4">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-16 h-16 rounded-full object-cover border-4 border-blue-100"
-                      />
-
-                      <div>
-                        <h3 className="font-bold text-xl text-slate-900">
-                          {item.name}
-                        </h3>
-
-                        <p className="text-blue-600 font-medium">
-                          {item.role}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            {/* SAY */}
+            <div className="flex items-center gap-0.5 sm:gap-2">
+              {"SAY".split("").map((letter, idx) => (
+                <motion.span
+                  key={idx + 9}
+                  animate={{
+                    rotateX: [0, 360],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatDelay: 3.5,
+                    delay: (idx + 9) * 0.08,
+                    ease: [0.45, 0.05, 0.25, 0.95],
+                  }}
+                  whileHover={{
+                    rotateX: 180,
+                    scale: 1.25,
+                    transition: { duration: 0.4 },
+                  }}
+                  className="text-2xl xs:text-3xl sm:text-6xl font-extrabold text-gray-900 tracking-tight inline-block cursor-pointer select-none will-change-transform"
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  {letter}
+                </motion.span>
               ))}
             </div>
           </div>
+        </div>
 
-          {/* Left Arrow */}
+        {/* Navigation Buttons Row */}
+        <div className="flex justify-end gap-2 mb-3 sm:mb-4 max-w-5xl mx-auto">
           <button
             onClick={prevSlide}
-            className="absolute top-1/2 -translate-y-1/2 -left-3 md:-left-6 bg-white shadow-xl border border-gray-100 rounded-full w-14 h-14 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300 text-gray-600"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-100 hover:bg-black hover:text-white text-gray-800 flex items-center justify-center transition-all duration-300 shadow-sm cursor-pointer"
+            aria-label="Previous Testimonial"
           >
-            <SlArrowLeft />
+            <FaChevronLeft size={12} className="sm:w-3.5 sm:h-3.5" />
           </button>
-
-          {/* Right Arrow */}
           <button
             onClick={nextSlide}
-            className="absolute top-1/2 -translate-y-1/2 -right-3 md:-right-6 bg-white shadow-xl border border-gray-100 rounded-full w-14 h-14 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300 text-gray-600"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-100 hover:bg-black hover:text-white text-gray-800 flex items-center justify-center transition-all duration-300 shadow-sm cursor-pointer"
+            aria-label="Next Testimonial"
           >
-            <SlArrowRight  />
+            <FaChevronRight size={12} className="sm:w-3.5 sm:h-3.5" />
           </button>
         </div>
 
-        {/* Dots */}
-        <div className="flex justify-center gap-3 mt-10">
+        {/* Slider Card */}
+        <div className="max-w-5xl mx-auto relative overflow-hidden">
+          <div
+            className="flex transition-transform duration-700 ease-in-out"
+            style={{
+              transform: `translateX(-${currentIndex * 100}%)`,
+            }}
+          >
+            {testimonials.map((item) => (
+              <div key={item.id} className="min-w-full px-1 sm:px-2">
+                <div className="relative bg-gray-50/80 border border-gray-100 rounded-2xl sm:rounded-3xl p-5 sm:p-12 shadow-sm hover:shadow-md transition-all">
+                  {/* Red Decorative Quote Icon */}
+                  <div className="absolute top-4 right-5 sm:top-6 sm:right-8 text-red-500/25 pointer-events-none">
+                    <FaQuoteRight className="w-8 h-8 sm:w-14 sm:h-14" />
+                  </div>
+
+                  {/* 5-Star Rating */}
+                  <div className="flex gap-1 sm:gap-1.5 mb-3 sm:mb-6">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        size={14}
+                        className="text-amber-400 fill-amber-400 sm:w-[18px] sm:h-[18px]"
+                      />
+                    ))}
+                  </div>
+
+                  {/* Review Text */}
+                  <p className="text-gray-700 text-sm sm:text-2xl font-medium leading-relaxed mb-4 sm:mb-8 max-w-3xl relative z-10">
+                    "{item.review}"
+                  </p>
+
+                  {/* User Profile Footer */}
+                  <div className="flex items-center gap-3 sm:gap-4 pt-3 sm:pt-4 border-t border-gray-200/60">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-10 h-10 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-gray-200 shadow-sm"
+                    />
+
+                    <div>
+                      <h3 className="font-extrabold text-sm sm:text-lg text-gray-900">
+                        {item.name}
+                      </h3>
+
+                      <span className="text-[10px] sm:text-xs font-semibold px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-gray-200/80 text-gray-700 inline-block mt-0.5">
+                        📍 {item.role}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Pagination Dots */}
+        <div className="flex justify-center gap-2 mt-8">
           {testimonials.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`h-3 rounded-full transition-all duration-300 ${
-                currentIndex === index
-                  ? "bg-blue-600 w-10"
-                  : "bg-gray-300 w-3"
-              }`}
+              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${currentIndex === index
+                  ? "bg-black w-8"
+                  : "bg-gray-200 w-2.5 hover:bg-gray-300"
+                }`}
             />
           ))}
         </div>
+
       </div>
     </section>
   );

@@ -143,7 +143,7 @@ export default function BlogFeaturedSlider() {
             sizes="100vw"
           />
           {/* Gradients for maximum visual quality & readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
         </motion.div>
       </AnimatePresence>

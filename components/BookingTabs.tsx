@@ -57,10 +57,10 @@ export default function BookingTabs() {
 
       <div className="bg-[#0b1220]/35 backdrop-blur-2xl border border-white/10 rounded-b-2xl px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-10 shadow-2xl">
         <div className="w-full">
-          {active === "flight" && <FlightForm />}
-          {active === "cab" && <CabForm />}
-          {active === "bus" && <BusForm />}
-          {active === "package" && <PackageForm />}
+          {active === "flight" && <FlightForm isDark={true} />}
+          {active === "cab" && <CabForm isDark={true} />}
+          {active === "bus" && <BusForm isDark={true} />}
+          {active === "package" && <PackageForm isDark={true} />}
         </div>
       </div>
     </div>

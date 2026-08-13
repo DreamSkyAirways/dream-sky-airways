@@ -144,25 +144,30 @@ export default function HeroOne() {
               letterSpacing: "-0.01em",
             }}
           >
-            {titleChars.map((char, idx) => (
-              <span
-                key={idx}
-                ref={(el) => {
-                  lettersRef.current[idx] = el;
-                }}
-                onMouseEnter={(e) => handleLetterHover(e.currentTarget)}
-                className={`inline-block transform-gpu ${
-                  !isMobileDevice ? "hover:text-blue-600 transition-colors duration-200" : ""
-                } ${char === " " ? "w-[3.5vw] sm:w-[3vw]" : ""}`}
-                style={{
-                  transformStyle: "preserve-3d",
-                  backfaceVisibility: "visible",
-                  display: char === " " ? "inline-block" : "inline-block",
-                }}
-              >
-                {char === " " ? "\u00A0" : char}
-              </span>
-            ))}
+            {titleChars.map((char, idx) => {
+              const isOur = idx < 3; // "O", "U", "R"
+              return (
+                <span
+                  key={idx}
+                  ref={(el) => {
+                    lettersRef.current[idx] = el;
+                  }}
+                  onMouseEnter={(e) => handleLetterHover(e.currentTarget)}
+                  className={`inline-block transform-gpu ${
+                    isOur ? "text-red-600" : "text-black"
+                  } ${!isMobileDevice ? "hover:text-red-600 transition-colors duration-200" : ""} ${
+                    char === " " ? "w-[3.5vw] sm:w-[3vw]" : ""
+                  }`}
+                  style={{
+                    transformStyle: "preserve-3d",
+                    backfaceVisibility: "visible",
+                    display: char === " " ? "inline-block" : "inline-block",
+                  }}
+                >
+                  {char === " " ? "\u00A0" : char}
+                </span>
+              );
+            })}
           </h1>
         </div>
 
@@ -174,7 +179,7 @@ export default function HeroOne() {
               ref={(el) => {
                 bodyWordsRef.current[idx] = el;
               }}
-              className="inline-block transform-gpu transition-colors duration-200 hover:text-blue-600 font-sans"
+              className="inline-block transform-gpu transition-colors duration-200 hover:text-red-600 font-sans cursor-pointer"
             >
               {word}
             </span>

@@ -1,124 +1,111 @@
 "use client";
 
-import {
-  ShieldCheck,
-  Headphones,
-  BadgeDollarSign,
-  Plane,
-  Clock3,
-  Star,
-} from "lucide-react";
+import React from "react";
+import { Plane, Headphones, ShieldCheck, Clock } from "lucide-react";
 
-const features = [
-  {
-    icon: Plane,
-    title: "Best Travel Packages",
-    description:
-      "Carefully curated domestic and international tour packages for every traveler.",
-  },
-  {
-    icon: BadgeDollarSign,
-    title: "Best Price Guarantee",
-    description:
-      "Get the most competitive prices with no hidden charges and complete transparency.",
-  },
-  {
-    icon: Headphones,
-    title: "24/7 Customer Support",
-    description:
-      "Our travel experts are available round the clock to assist you anytime.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Safe & Secure Booking",
-    description:
-      "Your payments and personal information are protected with secure booking systems.",
-  },
-  {
-    icon: Clock3,
-    title: "Fast Booking Process",
-    description:
-      "Book flights, hotels, and holiday packages quickly with a hassle-free experience.",
-  },
-  {
-    icon: Star,
-    title: "Trusted by Thousands",
-    description:
-      "Thousands of happy travelers trust us for memorable travel experiences.",
-  },
-];
-
-const WhyChooseUs = () => {
+export default function WhyChooseUs() {
   return (
-    <section className="py-20 bg-gradient-to-b from-blue-950 to-slate-950 md:px-15">
-      <div className="container mx-auto px-4">
+    <section className="py-12 sm:py-24 bg-white text-gray-900 px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto select-none">
+      <div className="container mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          
+          {/* Left Column: Header & Description */}
+          <div className="lg:col-span-5">
+            {/* Main Heading */}
+            <h2 className="text-2xl xs:text-3xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-[1.15] mb-3 sm:mb-6">
+              Why People <span className="text-red-500 font-serif font-normal">Choose Us?</span>
+            </h2>
 
-        <div className="text-center mb-14">
-          <span className="text-blue-400 font-semibold uppercase tracking-widest">
-            Why Choose Us
-          </span>
+            {/* Paragraph Description */}
+            <p className="text-gray-500 leading-relaxed text-xs sm:text-base mb-6 sm:mb-8 max-w-lg">
+              Experience seamless travel bookings, handpicked hotel staycations, round-the-clock customer support, and guaranteed best prices for your journeys across India and worldwide.
+            </p>
+          </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-white mt-3">
-            Your Trusted Travel Partner
-          </h2>
-
-          <p className="text-gray-300 mt-4 max-w-3xl mx-auto">
-            We make every journey unforgettable with premium travel services,
-            expert guidance, and exceptional customer support.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
-
-            return (
-              <div
-                key={index}
-                className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:border-blue-500 transition-all duration-300 hover:-translate-y-2"
-              >
-                <div className="w-16 h-16 rounded-2xl bg-blue-900 flex items-center justify-center mb-6 group-hover:bg-blue-700 transition-all">
-                  <Icon className="w-8 h-8 text-white" />
+          {/* Right Column: 2-Column Features Grid */}
+          <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-11 gap-6 sm:gap-8 items-center pt-2 lg:pt-0">
+            
+            {/* Grid Column 1 */}
+            <div className="md:col-span-5 space-y-5 sm:space-y-8">
+              {/* Feature 1 */}
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full border border-red-400 text-red-500 bg-red-50/60 flex items-center justify-center shrink-0">
+                  <Headphones className="w-4 h-4 sm:w-5 sm:h-5" />
                 </div>
-
-                <h3 className="text-xl font-semibold text-white mb-3">
-                  {feature.title}
-                </h3>
-
-                <p className="text-gray-300 leading-relaxed">
-                  {feature.description}
-                </p>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-sm sm:text-xl mb-0.5 sm:mb-1">
+                    24/7 Dedicated Support
+                  </h3>
+                  <p className="text-gray-500 text-[11px] sm:text-sm leading-relaxed">
+                    Our travel experts are available round the clock to assist you anytime.
+                  </p>
+                </div>
               </div>
-            );
-          })}
+
+              {/* Horizontal Divider Line */}
+              <div className="w-full h-[1px] bg-gray-200" />
+
+              {/* Feature 2 */}
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full border border-red-400 text-red-500 bg-red-50/60 flex items-center justify-center shrink-0">
+                  <Plane className="w-4 h-4 sm:w-5 sm:h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-sm sm:text-xl mb-0.5 sm:mb-1">
+                    Curated Travel Packages
+                  </h3>
+                  <p className="text-gray-500 text-[11px] sm:text-sm leading-relaxed">
+                    Handpicked destinations and tailored tour packages for every budget.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Middle Vertical Divider Line */}
+            <div className="hidden md:flex md:col-span-1 justify-center self-stretch">
+              <div className="w-[1px] bg-gray-200 h-full" />
+            </div>
+
+            {/* Grid Column 2 */}
+            <div className="md:col-span-5 space-y-5 sm:space-y-8">
+              {/* Feature 3 */}
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full border border-red-400 text-red-500 bg-red-50/60 flex items-center justify-center shrink-0">
+                  <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-sm sm:text-xl mb-0.5 sm:mb-1">
+                    Best Price Guarantee
+                  </h3>
+                  <p className="text-gray-500 text-[11px] sm:text-sm leading-relaxed">
+                    Unbeatable prices on flights and hotels with complete transparency.
+                  </p>
+                </div>
+              </div>
+
+              {/* Horizontal Divider Line */}
+              <div className="w-full h-[1px] bg-gray-200" />
+
+              {/* Feature 4 */}
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full border border-red-400 text-red-500 bg-red-50/60 flex items-center justify-center shrink-0">
+                  <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-sm sm:text-xl mb-0.5 sm:mb-1">
+                    Instant Booking
+                  </h3>
+                  <p className="text-gray-500 text-[11px] sm:text-sm leading-relaxed">
+                    Fast and secure booking process with instant ticket confirmation.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
         </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
-          <div className="text-center">
-            <h3 className="text-4xl font-bold text-blue-400">10K+</h3>
-            <p className="text-gray-300 mt-2">Happy Travelers</p>
-          </div>
-
-          <div className="text-center">
-            <h3 className="text-4xl font-bold text-blue-400">500+</h3>
-            <p className="text-gray-300 mt-2">Tour Packages</p>
-          </div>
-
-          <div className="text-center">
-            <h3 className="text-4xl font-bold text-blue-400">50+</h3>
-            <p className="text-gray-300 mt-2">Destinations</p>
-          </div>
-
-          <div className="text-center">
-            <h3 className="text-4xl font-bold text-blue-400">24/7</h3>
-            <p className="text-gray-300 mt-2">Customer Support</p>
-          </div>
-        </div>
-
       </div>
     </section>
   );
-};
-
-export default WhyChooseUs;
+}

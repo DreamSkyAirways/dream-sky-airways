@@ -1,13 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
 import { Headphones, ShieldCheck, Tag, Compass, Award } from "lucide-react";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const POINTS = [
   {
@@ -43,73 +37,39 @@ const POINTS = [
 ];
 
 export default function WhyChooseUs() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const validCards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
-      if (validCards.length && window.innerWidth >= 768) {
-        validCards.forEach((card, index) => {
-          const fromX = index % 2 === 0 ? -50 : 50;
-          gsap.fromTo(
-            card,
-            { opacity: 0, x: fromX },
-            {
-              opacity: 1,
-              x: 0,
-              duration: 0.5,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: card,
-                start: "top 95%",
-                toggleActions: "play none none reverse",
-              },
-            }
-          );
-        });
-      }
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={containerRef} className="w-full bg-white text-black font-sans py-8 sm:py-12 px-4 sm:px-8 lg:px-16 border-t border-gray-200 select-none">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <section className="w-full bg-white text-black font-sans py-6 sm:py-12 px-4 sm:px-8 lg:px-16 border-t border-gray-100 select-none max-w-[1700px] mx-auto">
+      <div className="space-y-6 sm:space-y-8">
         {/* Simple Compact Title */}
-        <div className="text-center space-y-2">
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-black uppercase tracking-tight">
-            WHY CHOOSE US
+        <div className="text-center space-y-1 sm:space-y-2">
+          <h2 className="text-2xl xs:text-3xl sm:text-5xl font-extrabold uppercase tracking-tight">
+            <span className="text-red-600">WHY</span> <span className="text-black">CHOOSE US</span>
           </h2>
         </div>
 
-        {/* 5 Simple Compact Cards with Blue Text Hover */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {/* 5 Simple Compact Cards with Red Accent Hover */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {POINTS.map((item, idx) => {
             const Icon = item.icon;
             return (
               <div
                 key={idx}
-                ref={(el) => {
-                  cardsRef.current[idx] = el;
-                }}
-                className="why-card group bg-neutral-50 border border-gray-200 p-5 rounded-2xl space-y-3 hover:border-blue-600 hover:bg-blue-50/40 transition duration-300 cursor-pointer"
+                className="group bg-neutral-50 border border-gray-200 p-4 sm:p-5 rounded-xl sm:rounded-2xl space-y-2 sm:space-y-3 hover:border-red-600 hover:bg-red-50/30 transition duration-300 cursor-pointer"
               >
                 <div className="flex items-center justify-between">
-                  <div className="w-9 h-9 rounded-xl bg-black text-white group-hover:bg-blue-600 flex items-center justify-center transition-colors duration-300">
-                    <Icon className="w-4 h-4" />
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-black text-white group-hover:bg-red-600 flex items-center justify-center transition-colors duration-300">
+                    <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </div>
-                  <span className="font-mono text-xs font-bold text-gray-400 group-hover:text-blue-600 transition-colors duration-300">
+                  <span className="font-mono text-[10px] sm:text-xs font-bold text-gray-400 group-hover:text-red-600 transition-colors duration-300">
                     {item.code}
                   </span>
                 </div>
 
-                <div className="space-y-1">
-                  <h3 className="text-base font-extrabold text-black group-hover:text-blue-600 uppercase tracking-tight transition-colors duration-300">
+                <div className="space-y-0.5 sm:space-y-1">
+                  <h3 className="text-xs sm:text-base font-extrabold text-black group-hover:text-red-600 uppercase tracking-tight transition-colors duration-300">
                     {item.title}
                   </h3>
-                  <p className="text-xs text-gray-600 group-hover:text-blue-900 leading-relaxed font-medium transition-colors duration-300">
+                  <p className="text-[11px] sm:text-xs text-gray-600 group-hover:text-gray-900 leading-relaxed font-medium transition-colors duration-300">
                     {item.desc}
                   </p>
                 </div>
