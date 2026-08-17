@@ -1,37 +1,56 @@
 "use client";
+
 import api from "@/server/api";
-import axios from "axios";
-import {motion, useInView} from "framer-motion";
-import {ExternalLink, Mail, MapPin, Phone, Send} from "lucide-react";
-import React, {useRef, useState} from "react";
-import {toast} from "react-toastify";
+import { motion, useInView } from "framer-motion";
+import { Mail, MapPin, Phone, Send } from "lucide-react";
+import React, { useRef, useState } from "react";
+import { toast } from "react-toastify";
+
+const contactInfo = [
+  {
+    icon: Phone,
+    label: "Phone Number",
+    value: "+91 72910 00329",
+    href: "tel:+917291000329",
+  },
+  {
+    icon: Mail,
+    label: "Email",
+    value: "info@dreamskyairways.com",
+    href: "mailto:info@dreamskyairways.com",
+  },
+  {
+    icon: MapPin,
+    label: "Address",
+    value: "Dream Sky Airways, A-Block, Sector 63, Noida, Uttar Pradesh",
+    href: "#",
+  },
+];
 
 export default function ContactSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, {once: true, margin: "-80px"});
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    program: "",
+    program: "general-enquiry",
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+
     try {
       const res = await api.post("/contact/create", formData);
 
       if (res.data.success) {
         toast.success(res.data.message);
-
         setFormData({
           name: "",
           email: "",
           phone: "",
-           program: "general-enquiry",
+          program: "general-enquiry",
           message: "",
         });
       } else {
@@ -43,248 +62,210 @@ export default function ContactSection() {
   };
 
   return (
-    <section
-      id="contact"
-      className="relative py-24 lg:py-32 bg-gradient-to-b from-slate-50 via-white to-blue-50 overflow-hidden"
-    >
-      {/* Background Effects */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/30 to-transparent" />
-
-      <div className="absolute top-20 left-20 w-[350px] h-[350px] bg-blue-500/10 rounded-full blur-[120px]" />
-      <div className="absolute bottom-20 right-20 w-[300px] h-[300px] bg-cyan-500/10 rounded-full blur-[120px]" />
-
-      <div ref={ref} className="mx-auto max-w-7xl px-4 sm:px-6">
-        {/* Heading */}
+    <section id="contact" className="bg-[#f5f5f5] py-16 sm:py-20 lg:py-24">
+      <div ref={ref} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{opacity: 0, y: 30}}
-          animate={isInView ? {opacity: 1, y: 0} : {}}
-          transition={{duration: 0.7}}
-          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7 }}
+          className="mb-10 lg:mb-16"
         >
-          <span className="font-mono text-[11px] tracking-[0.3em] text-[#0055FF] uppercase">
-            Contact Us
-          </span>
-
-          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900">
-            Get In <span className="text-[#0055FF]">Touch</span>
-          </h2>
-
-          <p className="mt-4 text-slate-500 max-w-lg mx-auto">
-            We will love to hear from you. Fill out the form below and our team
-            will contact you shortly.
-          </p>
-        </motion.div>
-
-        <div className="grid lg:grid-cols-5 gap-3">
-          {/* Left Side */}
-          <motion.div
-            initial={{opacity: 0, x: -30}}
-            animate={isInView ? {opacity: 1, x: 0} : {}}
-            transition={{duration: 0.7, delay: 0.2}}
-            className="lg:col-span-2 space-y-6"
-          >
-            <div className="bg-white rounded-2xl p-8 border border-slate-200 shadow-[0_20px_60px_rgba(0,0,0,0.08)] space-y-8">
-              {/* Phone */}
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 shadow-md flex items-center justify-center">
-                  <Phone className="w-5 h-5 text-[#0055FF]" />
-                </div>
-
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-slate-400 mb-1">
-                    Phone
-                  </p>
-
-                  <a
-                    href="tel:+917291000329"
-                    className="text-slate-800 hover:text-[#0055FF] transition"
-                  >
-                    +91 72910 00329
-                  </a>
-                </div>
-              </div>
-
-              <hr className="border-slate-200" />
-
-              {/* Email */}
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 shadow-md flex items-center justify-center">
-                  <Mail className="w-5 h-5 text-[#0055FF]" />
-                </div>
-
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-slate-400 mb-1">
-                    Email
-                  </p>
-
-                  <a
-                    href="mailto:info@dreamskyairways.com"
-                    className="text-slate-800 hover:text-[#0055FF] transition"
-                  >
-                    info@dreamskyairways.com
-                  </a>
-                </div>
-              </div>
-
-              <hr className="border-slate-200" />
-
-              {/* Address */}
-              <div className="flex items-start gap-2">
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 shadow-md flex items-center justify-center">
-                  <MapPin className="w-5 h-5 text-[#0055FF]" />
-                </div>
-
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-slate-400 mb-1">
-                    Address
-                  </p>
-
-                  <p className="text-slate-700">
-                    Dream Sky Airways, A-Block, Sector 63,
-                    <br />
-                    Noida, Uttar Pradesh
-                  </p>
-                </div>
-              </div>
+          <div className="flex flex-wrap items-center gap-2 text-4xl font-black tracking-[-0.05em] text-gray-900 sm:text-5xl lg:text-[4rem]">
+            <div className="flex items-center gap-1 sm:gap-2">
+              {"CONTACT".split("").map((letter, idx) => (
+                <motion.span
+                  key={`contact-${idx}`}
+                  animate={{ rotateX: [0, 360] }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatDelay: 3.5,
+                    delay: idx * 0.08,
+                    ease: [0.45, 0.05, 0.25, 0.95],
+                  }}
+                  whileHover={{ rotateX: 180, scale: 1.15 }}
+                  className="inline-block select-none will-change-transform"
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
             </div>
 
-            {/* Social Links */}
-            <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-lg">
-              <p className="text-sm font-semibold text-slate-700 mb-4">
-                Connect With Us
-              </p>
+            <div className="ml-2 flex items-center gap-1 sm:ml-4 sm:gap-2">
+              {"US".split("").map((letter, idx) => (
+                <motion.span
+                  key={`us-${idx}`}
+                  animate={{ rotateX: [0, 360] }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatDelay: 3.5,
+                    delay: (idx + 7) * 0.08,
+                    ease: [0.45, 0.05, 0.25, 0.95],
+                  }}
+                  whileHover={{ rotateX: 180, scale: 1.15 }}
+                  className="inline-block text-red-600 select-none will-change-transform"
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </div>
+          </div>
+        </motion.div>
 
-              <div className="flex flex-wrap gap-3">
-                {["Instagram", "LinkedIn", "YouTube"].map((platform) => (
-                  <a
-                    key={platform}
-                    href={`https://${platform.toLowerCase()}.com`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#0055FF] hover:text-[#0055FF] transition-all shadow-sm"
-                  >
-                    {platform}
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                ))}
-              </div>
+        <div className="grid items-start gap-10 lg:grid-cols-[0.95fr_1.15fr] lg:gap-16">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="space-y-6"
+          >
+            <div className="max-w-105">
+              <h2 className="text-3xl font-bold leading-tight text-gray-900 sm:text-[2.5rem]">
+                Need more information? Let&apos;s talk.
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed text-gray-600">
+                Whether you are planning a holiday, a flight, or a custom itinerary, our team is ready to help with the right guidance.
+              </p>
+            </div>
+
+            <div className="space-y-5">
+              {contactInfo.map(({ icon: Icon, label, value, href }) => (
+                <div key={label} className="flex items-start gap-4 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-50 text-red-600 ring-1 ring-red-100">
+                    <Icon className="h-5 w-5" />
+                  </div>
+
+                  <div className="min-w-0">
+                    <div className="mb-1 text-sm font-medium text-gray-500">{label}</div>
+                    {href !== "#" ? (
+                      <a href={href} className="text-base font-semibold text-gray-900 transition-colors hover:text-red-600 sm:text-lg">
+                        {value}
+                      </a>
+                    ) : (
+                      <p className="text-base font-semibold text-gray-900 sm:text-lg">{value}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </motion.div>
 
-          {/* Form */}
           <motion.div
-            initial={{opacity: 0, x: 30}}
-            animate={isInView ? {opacity: 1, x: 0} : {}}
-            transition={{duration: 0.7, delay: 0.3}}
-            className="lg:col-span-3"
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="rounded-[28px] border border-gray-200 bg-white p-5 shadow-[0_18px_50px_rgba(15,23,42,0.08)] sm:p-7 lg:p-8"
           >
-            <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
-              {submitted ? (
-                <div className="text-center py-16">
-                  <div className="w-20 h-20 mx-auto rounded-full bg-blue-50 shadow-lg flex items-center justify-center mb-6">
-                    <Send className="w-8 h-8 text-[#0055FF]" />
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">
-                    Inquiry Received
-                  </h3>
-
-                  <p className="text-slate-500">
-                    Our team will contact you within 24 hours.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid sm:grid-cols-2 gap-3">
-                    <input
-                      required
-                      placeholder="Full Name"
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          name: e.target.value,
-                        })
-                      }
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-4 shadow-sm focus:border-[#0055FF] focus:ring-4 focus:ring-blue-100 outline-none transition"
-                    />
-
-                    <input
-                      required
-                      type="email"
-                      placeholder="Email Address"
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          email: e.target.value,
-                        })
-                      }
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-4 shadow-sm focus:border-[#0055FF] focus:ring-4 focus:ring-blue-100 outline-none transition"
-                    />
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 gap-5">
-                    <input
-                      required
-                      type="tel"
-                      maxLength={10}
-                      placeholder="+91 XXXXX XXXXX"
-                      value={formData.phone}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          phone: e.target.value,
-                        })
-                      }
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-4 shadow-sm focus:border-[#0055FF] focus:ring-4 focus:ring-blue-100 outline-none transition"
-                    />
-
-                    <select
-                      name="program"
-                      value={formData.program}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          program: e.target.value,
-                        })
-                      }
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-4 shadow-sm focus:border-[#0055FF] focus:ring-4 focus:ring-blue-100 outline-none transition"
-                    >
-                      <option value="general-enquiry">General Enquiry</option>
-                      <option value="service-enquiry">
-                        Services Related Enquiry
-                      </option>
-                      <option value="package-enquiry">
-                        Package Related Enquiry
-                      </option>
-                      <option value="other-enquiry">Other Enquiry</option>
-                    </select>
-                  </div>
-
-                  <textarea
-                    rows={5}
-                    placeholder="Tell us about your aspirations..."
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        message: e.target.value,
-                      })
-                    }
-                    className="w-full rounded-2xl border border-slate-300 px-4 py-4 shadow-sm focus:border-[#0055FF] focus:ring-4 focus:ring-blue-100 outline-none resize-none transition"
-                  />
-
-                  <button
-                    type="submit"
-                    className="w-full py-4 rounded-2xl bg-[#0055FF] text-white font-semibold shadow-lg shadow-blue-500/30 hover:bg-[#0044cc] transition-all flex items-center justify-center gap-2"
-                  >
-                    <Send className="w-4 h-4" />
-                    Submit Inquiry
-                  </button>
-                </form>
-              )}
+            <div className="mb-8">
+              <h3 className="text-3xl font-bold text-gray-900">Send Message</h3>
+              <p className="mt-2 text-base text-gray-600">
+                Tell us about your plans and our team will reach back out soon.
+              </p>
             </div>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <input
+                  required
+                  type="text"
+                  placeholder="First Name"
+                  value={formData.name.split(" ")[0] || ""}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      name: e.target.value,
+                    }))
+                  }
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-gray-900 outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-100"
+                />
+
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  value={formData.name.includes(" ") ? formData.name.split(" ").slice(1).join(" ") : ""}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      name: `${prev.name.split(" ")[0] || ""} ${e.target.value}`.trim(),
+                    }))
+                  }
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-gray-900 outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-100"
+                />
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <input
+                  required
+                  type="email"
+                  placeholder="Email Address"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      email: e.target.value,
+                    }))
+                  }
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-gray-900 outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-100"
+                />
+
+                <input
+                  required
+                  type="tel"
+                  maxLength={10}
+                  placeholder="Phone"
+                  value={formData.phone}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      phone: e.target.value,
+                    }))
+                  }
+                  className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-gray-900 outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-100"
+                />
+              </div>
+
+              <select
+                value={formData.program}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    program: e.target.value,
+                  }))
+                }
+                className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-gray-900 outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-100"
+              >
+                <option value="general-enquiry">General Enquiry</option>
+                <option value="flight-enquiry">Flight Booking</option>
+                <option value="hotel-enquiry">Hotel Booking</option>
+                <option value="holiday-enquiry">Holiday Package</option>
+                <option value="visa-enquiry">Visa Assistance</option>
+              </select>
+
+              <textarea
+                required
+                rows={5}
+                placeholder="Write your message here..."
+                value={formData.message}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    message: e.target.value,
+                  }))
+                }
+                className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-gray-900 outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-100"
+              />
+
+              <button
+                type="submit"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-5 py-3.5 font-semibold text-white shadow-lg shadow-red-500/25 transition-all hover:bg-red-700 active:scale-[0.99]"
+              >
+                <Send className="h-4 w-4" />
+                Submit Message
+              </button>
+            </form>
           </motion.div>
         </div>
       </div>

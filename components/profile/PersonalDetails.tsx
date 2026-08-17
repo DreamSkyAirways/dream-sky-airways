@@ -43,8 +43,8 @@ const PersonalInformationForm = ({
         : "",
       dateOfBirth: profile?.dateOfBirth
         ? new Date(profile.dateOfBirth)
-            .toISOString()
-            .split("T")[0]
+          .toISOString()
+          .split("T")[0]
         : "",
       gender: profile?.gender || "",
       city: profile?.city || "",
@@ -52,22 +52,22 @@ const PersonalInformationForm = ({
       country: profile?.country || "",
     });
 
-     useEffect(() => {
-        fetchProfileInfo();
-        }, []);
+  useEffect(() => {
+    fetchProfileInfo();
+  }, []);
 
-    const fetchProfileInfo=async ()=>{
-        try {
-            const res = await api.get("/auth/profile",{
-                withCredentials:true
-            })
-            console.log(res.data.profile)
-            setPersonalDetails(res.data.profile)
-        } catch (error) {
-            
-        }
+  const fetchProfileInfo = async () => {
+    try {
+      const res = await api.get("/auth/profile", {
+        withCredentials: true
+      })
+      console.log(res.data.profile)
+      setPersonalDetails(res.data.profile)
+    } catch (error) {
+
     }
- 
+  }
+
 
   const [imageFile, setImageFile] =
     useState<File | null>(null);
@@ -75,7 +75,7 @@ const PersonalInformationForm = ({
   const [imagePreview, setImagePreview] =
     useState(profile?.profileImage || "");
 
- 
+
 
   const [savingDetails, setSavingDetails] =
     useState(false);
@@ -182,7 +182,7 @@ const PersonalInformationForm = ({
 
       setSuccess(
         response.data.message ||
-          "Profile image uploaded successfully."
+        "Profile image uploaded successfully."
       );
 
     } catch (err: any) {
@@ -193,7 +193,7 @@ const PersonalInformationForm = ({
 
       setError(
         err?.response?.data?.message ||
-          "Unable to upload profile image."
+        "Unable to upload profile image."
       );
     } finally {
       setUploadingImage(false);
@@ -270,7 +270,7 @@ const PersonalInformationForm = ({
             personalDetails.country.trim(),
         },
         {
-            withCredentials:true
+          withCredentials: true
         }
       );
 
@@ -279,7 +279,7 @@ const PersonalInformationForm = ({
 
       setSuccess(
         response.data.message ||
-          "Personal information updated successfully."
+        "Personal information updated successfully."
       );
 
       if (updatedProfile) {
@@ -294,7 +294,7 @@ const PersonalInformationForm = ({
 
       setError(
         err?.response?.data?.message ||
-          "Unable to update personal information."
+        "Unable to update personal information."
       );
     } finally {
       setSavingDetails(false);
