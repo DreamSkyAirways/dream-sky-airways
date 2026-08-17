@@ -2,7 +2,7 @@
 
 import api from "@/server/api";
 import { motion, useInView } from "framer-motion";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Send } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -24,6 +24,24 @@ const contactInfo = [
     label: "Address",
     value: "Dream Sky Airways, A-Block, Sector 63, Noida, Uttar Pradesh",
     href: "#",
+  },
+];
+
+const socialLinks = [
+  {
+    name: "Facebook",
+    href: "https://www.facebook.com/dreamskyairwayspvtltd",
+    icon: Facebook,
+  },
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/dreamskyairways",
+    icon: Instagram,
+  },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/dream-sky-airways-952379382",
+    icon: Linkedin,
   },
 ];
 
@@ -150,6 +168,26 @@ export default function ContactSection() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            <div className="pt-2">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-gray-500">
+                Follow us
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {socialLinks.map(({ name, href, icon: Icon }) => (
+                  <a
+                    key={name}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={name}
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm transition-all hover:border-red-200 hover:text-red-600"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                ))}
+              </div>
             </div>
           </motion.div>
 
