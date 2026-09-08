@@ -1,14 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import {
-  User,
-  Phone,
-  Calendar,
-  MapPin,
-  Globe,
-  Upload,
-} from "lucide-react";
+import React, {useEffect, useState} from "react";
+import {User, Phone, Calendar, MapPin, Globe, Upload} from "lucide-react";
 
 import api from "@/server/api";
 
@@ -33,68 +26,48 @@ const PersonalInformationForm = ({
   profile,
   onSuccess,
 }: PersonalInformationFormProps) => {
+  const [personalDetails, setPersonalDetails] = useState({
+    firstName: profile?.firstName || "",
+    lastName: profile?.lastName || "",
+    phoneNumber: profile?.phoneNumber ? String(profile.phoneNumber) : "",
+    dateOfBirth: profile?.dateOfBirth
+      ? new Date(profile.dateOfBirth).toISOString().split("T")[0]
+      : "",
+    gender: profile?.gender || "",
+    city: profile?.city || "",
+    state: profile?.state || "",
+    country: profile?.country || "",
+  });
 
-  const [personalDetails, setPersonalDetails] =
-    useState({
-      firstName: profile?.firstName || "",
-      lastName: profile?.lastName || "",
-      phoneNumber: profile?.phoneNumber
-        ? String(profile.phoneNumber)
-        : "",
-      dateOfBirth: profile?.dateOfBirth
-        ? new Date(profile.dateOfBirth)
-            .toISOString()
-            .split("T")[0]
-        : "",
-      gender: profile?.gender || "",
-      city: profile?.city || "",
-      state: profile?.state || "",
-      country: profile?.country || "",
-    });
+  useEffect(() => {
+    fetchProfileInfo();
+  }, []);
 
-     useEffect(() => {
-        fetchProfileInfo();
-        }, []);
+  const fetchProfileInfo = async () => {
+    try {
+      const res = await api.get("/auth/profile", {
+        withCredentials: true,
+      });
+      console.log(res.data.profile);
+      setPersonalDetails(res.data.profile);
+    } catch (error) {}
+  };
 
-    const fetchProfileInfo=async ()=>{
-        try {
-            const res = await api.get("/auth/profile",{
-                withCredentials:true
-            })
-            console.log(res.data.profile)
-            setPersonalDetails(res.data.profile)
-        } catch (error) {
-            
-        }
-    }
- 
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const [imageFile, setImageFile] =
-    useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState(profile?.profileImage || "");
 
-  const [imagePreview, setImagePreview] =
-    useState(profile?.profileImage || "");
+  const [savingDetails, setSavingDetails] = useState(false);
 
- 
-
-  const [savingDetails, setSavingDetails] =
-    useState(false);
-
-  const [uploadingImage, setUploadingImage] =
-    useState(false);
-
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-
-
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
 
     setPersonalDetails((prev) => ({
       ...prev,
@@ -106,9 +79,7 @@ const PersonalInformationForm = ({
      IMAGE SELECT
   ========================================= */
 
-  const handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
@@ -124,9 +95,7 @@ const PersonalInformationForm = ({
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      setError(
-        "Image size should be less than 5MB."
-      );
+      setError("Image size should be less than 5MB.");
       return;
     }
 
@@ -136,8 +105,7 @@ const PersonalInformationForm = ({
 
     /* Preview only */
 
-    const previewUrl =
-      URL.createObjectURL(file);
+    const previewUrl = URL.createObjectURL(file);
 
     setImagePreview(previewUrl);
   };
@@ -156,23 +124,27 @@ const PersonalInformationForm = ({
       setUploadingImage(true);
       setError("");
       setSuccess("");
-
+      console.log("IMAGE FILE:", imageFile);
       const formData = new FormData();
 
-      formData.append(
-        "profileImage",
-        imageFile
-      );
+      formData.append("profileImage", imageFile);
+      
+      console.log("FORM DATA:", formData.get("profileImage"));
 
-      const response = await api.post(
-        "/profile/profile-image",
-        formData
-      );
+      // Debug
+      console.log("Selected file:", imageFile);
+      console.log("FormData file:", formData.get("profileImage"));
 
-      const profileImage =
-        response.data.profileImage;
+      const response = await api.post("/auth/       /profile-image", formData, {
+        withCredentials: true,
 
-      /* Update preview with actual uploaded URL */
+      },
+      
+    );
+
+      console.log("Upload response:", response.data);
+
+      const profileImage = response.data.profileImage;
 
       if (profileImage) {
         setImagePreview(profileImage);
@@ -181,19 +153,15 @@ const PersonalInformationForm = ({
       setImageFile(null);
 
       setSuccess(
-        response.data.message ||
-          "Profile image uploaded successfully."
+        response.data.message || "Profile image uploaded successfully.",
       );
-
     } catch (err: any) {
-      console.error(
-        "Profile image upload error:",
-        err
-      );
+      console.error("Profile image upload error:", err);
+
+      console.error("Backend response:", err?.response?.data);
 
       setError(
-        err?.response?.data?.message ||
-          "Unable to upload profile image."
+        err?.response?.data?.message || "Unable to upload profile image.",
       );
     } finally {
       setUploadingImage(false);
@@ -204,9 +172,7 @@ const PersonalInformationForm = ({
      SAVE PERSONAL INFORMATION API
   ========================================= */
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setError("");
@@ -245,56 +211,42 @@ const PersonalInformationForm = ({
       const response = await api.put(
         "/auth/profile/profile-info",
         {
-          firstName:
-            personalDetails.firstName.trim(),
+          firstName: personalDetails.firstName.trim(),
 
-          lastName:
-            personalDetails.lastName.trim(),
+          lastName: personalDetails.lastName.trim(),
 
-          phoneNumber:
-            personalDetails.phoneNumber.trim(),
+          phoneNumber: personalDetails.phoneNumber.trim(),
 
-          dateOfBirth:
-            personalDetails.dateOfBirth,
+          dateOfBirth: personalDetails.dateOfBirth,
 
-          gender:
-            personalDetails.gender,
+          gender: personalDetails.gender,
 
-          city:
-            personalDetails.city.trim(),
+          city: personalDetails.city.trim(),
 
-          state:
-            personalDetails.state.trim(),
+          state: personalDetails.state.trim(),
 
-          country:
-            personalDetails.country.trim(),
+          country: personalDetails.country.trim(),
         },
         {
-            withCredentials:true
-        }
+          withCredentials: true,
+        },
       );
 
-      const updatedProfile =
-        response.data.profile;
+      const updatedProfile = response.data.profile;
 
       setSuccess(
-        response.data.message ||
-          "Personal information updated successfully."
+        response.data.message || "Personal information updated successfully.",
       );
 
       if (updatedProfile) {
         onSuccess?.(updatedProfile);
       }
-
     } catch (err: any) {
-      console.error(
-        "Personal information error:",
-        err
-      );
+      console.error("Personal information error:", err);
 
       setError(
         err?.response?.data?.message ||
-          "Unable to update personal information."
+          "Unable to update personal information.",
       );
     } finally {
       setSavingDetails(false);
@@ -303,9 +255,7 @@ const PersonalInformationForm = ({
 
   return (
     <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 sm:p-8">
-
       <div className="border-b border-slate-100 pb-5 mb-6">
-
         <h2 className="text-xl font-bold text-slate-900">
           Personal Information
         </h2>
@@ -313,7 +263,6 @@ const PersonalInformationForm = ({
         <p className="text-sm text-slate-500 mt-1">
           Update your personal information
         </p>
-
       </div>
 
       {/* =========================================
@@ -340,27 +289,20 @@ const PersonalInformationForm = ({
           PERSONAL INFORMATION FORM
       ========================================= */}
 
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-7"
-      >
-
+      <form onSubmit={handleSubmit} className="space-y-7">
         {/* =====================================
             PROFILE IMAGE
         ===================================== */}
 
         <div>
-
           <label className="block text-sm font-semibold text-slate-700 mb-3">
             Profile Photo
           </label>
 
           <div className="flex items-center gap-5">
-
             {/* Preview */}
 
             <div className="w-24 h-24 rounded-full overflow-hidden bg-blue-600 border border-slate-200 flex items-center justify-center shrink-0">
-
               {imagePreview ? (
                 <img
                   src={imagePreview}
@@ -369,20 +311,15 @@ const PersonalInformationForm = ({
                 />
               ) : (
                 <span className="text-3xl font-bold text-white">
-                  {personalDetails.firstName
-                    ?.charAt(0)
-                    ?.toUpperCase() || "U"}
+                  {personalDetails.firstName?.charAt(0)?.toUpperCase() || "DSA"}
                 </span>
               )}
-
             </div>
 
             {/* Image Controls */}
 
             <div>
-
               <div className="flex flex-wrap items-center gap-2">
-
                 {/* Select */}
 
                 <label
@@ -406,14 +343,14 @@ const PersonalInformationForm = ({
                   "
                 >
                   <Upload className="w-4 h-4" />
-
                   Select Photo
                 </label>
 
                 <input
                   id="profileImage"
+                  name="profileImage"
                   type="file"
-                  accept="image/png,image/jpeg,image/jpg,image/webp"
+                  accept=".png,.jpg,.jpeg,.webp"
                   onChange={handleImageChange}
                   className="hidden"
                 />
@@ -442,22 +379,16 @@ const PersonalInformationForm = ({
                       transition
                     "
                   >
-                    {uploadingImage
-                      ? "Uploading..."
-                      : "Upload Photo"}
+                    {uploadingImage ? "Uploading..." : "Upload Photo"}
                   </button>
                 )}
-
               </div>
 
               <p className="text-xs text-slate-400 mt-2">
                 JPG, PNG or WEBP. Maximum 5MB.
               </p>
-
             </div>
-
           </div>
-
         </div>
 
         {/* =====================================
@@ -465,7 +396,6 @@ const PersonalInformationForm = ({
         ===================================== */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-
           <InputField
             label="First Name"
             name="firstName"
@@ -485,7 +415,6 @@ const PersonalInformationForm = ({
             icon={<User className="w-4 h-4" />}
             required
           />
-
         </div>
 
         {/* =====================================
@@ -493,7 +422,6 @@ const PersonalInformationForm = ({
         ===================================== */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-
           <InputField
             label="Phone Number"
             name="phoneNumber"
@@ -513,7 +441,6 @@ const PersonalInformationForm = ({
             icon={<Calendar className="w-4 h-4" />}
             required
           />
-
         </div>
 
         {/* =====================================
@@ -521,7 +448,6 @@ const PersonalInformationForm = ({
         ===================================== */}
 
         <div>
-
           <label
             htmlFor="gender"
             className="block text-sm font-semibold text-slate-700 mb-2"
@@ -550,24 +476,14 @@ const PersonalInformationForm = ({
               focus:ring-blue-500/10
             "
           >
-            <option value="">
-              Select gender
-            </option>
+            <option value="">Select gender</option>
 
-            <option value="male">
-              Male
-            </option>
+            <option value="male">Male</option>
 
-            <option value="female">
-              Female
-            </option>
+            <option value="female">Female</option>
 
-            <option value="others">
-              Others
-            </option>
-
+            <option value="others">Others</option>
           </select>
-
         </div>
 
         {/* =====================================
@@ -575,13 +491,9 @@ const PersonalInformationForm = ({
         ===================================== */}
 
         <div>
-
-          <h3 className="text-sm font-bold text-slate-800 mb-4">
-            Location
-          </h3>
+          <h3 className="text-sm font-bold text-slate-800 mb-4">Location</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-
             <InputField
               label="City"
               name="city"
@@ -608,9 +520,7 @@ const PersonalInformationForm = ({
               placeholder="Enter country"
               icon={<Globe className="w-4 h-4" />}
             />
-
           </div>
-
         </div>
 
         {/* =====================================
@@ -618,7 +528,6 @@ const PersonalInformationForm = ({
         ===================================== */}
 
         <div className="flex justify-end pt-4 border-t border-slate-100">
-
           <button
             type="submit"
             disabled={savingDetails}
@@ -636,21 +545,15 @@ const PersonalInformationForm = ({
               transition
             "
           >
-            {savingDetails
-              ? "Saving..."
-              : "Save Changes"}
+            {savingDetails ? "Saving..." : "Save Changes"}
           </button>
-
         </div>
-
       </form>
-
     </section>
   );
 };
 
 export default PersonalInformationForm;
-
 
 /* =====================================================
    INPUT FIELD
@@ -660,9 +563,7 @@ interface InputFieldProps {
   label: string;
   name: string;
   value: string | number;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   type?: string;
   icon?: React.ReactNode;
@@ -681,22 +582,16 @@ const InputField = ({
 }: InputFieldProps) => {
   return (
     <div>
-
       <label
         htmlFor={name}
         className="block text-sm font-semibold text-slate-700 mb-2"
       >
         {label}
 
-        {required && (
-          <span className="text-red-500 ml-1">
-            *
-          </span>
-        )}
+        {required && <span className="text-red-500 ml-1">*</span>}
       </label>
 
       <div className="relative">
-
         {icon && (
           <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
             {icon}
@@ -730,9 +625,7 @@ const InputField = ({
             transition
           `}
         />
-
       </div>
-
     </div>
   );
 };
