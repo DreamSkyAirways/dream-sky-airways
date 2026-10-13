@@ -1,20 +1,17 @@
 import type {Metadata} from "next";
 
 export const SITE_URL = "https://www.dreamskyairways.com";
-export const SITE_NAME = "Dream Sky Airways";
+export const SITE_NAME = "Dream Sky Tours & Travels";
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/ogImage.webp`;
 export const ADSENSE_CLIENT = "ca-pub-3804438885787200";
 
 /** Always-on brand + travel keywords for site-wide discoverability */
 export const CORE_KEYWORDS = [
-  "Dream Sky Airways",
+  "Dream Sky Tours & Travels",
   "dreamskyairways",
   "tour and travel company India",
   "travel agency India",
   "holiday packages India",
-  "flight booking India",
-  "online flight booking",
-  "cheap flights India",
   "domestic tour packages",
   "international tour packages",
   "honeymoon packages India",
@@ -24,8 +21,8 @@ export const CORE_KEYWORDS = [
   "cab rental India",
   "visa services India",
   "travel insurance India",
-  "best travel agency",
-  "book flights hotels packages",
+  "best tour and travel company",
+  "book holiday packages hotels and cabs",
   "affordable holiday packages",
 ];
 
@@ -99,7 +96,7 @@ export function keywordsFromSlug(slug: string): string[] {
   return unique([
     phrase,
     ...parts,
-    `${phrase} Dream Sky Airways`,
+    `${phrase} Dream Sky Tours & Travels`,
     `book ${phrase}`,
     `${phrase} package`,
     `${phrase} India`,

@@ -1,27 +1,45 @@
-import React from "react";
+import type { Metadata } from "next";
 import BlogHeroOne from "@/components/blog/BlogHeroOne";
 import BlogFeaturedSlider from "@/components/blog/BlogFeaturedSlider";
 import BlogCategorySections from "@/components/blog/BlogCategorySections";
 
-export const metadata = {
-  title: "Travel Blog – Destination Guides & Holiday Ideas | Dream Sky Airways",
+export const metadata: Metadata = {
+  title: "Travel Blog | Destination Guides, Tips & Holiday Ideas",
   description:
-    "Explore handpicked destination guides, budget travel hacks, family holiday planning tips, and expert advice for India, Bali, and worldwide travel with Dream Sky Airways.",
+    "Discover destination guides, travel tips, family holidays, honeymoon inspiration, and adventure ideas with Dream Sky Airways. Plan your next memorable journey.",
+  alternates: {
+    canonical: "/blog",
+  },
+  openGraph: {
+    title: "Travel Blog | Dream Sky Airways",
+    description:
+      "Explore travel guides, destination inspiration, holiday ideas, and practical tips for your next adventure.",
+    url: "/blog",
+    siteName: "Dream Sky Airways",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function BlogPage() {
   return (
-    <main className="bg-white text-black w-full overflow-x-hidden space-y-0">
-      {/* 3D Animated Title Section */}
+    <main className="w-full overflow-x-clip bg-[#f8faf7] text-[#173b35]">
+      {/* Travel blog introduction */}
       <BlogHeroOne />
 
-      {/* Destination Hero Visual Slider */}
+      {/* Featured destinations and travel stories */}
       <BlogFeaturedSlider />
 
-      {/* Dedicated Category Sections (All, India, Family, Tips, Honeymoon, Adventure - 3 boxes per row) */}
-      <BlogCategorySections />
-
-
+      {/* Travel categories and articles */}
+      <section
+        aria-label="Browse travel articles by category"
+        className="bg-[#f8faf7]"
+      >
+        <BlogCategorySections />
+      </section>
     </main>
   );
 }

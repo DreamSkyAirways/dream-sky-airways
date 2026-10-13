@@ -1,123 +1,255 @@
+
 "use client";
+
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Shield, Award, BadgeCheck, Building, FileCheck, Globe } from "lucide-react";
+import {
+  Compass,
+  Target,
+  Sparkles,
+  MapPin,
+  Globe2,
+  ArrowUpRight,
+  CheckCircle2,
+} from "lucide-react";
 
-const certItems = [
+const TRAVEL_IMAGE =
+  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=85";
+
+const values = [
   {
-    icon: Shield,
-    name: "Ministry of Corporate Affairs",
-    abbr: "MCA",
-    
-    status: "VERIFIED",
-    year: "2018",
+    icon: Compass,
+    number: "01",
+    title: "Our Mission",
+    text: "To make travel simple, accessible and memorable through thoughtfully planned holidays, personalized itineraries and reliable travel assistance.",
   },
   {
-    icon: Award,
-    name: "Micro, Small & Medium Enterprise",
-    abbr: "MSME",
-    
-    status: "ACTIVE",
-    year: "2018",
+    icon: Target,
+    number: "02",
+    title: "Our Vision",
+    text: "To become a trusted travel partner for explorers seeking meaningful experiences, seamless planning and unforgettable journeys across India and beyond.",
   },
   {
-    icon: BadgeCheck,
-    name: "National Council for Training",
-    abbr: "NCT",
-    
-    status: "CERTIFIED",
-    year: "2020",
+    icon: Sparkles,
+    number: "03",
+    title: "Our Promise",
+    text: "We put travelers first with transparent communication, tailored travel solutions and attentive support throughout the planning process.",
   },
-  
-  {
-    icon: FileCheck,
-    name: "Skill India Registered",
-    abbr: "NSDC",
-    
-    status: "APPROVED",
-    year: "2022",
-  },
-  
 ];
 
-export default function CertificationLedger() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+const services = [
+  "Domestic & international holiday packages",
+  "Flight and hotel booking assistance",
+  "Customized itineraries and travel planning",
+  "Visa assistance and travel support",
+];
+
+export default function AboutSection() {
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, {
+    once: true,
+    margin: "-80px",
+  });
 
   return (
-    <section id="certifications" className="relative py-10 lg:py-1 bg-[#050B1A] overflow-hidden text-white">
-      <div className="absolute top-0 left-0 right-0 instrument-line" />
+    <section
+      id="about"
+      ref={ref}
+      className="relative overflow-hidden bg-[#f8faf7] py-20 sm:py-24 lg:py-28"
+    >
+      {/* Subtle decorative background */}
+      <div className="pointer-events-none absolute -right-32 top-20 h-80 w-80 rounded-full bg-[#dcefe9] blur-3xl opacity-70" />
+      <div className="pointer-events-none absolute -left-32 bottom-10 h-72 w-72 rounded-full bg-[#ffedda] blur-3xl opacity-50" />
 
-      <div ref={ref} className="mx-auto max-w-7xl px-4 sm:px-6 ">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        {/* Heading */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 28 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16 "
+          transition={{ duration: 0.65 }}
+          className="mb-14 max-w-3xl lg:mb-20"
         >
-          <span className="font-mono text-[11px] tracking-[0.3em] text-[#0055FF] uppercase">
-            
-          </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-white tracking-tight">
-            Certified <span className="text-gradient-blue">Authority</span>
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#d6e8df] bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#087e70] shadow-sm">
+            <Globe2 size={15} />
+            Discover Dream Sky
+          </div>
+
+          <h2 className="text-4xl font-bold leading-tight tracking-tight text-[#173b35] sm:text-5xl lg:text-6xl">
+            Every journey has
+            <br className="hidden sm:block" /> a story to tell.
+            <span className="mt-2 block text-[#e88b42]">
+              Let&apos;s make yours memorable.
+            </span>
           </h2>
-          <p className="mt-4 text-[#E2E8F0]/50 font-body max-w-lg mx-auto">
-            Every credential verified. Every certification authentic.
-            Built on a foundation of institutional trust.
+
+          <p className="mt-6 max-w-2xl text-base leading-8 text-[#64736d] sm:text-lg">
+            We help turn your travel ideas into meaningful experiences,
+            from relaxing beach escapes to exciting international adventures
+            and thoughtfully planned family holidays.
           </p>
         </motion.div>
 
-        {/* Certification grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
-          {certItems.map((cert, i) => (
-            <motion.div
-              key={cert.abbr}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
-              className="glass-panel rounded-xl p-5 group hover:border-[#0055FF]/30 transition-all duration-500  border border-blue-400"
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div className="w-10 h-10 rounded-lg bg-[#0055FF]/10 border border-[#0055FF]/20 flex items-center justify-center group-hover:glow-blue transition-all duration-500">
-                  <cert.icon className="w-5 h-5 text-[#0055FF]" />
+        {/* Image and company story */}
+        <div className="grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.75, delay: 0.1 }}
+            className="relative pb-7 pr-4 sm:pr-7"
+          >
+            <div className="group relative overflow-hidden rounded-[28px] bg-[#dce9e3] shadow-xl shadow-[#173b35]/10">
+              <img
+                src={TRAVEL_IMAGE}
+                alt="Beautiful tropical beach destination with turquoise ocean and golden sand"
+                className="h-[380px] w-full object-cover transition duration-700 group-hover:scale-105 sm:h-[480px] lg:h-[560px]"
+                loading="lazy"
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-[#102e2b]/65 via-transparent to-transparent" />
+
+              <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8">
+                <div className="mb-3 flex items-center gap-2 text-sm font-medium text-white/90">
+                  <MapPin size={17} className="text-[#ffc18c]" />
+                  Discover somewhere beautiful
                 </div>
-                <span className="px-2 py-1 rounded font-mono text-[9px] font-semibold bg-[#00D1FF]/10 text-[#00D1FF] border border-[#00D1FF]/20">
-                  {cert.status}
-                </span>
-              </div>
 
-              <h3 className="text-base font-heading font-semibold text-white mb-1">
-                {cert.abbr}
-              </h3>
-              <p className="text-xs text-[#E2E8F0]/40 font-body mb-4">
-                {cert.name}
+                <p className="max-w-sm text-2xl font-bold leading-snug text-white sm:text-3xl">
+                  More places to see.
+                  <br />
+                  More memories to make.
+                </p>
+              </div>
+            </div>
+
+            {/* Establishment badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.96 }}
+              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.35 }}
+              className="absolute -bottom-1 right-0 rounded-2xl border border-[#e5eee8] bg-white p-5 shadow-xl sm:right-3 sm:p-6"
+            >
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#829087]">
+                Established
               </p>
-
-              {/* Technical details - revealed on hover */}
-              <div className="instrument-line mb-3 opacity-50" />
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] text-[#E2E8F0]/30 truncate max-w-[70%]">
-                  {cert.year}
-                </span>
-                <span className="font-mono text-[10px] text-[#00D1FF]/50">
-                  {cert.year}
-                </span>
-              </div>
+              <p className="mt-1 text-4xl font-extrabold tracking-tight text-[#087e70]">
+                2023
+              </p>
+              <p className="mt-1 text-xs text-[#64736d]">
+                Your travel journey starts here
+              </p>
             </motion.div>
-          ))}
+          </motion.div>
+
+          {/* Company introduction */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.75, delay: 0.15 }}
+          >
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#087e70]">
+              Who We Are
+            </p>
+
+            <h3 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-[#173b35] sm:text-4xl">
+              Your plans.
+              <br />
+              Our passion for travel.
+            </h3>
+
+            <p className="mt-5 text-base leading-8 text-[#64736d]">
+              Welcome to Dream Sky Airways Pvt. Ltd., established in 2023
+              with a focus on helping people explore the world with confidence.
+              We believe every traveler deserves a trip that suits their
+              interests, preferences and budget.
+            </p>
+
+            <p className="mt-4 text-base leading-8 text-[#64736d]">
+              From domestic getaways and international holiday packages
+              to flight bookings, hotel stays and visa assistance, we aim
+              to make planning your next trip easier and more enjoyable.
+              Our approach is centered on personalized service, clear
+              communication and experiences worth remembering.
+            </p>
+
+            <div className="mt-7 space-y-4">
+              {services.map((service) => (
+                <div key={service} className="flex items-start gap-3">
+                  <CheckCircle2
+                    size={20}
+                    className="mt-0.5 shrink-0 text-[#087e70]"
+                  />
+                  <p className="text-sm leading-6 text-[#435d54] sm:text-base">
+                    {service}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <a
+              href="/packages"
+              className="mt-9 inline-flex items-center gap-3 rounded-full bg-[#087e70] px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#087e70]/15 transition duration-300 hover:-translate-y-0.5 hover:bg-[#066357]"
+            >
+              Explore Holiday Packages
+              <ArrowUpRight size={18} />
+            </a>
+          </motion.div>
         </div>
 
-        {/* Ticker tape */}
-        <div className="mt-16 overflow-hidden py-4">
-          <div className="flex whitespace-nowrap" style={{ animation: "ticker 30s linear infinite" }}>
-            {[...certItems, ...certItems].map((cert, i) => (
-              <span
-                key={i}
-                className="mx-8 font-mono text-xs text-[#0055FF]/30 tracking-wider uppercase"
-              >
-                {cert.abbr} • {cert.status}
-              </span>
-            ))}
+        {/* Mission, vision and promise */}
+        <div className="mt-24 lg:mt-32">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mb-10 max-w-2xl"
+          >
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#087e70]">
+              What Guides Us
+            </p>
+            <h3 className="mt-3 text-3xl font-bold tracking-tight text-[#173b35] sm:text-4xl">
+              Travel with purpose.
+              <br />
+              Explore with confidence.
+            </h3>
+          </motion.div>
+
+          <div className="grid gap-5 md:grid-cols-3">
+            {values.map((item, index) => {
+              const Icon = item.icon;
+
+              return (
+                <motion.article
+                  key={item.title}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{
+                    duration: 0.55,
+                    delay: 0.25 + index * 0.12,
+                  }}
+                  className="group rounded-3xl border border-[#e4ece5] bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#c4ded1] hover:shadow-xl hover:shadow-[#173b35]/5 sm:p-8"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#e8f4ed] text-[#087e70] transition group-hover:bg-[#087e70] group-hover:text-white">
+                      <Icon size={23} />
+                    </div>
+
+                    <span className="text-sm font-bold tracking-widest text-[#b1c4b8]">
+                      {item.number}
+                    </span>
+                  </div>
+
+                  <h4 className="mt-7 text-xl font-bold text-[#173b35]">
+                    {item.title}
+                  </h4>
+
+                  <p className="mt-3 text-sm leading-7 text-[#718078]">
+                    {item.text}
+                  </p>
+
+                  <div className="mt-6 h-1 w-12 rounded-full bg-[#e9a15d] transition-all duration-300 group-hover:w-20" />
+                </motion.article>
+              );
+            })}
           </div>
         </div>
       </div>

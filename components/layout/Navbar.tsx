@@ -1,132 +1,162 @@
+
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ChevronRight, Menu, X, Search, User } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  Menu,
+  X,
+  UserRound,
+  MapPin,
+  Plane,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { FaArrowRightToBracket } from "react-icons/fa6";
-import { RiContactsLine } from "react-icons/ri";
+
 import { useAuth } from "@/hooks/useAuth";
 import UserProfileDropdown from "./UserProfileDropdown";
-import { usePathname, useRouter } from "next/navigation";
 
-const packageMenu = [
+type NavItem = {
+  label: string;
+  href: string;
+};
+
+type DropdownProps = {
+  href: string;
+  label: string;
+  items: NavItem[];
+  isActive: boolean;
+};
+
+const packageMenu: NavItem[] = [
+  { label: "All Holiday Packages", href: "/packages" },
   { label: "Domestic Packages", href: "/packages/domestic-package" },
   { label: "Honeymoon Packages", href: "/packages/honeymoon-package" },
   { label: "Family Packages", href: "/packages/family-package" },
 ];
 
-const destinationMenu = [
+const destinationMenu: NavItem[] = [
   { label: "Kashmir", href: "/packages" },
   { label: "Kerala", href: "/packages" },
   { label: "Rajasthan", href: "/packages" },
-  { label: "Goa & Beaches", href: "/packages" },
-  { label: "Himachal & Ladakh", href: "/packages" },
+  { label: "Goa", href: "/packages" },
+  { label: "Himachal Pradesh", href: "/packages" },
 ];
 
-// Desktop Dropdown Section
-function DesktopDropdown({ href, label, items, isActive }: any) {
+const primaryLinks: NavItem[] = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "About Us", href: "/about" },
+  { label: "Travel Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
+];
+
+function isPathActive(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function DesktopDropdown({
+  href,
+  label,
+  items,
+  isActive,
+}: DropdownProps) {
   return (
-    <section className="relative group">
+    <div className="group relative">
       <Link
         href={href}
-        className={`hidden md:inline-flex items-center gap-1.5 px-3 py-2 text-xs lg:text-sm font-bold tracking-widest uppercase transition border-b-2 ${
+        aria-haspopup="true"
+        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-semibold transition ${
           isActive
-            ? "text-red-500 border-red-500"
-            : "text-red-500 border-transparent hover:border-red-500 hover:text-red-400"
+            ? "bg-[#087e70]/10 text-[#087e70]"
+            : "text-[#25443d] hover:bg-[#087e70]/10 hover:text-[#087e70]"
         }`}
       >
-        <motion.span
-          animate={{ y: [0, -5, 0] }}
-          transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-          className="inline-flex items-center gap-1.5"
-        >
-          <span>{label}</span>
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-          </span>
-        </motion.span>
+        {label}
         <ChevronDown
-          size={14}
-          className="transition-transform duration-300 group-hover:rotate-180 text-red-500"
+          size={15}
+          className="transition-transform duration-200 group-hover:rotate-180"
         />
       </Link>
-      <div className="absolute left-0 top-full mt-2 w-60 bg-slate-950/95 backdrop-blur-lg shadow-2xl rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border border-white/10 overflow-hidden">
-        {items.map((item: any) => (
-          <Link
-            key={item.label}
-            href={item.href}
-            className="flex items-center gap-2 px-4 py-3 text-sm text-gray-200 hover:bg-white/10 hover:text-red-400 transition border-b border-white/5 last:border-b-0"
-          >
-            <ChevronRight size={14} className="text-red-500" />
-            {item.label}
-          </Link>
-        ))}
+
+      <div className="invisible absolute left-0 top-full z-50 w-64 translate-y-2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+        <div className="overflow-hidden rounded-2xl border border-[#e5eee8] bg-white p-2 shadow-xl shadow-[#173b35]/10">
+          {items.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-[#25443d] transition hover:bg-[#f0f7f3] hover:text-[#087e70]"
+            >
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#087e70]/10 text-[#087e70]">
+                <ChevronRight size={15} />
+              </span>
+              {item.label}
+            </Link>
+          ))}
+        </div>
       </div>
-    </section>
+    </div>
   );
 }
 
-// Mobile Accordion Item
-function MobileAccordion({ href, label, items, onClose, isRed }: any) {
+function MobileAccordion({
+  label,
+  href,
+  items,
+  onClose,
+  isActive,
+}: DropdownProps & { onClose: () => void }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="border-b border-white/10 last:border-b-0">
-      <div className="flex items-center justify-between">
+    <div className="border-b border-[#e8eee9] last:border-b-0">
+      <div className="flex items-center">
         <Link
           href={href}
           onClick={onClose}
-          className={`flex items-center gap-3 px-5 py-3 text-sm font-bold uppercase tracking-wider flex-1 ${
-            isRed ? "text-red-500 hover:text-red-400" : "text-gray-200 hover:text-white"
+          className={`flex-1 px-5 py-4 text-sm font-semibold ${
+            isActive ? "text-[#087e70]" : "text-[#25443d]"
           }`}
         >
-          {isRed ? (
-            <motion.span
-              animate={{ y: [0, -4, 0] }}
-              transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
-              className="inline-flex items-center gap-1.5"
-            >
-              <span>{label}</span>
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-              </span>
-            </motion.span>
-          ) : (
-            label
-          )}
+          {label}
         </Link>
+
         <button
-          onClick={() => setOpen(!open)}
-          className="px-4 py-3 text-gray-400 hover:text-white"
+          type="button"
+          onClick={() => setOpen((previous) => !previous)}
           aria-label={`Toggle ${label} submenu`}
+          aria-expanded={open}
+          className="p-4 text-[#25443d]"
         >
           <ChevronDown
-            size={16}
-            className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+            size={18}
+            className={`transition-transform ${open ? "rotate-180" : ""}`}
           />
         </button>
       </div>
-      <AnimatePresence>
+
+      <AnimatePresence initial={false}>
         {open && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="overflow-hidden bg-slate-950/50"
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden bg-[#f6faf7]"
           >
-            {items.map((item: any) => (
+            {items.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
                 onClick={onClose}
-                className="flex items-center gap-2 px-8 py-2.5 text-sm text-gray-300 hover:text-red-400 hover:bg-white/5 border-b border-white/5 last:border-b-0"
+                className="flex items-center gap-2 px-8 py-3 text-sm text-[#526b62] transition hover:text-[#087e70]"
               >
-                <ChevronRight size={13} className="text-red-500 shrink-0" />
+                <ChevronRight size={14} />
                 {item.label}
               </Link>
             ))}
@@ -140,303 +170,392 @@ function MobileAccordion({ href, label, items, onClose, isRed }: any) {
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [showSearchModal, setShowSearchModal] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
-  const router = useRouter();
-  const pathname = usePathname();
 
+  const pathname = usePathname();
+  const router = useRouter();
   const { user, loading, logout } = useAuth();
+
   const isHomePage = pathname === "/";
   const isTransparent = isHomePage && !scrolled;
+
+  const closeMenu = () => setMenuOpen(false);
 
   const handleLogout = async () => {
     try {
       await logout();
+      closeMenu();
       router.push("/");
     } catch (error) {
-      console.error("Logout error:", error);
+      console.error("Logout failed:", error);
     }
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 40);
 
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
+    if (!menuOpen) return;
+
+    const handleOutsideClick = (event: MouseEvent) => {
       if (
         menuRef.current &&
-        !menuRef.current.contains(e.target as Node)
+        !menuRef.current.contains(event.target as Node)
       ) {
-        setMenuOpen(false);
+        closeMenu();
       }
     };
 
-    if (menuOpen) {
-      document.addEventListener("mousedown", handleClick);
-    }
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMenu();
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("keydown", handleEscape);
     };
   }, [menuOpen]);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
+
     return () => {
       document.body.style.overflow = "";
     };
   }, [menuOpen]);
 
-  const closeMenu = () => setMenuOpen(false);
-
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-[999] transition-all duration-300 ${
+        className={`fixed inset-x-0 top-0 z-[999] border-b transition-all duration-300 ${
           isTransparent
-            ? "bg-black/5 backdrop-blur-[2px] border-b border-white/5 text-white"
-            : "bg-slate-950/85 backdrop-blur-md border-b border-white/10 text-white shadow-md"
+            ? "border-white/20 bg-[#173b35]/20 text-white backdrop-blur-sm"
+            : "border-[#e6eee8] bg-white/95 text-[#173b35] shadow-sm backdrop-blur-xl"
         }`}
       >
-        <nav className="flex items-center justify-between px-4 sm:px-8 lg:px-12 xl:px-16 py-3.5 max-w-[1750px] mx-auto">
-          {/* Logo */}
+        <nav
+          aria-label="Main navigation"
+          className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-10"
+        >
+          {/* Brand */}
           <Link
             href="/"
-            className="flex items-center gap-2.5 shrink-0"
             onClick={closeMenu}
+            className="flex min-w-0 shrink-0 items-center gap-2.5"
+            aria-label="Dream Sky Airways homepage"
           >
-            <motion.div
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.05 }}
-              className="flex items-center gap-2.5"
-            >
-              <Image
-                src="/logo.png"
-                alt="Dream Sky Airways Logo"
-                width={42}
-                height={42}
-                priority
-                className="object-contain w-8 h-8 sm:w-10 sm:h-10 drop-shadow-md"
-              />
-              <span className="text-base sm:text-lg lg:text-xl font-bold tracking-tight text-white">
+            <Image
+              src="/logo.png"
+              alt="Dream Sky Airways logo"
+              width={46}
+              height={46}
+              priority
+              className="h-9 w-9 object-contain sm:h-11 sm:w-11"
+            />
+
+            <span className="flex flex-col">
+              <span
+                className={`whitespace-nowrap text-sm font-extrabold tracking-tight sm:text-lg ${
+                  isTransparent ? "text-white" : "text-[#173b35]"
+                }`}
+              >
                 Dream Sky Airways
               </span>
-            </motion.div>
+              <span
+                className={`hidden text-[9px] font-semibold uppercase tracking-[0.19em] sm:block ${
+                  isTransparent ? "text-white/75" : "text-[#71857b]"
+                }`}
+              >
+                Explore Beyond
+              </span>
+            </span>
           </Link>
 
-          {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-2 flex-wrap">
-            <Link
-              href="/"
-              className={`inline-flex items-center px-3.5 py-1.5 text-xs lg:text-sm font-bold tracking-widest uppercase transition border-b-2 ${
-                pathname === "/"
-                  ? "text-yellow-400 border-yellow-400"
-                  : "text-white/90 border-transparent hover:text-yellow-400 hover:border-yellow-400"
-              }`}
-            >
-              Home
-            </Link>
-
-            <Link
-              href="/services"
-              className={`inline-flex items-center px-3.5 py-1.5 text-xs lg:text-sm font-bold tracking-widest uppercase transition border-b-2 ${
-                pathname === "/services"
-                  ? "text-yellow-400 border-yellow-400"
-                  : "text-white/90 border-transparent hover:text-yellow-400 hover:border-yellow-400"
-              }`}
-            >
-              Services
-            </Link>
-
-            <Link
-              href="/about"
-              className={`inline-flex items-center px-3.5 py-1.5 text-xs lg:text-sm font-bold tracking-widest uppercase transition border-b-2 ${
-                pathname === "/about"
-                  ? "text-yellow-400 border-yellow-400"
-                  : "text-white/90 border-transparent hover:text-yellow-400 hover:border-yellow-400"
-              }`}
-            >
-              About Us
-            </Link>
+          {/* Desktop Navigation */}
+          <div className="hidden items-center gap-1 lg:flex">
+            {primaryLinks.slice(0, 1).map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`rounded-full px-3 py-2 text-sm font-semibold transition ${
+                  isPathActive(pathname, item.href)
+                    ? "bg-[#087e70]/10 text-[#087e70]"
+                    : isTransparent
+                      ? "text-white hover:bg-white/15"
+                      : "text-[#25443d] hover:bg-[#087e70]/10 hover:text-[#087e70]"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
 
             <DesktopDropdown
               href="/packages"
-              label="Offers"
+              label="Holiday Packages"
               items={packageMenu}
-              isActive={pathname.startsWith("/packages")}
+              isActive={isPathActive(pathname, "/packages")}
             />
 
-            <Link
-              href="/contact"
-              className={`inline-flex items-center px-3.5 py-1.5 text-xs lg:text-sm font-bold tracking-widest uppercase transition border-b-2 ${
-                pathname === "/contact"
-                  ? "text-yellow-400 border-yellow-400"
-                  : "text-white/90 border-transparent hover:text-yellow-400 hover:border-yellow-400"
-              }`}
-            >
-              Contacts
-            </Link>
+            <DesktopDropdown
+              href="/packages"
+              label="Destinations"
+              items={destinationMenu}
+              isActive={isPathActive(pathname, "/packages")}
+            />
+
+            {primaryLinks.slice(1).map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`rounded-full px-3 py-2 text-sm font-semibold transition ${
+                  isPathActive(pathname, item.href)
+                    ? "bg-[#087e70]/10 text-[#087e70]"
+                    : isTransparent
+                      ? "text-white hover:bg-white/15"
+                      : "text-[#25443d] hover:bg-[#087e70]/10 hover:text-[#087e70]"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
 
-          {/* Desktop Right Action Area: User Profile */}
-          <div className="hidden md:flex items-center gap-4 shrink-0">
+          {/* Desktop Account and CTA */}
+          <div className="hidden shrink-0 items-center gap-3 md:flex">
             {loading ? (
-              <div className="w-9 h-9 rounded-full bg-white/20 animate-pulse" />
+              <div
+                className={`h-9 w-9 animate-pulse rounded-full ${
+                  isTransparent ? "bg-white/20" : "bg-[#087e70]/10"
+                }`}
+              />
             ) : user ? (
               <UserProfileDropdown user={user} logout={handleLogout} />
             ) : (
               <Link
                 href="/sign-in"
-                className="px-4 py-2 text-white/90 hover:text-yellow-400 border border-white/20 hover:border-yellow-400 transition rounded-full flex items-center gap-1.5 font-semibold text-xs tracking-wider uppercase backdrop-blur-sm bg-white/5 hover:bg-black/40"
-                aria-label="User Account"
+                className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                  isTransparent
+                    ? "border-white/40 text-white hover:bg-white/10"
+                    : "border-[#dbe8df] text-[#25443d] hover:border-[#087e70] hover:text-[#087e70]"
+                }`}
               >
-                <User size={18} />
-                <span>Account</span>
+                <UserRound size={17} />
+                Sign In
               </Link>
             )}
+
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-full bg-[#087e70] px-4 py-2.5 text-sm font-bold text-white shadow-md shadow-[#087e70]/15 transition hover:bg-[#06685d]"
+            >
+              <Plane size={16} />
+              Plan a Trip
+            </Link>
           </div>
 
-          {/* Mobile Actions + Hamburger */}
+          {/* Mobile Controls */}
           <div className="flex items-center gap-2 md:hidden">
-            {!loading && user ? (
-              <UserProfileDropdown user={user} logout={logout} />
-            ) : (
+            {!loading && user && (
+              <UserProfileDropdown user={user} logout={handleLogout} />
+            )}
+
+            {!loading && !user && (
               <Link
                 href="/sign-in"
-                className="p-2 text-white hover:text-yellow-400 transition"
-                aria-label="Account"
+                aria-label="Sign in"
+                className={`rounded-full p-2 ${
+                  isTransparent ? "text-white" : "text-[#173b35]"
+                }`}
               >
-                <User size={20} />
+                <UserRound size={21} />
               </Link>
             )}
 
             <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="p-2 rounded-md text-white hover:bg-white/10 transition"
-              aria-label="Toggle menu"
+              type="button"
+              onClick={() => setMenuOpen((previous) => !previous)}
+              aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={menuOpen}
+              className={`rounded-xl p-2 transition ${
+                isTransparent
+                  ? "text-white hover:bg-white/10"
+                  : "text-[#173b35] hover:bg-[#087e70]/10"
+              }`}
             >
-              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+              {menuOpen ? <X size={23} /> : <Menu size={23} />}
             </button>
           </div>
         </nav>
       </header>
 
-      {/* Mobile Drawer Overlay */}
+      {/* Mobile Navigation Drawer */}
       <AnimatePresence>
         {menuOpen && (
           <>
-            <motion.div
-              key="backdrop"
+            <motion.button
+              type="button"
+              aria-label="Close navigation overlay"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[998] md:hidden"
               onClick={closeMenu}
+              className="fixed inset-0 z-[998] bg-[#102d27]/50 backdrop-blur-sm md:hidden"
             />
 
-            <motion.div
-              key="drawer"
+            <motion.aside
               ref={menuRef}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 right-0 h-full w-[80%] max-w-xs bg-slate-900 text-white z-[999] shadow-2xl flex flex-col md:hidden overflow-y-auto"
+              transition={{ type: "spring", stiffness: 300, damping: 32 }}
+              className="fixed right-0 top-0 z-[999] flex h-dvh w-[88%] max-w-sm flex-col overflow-y-auto bg-white text-[#173b35] shadow-2xl md:hidden"
+              aria-label="Mobile navigation"
             >
-              {/* Drawer Header */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-slate-950">
-                <div className="flex items-center gap-2.5">
-                  <Image
-                    src="/logo.png"
-                    alt="Dream Sky Airways Logo"
-                    width={32}
-                    height={32}
-                    priority
-                    className="object-contain w-8 h-8"
-                  />
-                  <span className="text-white font-bold text-base">
-                    Dream Sky Airways
-                  </span>
-                </div>
-                <button
-                  onClick={closeMenu}
-                  className="text-white/80 hover:text-white transition"
-                  aria-label="Close menu"
-                >
-                  <X size={22} />
-                </button>
-              </div>
-
-              {/* Drawer Links */}
-              <div className="flex flex-col flex-1 py-2">
+              {/* Drawer Brand */}
+              <div className="flex items-center justify-between border-b border-[#e6eee8] bg-[#f6faf7] px-5 py-5">
                 <Link
                   href="/"
                   onClick={closeMenu}
-                  className="px-5 py-3 text-sm font-bold uppercase tracking-wider text-white border-b border-white/5"
+                  className="flex items-center gap-3"
                 >
-                  Home
+                  <Image
+                    src="/logo.png"
+                    alt="Dream Sky Airways logo"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 object-contain"
+                  />
+
+                  <span>
+                    <span className="block text-sm font-extrabold">
+                      Dream Sky Airways
+                    </span>
+                    <span className="text-[10px] uppercase tracking-[0.15em] text-[#71857b]">
+                      Explore Beyond
+                    </span>
+                  </span>
                 </Link>
-                <Link
-                  href="/services"
+
+                <button
+                  type="button"
                   onClick={closeMenu}
-                  className="px-5 py-3 text-sm font-bold uppercase tracking-wider text-gray-200 hover:text-white border-b border-white/5"
+                  aria-label="Close menu"
+                  className="rounded-full p-2 transition hover:bg-[#e8f2ec]"
                 >
-                  Services
-                </Link>
+                  <X size={21} />
+                </button>
+              </div>
+
+              {/* Quick Trip CTA */}
+              <div className="m-4 rounded-2xl bg-[#173b35] p-4 text-white">
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#b8e2d0]">
+                  <MapPin size={15} />
+                  Your next journey starts here
+                </div>
+                <p className="mt-2 text-lg font-bold">
+                  Where would you like to go?
+                </p>
                 <Link
-                  href="/about"
-                  onClick={closeMenu}
-                  className="px-5 py-3 text-sm font-bold uppercase tracking-wider text-gray-200 hover:text-white border-b border-white/5"
-                >
-                  About Us
-                </Link>
-                <MobileAccordion
                   href="/packages"
-                  label="Offers"
-                  items={packageMenu}
-                  onClose={closeMenu}
-                  isRed={true}
-                />
-                <Link
-                  href="/contact"
                   onClick={closeMenu}
-                  className="px-5 py-3 text-sm font-bold uppercase tracking-wider text-gray-200 hover:text-white border-b border-white/5"
+                  className="mt-3 inline-flex items-center gap-2 rounded-full bg-[#e88b42] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#d9782f]"
                 >
-                  Contacts
+                  Explore Packages
+                  <ChevronRight size={16} />
                 </Link>
               </div>
 
+              {/* Drawer Links */}
+              <div className="flex-1 px-1">
+                {primaryLinks.slice(0, 1).map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={closeMenu}
+                    className={`block border-b border-[#e8eee9] px-5 py-4 text-sm font-semibold ${
+                      isPathActive(pathname, item.href)
+                        ? "text-[#087e70]"
+                        : "text-[#25443d]"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+
+                <MobileAccordion
+                  href="/packages"
+                  label="Holiday Packages"
+                  items={packageMenu}
+                  isActive={isPathActive(pathname, "/packages")}
+                  onClose={closeMenu}
+                />
+
+                <MobileAccordion
+                  href="/packages"
+                  label="Destinations"
+                  items={destinationMenu}
+                  isActive={isPathActive(pathname, "/packages")}
+                  onClose={closeMenu}
+                />
+
+                {primaryLinks.slice(1).map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={closeMenu}
+                    className={`block border-b border-[#e8eee9] px-5 py-4 text-sm font-semibold transition ${
+                      isPathActive(pathname, item.href)
+                        ? "text-[#087e70]"
+                        : "text-[#25443d] hover:text-[#087e70]"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+
               {/* Drawer Footer */}
-              <div className="p-5 border-t border-white/10 flex flex-col gap-3">
+              <div className="border-t border-[#e6eee8] bg-[#f6faf7] p-5">
                 {!user && (
                   <Link
                     href="/sign-in"
                     onClick={closeMenu}
-                    className="flex items-center justify-center gap-2 w-full py-3 bg-white text-black font-bold uppercase text-xs tracking-wider rounded-xl hover:bg-gray-100 transition shadow-lg"
+                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#dbe8df] bg-white py-3 text-sm font-bold text-[#25443d] transition hover:border-[#087e70] hover:text-[#087e70]"
                   >
                     <FaArrowRightToBracket size={15} />
-                    Sign In
+                    Sign In to Your Account
                   </Link>
                 )}
+
+                <Link
+                  href="/contact"
+                  onClick={closeMenu}
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[#087e70] py-3 text-sm font-bold text-white transition hover:bg-[#06685d]"
+                >
+                  <Plane size={16} />
+                  Contact Dream Sky Airways
+                </Link>
+
+                <p className="mt-4 text-center text-xs text-[#71857b]">
+                  Discover destinations. Create memories.
+                </p>
               </div>
-            </motion.div>
+            </motion.aside>
           </>
         )}
       </AnimatePresence>
 
-      {/* Spacer for non-homepage subpages so content isn't covered */}
-      {!isHomePage && <div className="h-[68px]" />}
+      {/* Prevent page content from sitting underneath the fixed navbar */}
+      {!isHomePage && <div aria-hidden="true" className="h-[68px] sm:h-[76px]" />}
     </>
   );
-}
+}

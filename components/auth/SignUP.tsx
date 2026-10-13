@@ -1,15 +1,17 @@
+
 "use client";
-// auth/SignUp.tsx
-import api from "@/server/api";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { Eye, EyeOff, Plane, MapPin, ShieldCheck, ArrowRight, Compass } from "lucide-react";
+import api from "@/server/api";
 import { toast } from "react-toastify";
-import { Eye, EyeOff, Plane } from "lucide-react";
 import Swal from "sweetalert2";
 
 const SignUp: React.FC = () => {
   const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
@@ -27,32 +29,26 @@ const SignUp: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formData.password || !formData.confirmPassword) {
-      Swal.fire({
-        icon: "warning",
-        title: "Required Fields",
-        text: "Please enter both Password and Confirm Password.",
+
+    if (formData.password !== formData.confirmPassword) {
+      await Swal.fire({
+        icon: "error",
+        title: "Password mismatch",
+        text: "Password and confirm password must match.",
+        confirmButtonColor: "#087e8b",
       });
       return;
     }
 
-    if (formData.password !== formData.confirmPassword) {
-      Swal.fire({
-        icon: "error",
-        title: "Password Mismatch",
-        text: "Password and Confirm Password do not match.",
-        confirmButtonColor: "#0284C7",
-      });
-      return;
-    }
     if (!acceptTerms) {
-      toast.warning("Please accept the terms and conditions");
+      toast.warning("Please accept the terms and conditions.");
       return;
     }
 
     setIsLoading(true);
+
     try {
       const payload = {
         username: formData.username,
@@ -64,227 +60,277 @@ const SignUp: React.FC = () => {
       const res = await api.post("/auth/signup", payload);
 
       if (res.data.success) {
-        Swal.fire({
+        await Swal.fire({
           icon: "success",
-          title: "Login Successful",
+          title: "Welcome to Dream Sky!",
           text: res.data.message,
           timer: 1800,
           showConfirmButton: false,
         });
+
         setFormData({
           username: "",
           email: "",
           password: "",
           confirmPassword: "",
         });
+
+        setAcceptTerms(false);
         router.push("/sign-in");
       } else {
-        toast.error(res.data.message || "Something went wrong");
+        toast.error(res.data.message || "Something went wrong.");
       }
     } catch (error: any) {
       console.error(error);
-      toast.error(error.response?.data?.message || "Failed to create account");
+      toast.error(
+        error.response?.data?.message || "Failed to create your account."
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
-  return (
-    <div
-      className="min-h-screen relative flex items-center justify-center p-4 sm:p-6 lg:p-8 bg-cover bg-center bg-no-repeat bg-fixed"
-      style={{ backgroundImage: "url('/aeroplaneSignupLogin.jpg')" }}
-    >
-      {/* Light Background Overlay without heavy blur */}
-      <div className="absolute inset-0 bg-black/15" />
+  const inputClass =
+    "w-full rounded-xl border border-gray-200 bg-[#fbfdfd] px-4 py-3 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-[#087e8b] focus:ring-4 focus:ring-[#087e8b]/10";
 
-      {/* Sheer Glass Container with Minimal Blur Filter */}
-      <div className="relative z-10 max-w-5xl w-full mx-auto flex flex-col lg:flex-row items-stretch rounded-3xl overflow-hidden bg-white/10 backdrop-blur-xs border border-white/25 shadow-2xl">
-        {/* Left Side - Hero Section (Glass without blur filter distortion) */}
-        <div className="hidden lg:flex w-1/2 flex-col justify-between p-12 bg-transparent border-r border-white/15 text-white">
-          {/* Trust Badge */}
-          <div className="flex items-center gap-3 bg-white/10 backdrop-blur-xs px-5 py-2.5 rounded-2xl border border-white/20 w-fit">
-            <span className="text-xl">⭐</span>
+  return (
+    <main className="min-h-screen bg-[#f4f7f7] px-4 py-6 sm:px-8 lg:px-12 lg:py-10">
+      <div className="mx-auto grid max-w-6xl overflow-hidden rounded-[28px] bg-white shadow-[0_20px_80px_rgba(15,60,70,0.12)] lg:grid-cols-2">
+
+        {/* Travel Hero */}
+        <section className="relative hidden min-h-[780px] overflow-hidden lg:flex lg:flex-col lg:justify-between">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: "url('/aeroplaneSignupLogin.jpg')",
+            }}
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-b from-[#062f35]/75 via-[#063d43]/40 to-[#052c32]/90" />
+
+          <div className="relative z-10 flex items-center gap-3 p-10">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-[#087e8b] shadow-lg">
+              <Plane size={25} />
+            </div>
             <div>
-              <p className="font-semibold text-xs text-white">50k+ Happy Travelers</p>
-              <p className="text-[10px] text-sky-300 font-medium">Worldwide</p>
+              <h1 className="text-xl font-extrabold tracking-tight text-white">
+                Dream Sky Airways
+              </h1>
+              <p className="text-xs tracking-wide text-white/75">
+                FLIGHTS · HOLIDAYS · EXPERIENCES
+              </p>
             </div>
           </div>
 
-          {/* Main Hero Content */}
-          <div className="my-auto py-8">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-16 h-16 bg-white/10 backdrop-blur-xs rounded-2xl flex items-center justify-center border border-white/30 shadow-md">
-                <Plane className="w-9 h-9 text-sky-300" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold tracking-tight text-white drop-shadow-sm">
-                  Dream Sky Airways
-                </h1>
-                <p className="text-sky-300 text-base font-medium">Soar Beyond Limits</p>
-              </div>
+          <div className="relative z-10 px-10 pb-12">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-md">
+              <Compass size={16} className="text-orange-300" />
+              Start your travel story
             </div>
 
-            <h2 className="text-5xl font-extrabold leading-tight tracking-tight text-white mb-6 drop-shadow-sm">
-              Your Journey
+            <h2 className="text-5xl font-bold leading-[1.15] tracking-tight text-white xl:text-6xl">
+              Discover more.
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-200 via-white to-sky-300">
-                Begins Here
-              </span>
+              Travel <span className="text-orange-300">further.</span>
             </h2>
-            <p className="text-lg text-white/90 max-w-md leading-relaxed drop-shadow-xs">
-              Join thousands of travelers discovering the world with comfort,
-              luxury, and unforgettable experiences.
+
+            <p className="mt-5 max-w-md text-base leading-7 text-white/85">
+              Create your account to explore exciting holiday packages,
+              discover new destinations, and plan memorable journeys.
+            </p>
+
+            <div className="mt-8 space-y-4">
+              {[
+                "Explore curated holiday packages",
+                "Plan your next unforgettable escape",
+                "Keep your travel plans in one place",
+              ].map((item) => (
+                <div key={item} className="flex items-center gap-3 text-sm text-white/90">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#087e8b] text-white">
+                    ✓
+                  </span>
+                  {item}
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-12 text-xs text-white/60">
+              © Dream Sky Airways. Your journey starts here.
             </p>
           </div>
+        </section>
 
-          {/* Bottom Accent */}
-          <div className="text-xs text-white/60 font-light">
-            © Dream Sky Airways. Premium Aviation Services.
-          </div>
-        </div>
+        {/* Signup Form */}
+        <section className="flex items-center justify-center px-5 py-9 sm:px-10 lg:px-12 xl:px-16">
+          <div className="w-full max-w-md">
+            <Link
+              href="/"
+              className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-[#087e8b] transition hover:text-[#065c65]"
+            >
+              <Plane size={19} />
+              Dream Sky Airways
+            </Link>
 
-        {/* Right Side - Signup Form */}
-        <div className="w-full lg:w-1/2 p-6 sm:p-10 lg:p-12 bg-white/5 backdrop-blur-xs flex flex-col justify-center">
-          <div className="mb-8 text-center lg:text-left">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2 tracking-tight drop-shadow-sm">
-              Create Account
-            </h2>
-            <p className="text-white/80 text-base">Join the Dream Sky family today</p>
-          </div>
+            <div className="mb-7">
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#e7f5f4] text-[#087e8b]">
+                <MapPin size={24} />
+              </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-white/90 mb-2">
-                Full Name
-              </label>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-                className="w-full px-5 py-3.5 bg-white/10 hover:bg-white/15 focus:bg-white/20 border border-white/25 rounded-2xl focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-300/30 transition-all text-white placeholder:text-white/50"
-                placeholder="John Doe"
-              />
+              <p className="mb-2 text-sm font-semibold uppercase tracking-[0.18em] text-[#087e8b]">
+                Join our travel community
+              </p>
+
+              <h2 className="text-3xl font-bold tracking-tight text-[#173a40] sm:text-4xl">
+                Create account
+              </h2>
+
+              <p className="mt-3 text-sm leading-6 text-gray-500">
+                Sign up today and get ready for your next adventure.
+              </p>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-white/90 mb-2">
-                Email Address
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full px-5 py-3.5 bg-white/10 hover:bg-white/15 focus:bg-white/20 border border-white/25 rounded-2xl focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-300/30 transition-all text-white placeholder:text-white/50"
-                placeholder="you@example.com"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-white/90 mb-2">
-                Password
-              </label>
-              <div className="relative">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="username" className="mb-2 block text-sm font-semibold text-[#29464b]">
+                  Full name
+                </label>
                 <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={formData.password}
+                  id="username"
+                  type="text"
+                  name="username"
+                  autoComplete="name"
+                  value={formData.username}
                   onChange={handleChange}
                   required
-                  className="w-full px-5 py-3.5 bg-white/10 hover:bg-white/15 focus:bg-white/20 border border-white/25 rounded-2xl focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-300/30 transition-all text-white placeholder:text-white/50 pr-12"
-                  placeholder="••••••••"
+                  placeholder="Enter your full name"
+                  className={inputClass}
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors cursor-pointer"
-                >
-                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                </button>
               </div>
-            </div>
 
-            <div>
-              <label className="block text-sm font-medium text-white/90 mb-2">
-                Confirm Password
-              </label>
-
-              <div className="relative">
+              <div>
+                <label htmlFor="email" className="mb-2 block text-sm font-semibold text-[#29464b]">
+                  Email address
+                </label>
                 <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
+                  id="email"
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-5 py-3.5 bg-white/10 hover:bg-white/15 focus:bg-white/20 border border-white/25 rounded-2xl focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-300/30 transition-all text-white placeholder:text-white/50 pr-12"
-                  placeholder="••••••••"
+                  placeholder="you@example.com"
+                  className={inputClass}
                 />
-
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors cursor-pointer"
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff size={20} />
-                  ) : (
-                    <Eye size={20} />
-                  )}
-                </button>
               </div>
-            </div>
 
-            <div className="flex items-start gap-3 pt-1">
-              <input
-                type="checkbox"
-                id="terms"
-                checked={acceptTerms}
-                onChange={(e) => setAcceptTerms(e.target.checked)}
-                className="mt-1 w-5 h-5 accent-sky-500 cursor-pointer rounded border-white/30 bg-white/10"
-              />
-              <label
-                htmlFor="terms"
-                className="text-sm text-white/90 cursor-pointer leading-relaxed"
-              >
-                I agree to the{" "}
-                <span className="text-sky-300 hover:text-sky-200 underline font-medium transition-colors">
-                  Terms of Service
-                </span>{" "}
-                and{" "}
-                <span className="text-sky-300 hover:text-sky-200 underline font-medium transition-colors">
-                  Privacy Policy
+              <div>
+                <label htmlFor="password" className="mb-2 block text-sm font-semibold text-[#29464b]">
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    autoComplete="new-password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                    minLength={8}
+                    placeholder="At least 8 characters"
+                    className={`${inputClass} pr-12`}
+                  />
+                  <button
+                    type="button"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#087e8b]"
+                  >
+                    {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="confirmPassword" className="mb-2 block text-sm font-semibold text-[#29464b]">
+                  Confirm password
+                </label>
+                <div className="relative">
+                  <input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    autoComplete="new-password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    required
+                    minLength={8}
+                    placeholder="Re-enter your password"
+                    className={`${inputClass} pr-12`}
+                  />
+                  <button
+                    type="button"
+                    aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#087e8b]"
+                  >
+                    {showConfirmPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+                  </button>
+                </div>
+              </div>
+
+              <label className="flex cursor-pointer items-start gap-3 pt-1 text-sm leading-6 text-gray-600">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={acceptTerms}
+                  onChange={(e) => setAcceptTerms(e.target.checked)}
+                  className="mt-1 h-4 w-4 shrink-0 accent-[#087e8b]"
+                />
+                <span>
+                  I agree to the{" "}
+                  <Link href="/terms" className="font-semibold text-[#087e8b] hover:underline">
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link href="/privacy-policy" className="font-semibold text-[#087e8b] hover:underline">
+                    Privacy Policy
+                  </Link>.
                 </span>
               </label>
-            </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full mt-6 bg-sky-600/90 hover:bg-sky-500 text-white font-semibold py-4 rounded-2xl text-lg transition-all active:scale-[0.985] shadow-lg shadow-sky-600/30 border border-white/20 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
-            >
-              {isLoading ? "Creating Account..." : "Create Account"}
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="group mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-[#087e8b] px-5 py-4 font-semibold text-white shadow-lg shadow-[#087e8b]/20 transition duration-200 hover:bg-[#066873] hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isLoading ? "Creating account..." : "Create my account"}
+                {!isLoading && (
+                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                )}
+              </button>
+            </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-white/80">
+            <p className="mt-6 text-center text-sm text-gray-500">
               Already have an account?{" "}
               <Link
                 href="/sign-in"
-                className="text-sky-300 font-semibold hover:text-sky-200 hover:underline transition-colors ml-1"
+                className="font-bold text-[#087e8b] transition hover:text-[#065c65] hover:underline"
               >
                 Sign in
               </Link>
             </p>
+
+            <div className="mt-7 flex items-center justify-center gap-2 border-t border-gray-100 pt-5 text-xs text-gray-400">
+              <ShieldCheck size={15} className="text-[#087e8b]" />
+              Your journey starts with a secure sign-up
+            </div>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 };
 
 export default SignUp;
-

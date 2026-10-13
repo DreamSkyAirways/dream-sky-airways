@@ -1,10 +1,19 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, MapPin, Sparkles, ChevronLeft, ChevronRight, Calendar, Clock, Compass } from "lucide-react";
+import {
+  ArrowRight,
+  MapPin,
+  ChevronLeft,
+  ChevronRight,
+  Calendar,
+  Clock,
+  Compass,
+  Sparkles,
+} from "lucide-react";
 
 interface SlideItem {
   id: string;
@@ -22,255 +31,364 @@ interface SlideItem {
 const sliderData: SlideItem[] = [
   {
     id: "rishikesh",
-    taglineBase: "ADVENTURE & YOGA CAPITAL",
+    taglineBase: "ADVENTURE & YOGA",
     title: "RISHIKESH",
     country: "UTTARAKHAND, INDIA",
     quote:
-      "SACRED GANGA RIVERS, THRILLING WHITE-WATER RAFTING, MEDITATION RETREATS, EVENING TRIVENI AARTI & SCENIC HIMALAYAN FOOTHILLS.",
+      "Experience the sacred Ganga, thrilling river rafting, peaceful yoga retreats, evening Ganga Aarti, and beautiful Himalayan foothills.",
     image: "/Blog/slider/rishikesh.png",
     slug: "rishikesh-travel-guide-rafting-yoga",
     duration: "4 Days / 3 Nights",
-    bestSeason: "Sep – May (Peak Rafting)",
+    bestSeason: "Sep – May",
     nextBatchOffsetDays: 3,
   },
   {
     id: "goa",
-    taglineBase: "BEACH & SUNSET HAVEN",
+    taglineBase: "BEACHES & SUNSETS",
     title: "GOA",
     country: "GOA, INDIA",
     quote:
-      "PALM-FRINGED BEACHES, GOLDEN SUNSETS ON THE ARABIAN SEA, COLONIAL CHURCHES, VIBRANT NIGHTMARKETS & COASTAL SEAFOOD PARADISE.",
+      "Explore palm-lined beaches, golden sunsets, Portuguese heritage, colorful markets, and memorable coastal experiences.",
     image: "/Blog/slider/goa.png",
     slug: "goa-tour-package-guide",
     duration: "5 Days / 4 Nights",
-    bestSeason: "Nov – Feb (Peak Sunset)",
+    bestSeason: "Nov – Feb",
     nextBatchOffsetDays: 5,
   },
   {
     id: "manali",
-    taglineBase: "HIMACHAL SNOW PARADISE",
+    taglineBase: "MOUNTAINS & ADVENTURE",
     title: "MANALI",
     country: "HIMACHAL PRADESH, INDIA",
     quote:
-      "SNOW-COVERED PEAKS OF SOLANG VALLEY, WHISPERING BEAS RIVER PINES, ROMANTIC HONEYMOON CABINS & ADVENTURE PARAGLIDING ACROSS THE BLUE SKIES.",
+      "Discover snow-covered mountains, Solang Valley, riverside views, cozy stays, and exciting outdoor adventures.",
     image: "/Blog/slider/manali.png",
     slug: "manali-snow-adventure-solang-valley",
     duration: "6 Days / 5 Nights",
-    bestSeason: "Oct – Mar (Snow Season)",
+    bestSeason: "Oct – Mar",
     nextBatchOffsetDays: 4,
   },
   {
     id: "kashmir",
-    taglineBase: "PARADISE ON EARTH",
+    taglineBase: "A BEAUTIFUL MOUNTAIN ESCAPE",
     title: "KASHMIR",
     country: "JAMMU & KASHMIR, INDIA",
     quote:
-      "SERENE DAL LAKE HOUSEBOATS, SHALIMAR BAGH MUGHAL GARDENS, SNOWY GULMARG SLOPES & BREATHTAKING MOUNTAIN VALLEYS.",
+      "Enjoy peaceful Dal Lake, Mughal gardens, mountain valleys, scenic houseboats, and the unforgettable beauty of Kashmir.",
     image: "/Blog/slider/kashmir.png",
     slug: "kashmir-romantic-paradise-honeymoon-guide",
     duration: "7 Days / 6 Nights",
-    bestSeason: "Year-Round Marvel",
+    bestSeason: "Mar – Oct",
     nextBatchOffsetDays: 6,
   },
   {
     id: "jaipur",
-    taglineBase: "ROYAL RAJASTHAN HERITAGE",
+    taglineBase: "ROYAL HERITAGE & CULTURE",
     title: "JAIPUR",
     country: "RAJASTHAN, INDIA",
     quote:
-      "MAJESTIC HAWA MAHAL PALACES, FORTRESSES OF AMBER, COLORFUL PINK CITY BAZAARS & TIMELESS ROYAL CULTURAL HERITAGE.",
+      "Explore the iconic Hawa Mahal, magnificent forts, vibrant Pink City markets, and Rajasthan's rich cultural heritage.",
     image: "/Blog/slider/jaipur.png",
     slug: "jaipur-pink-city-royal-heritage-guide",
     duration: "4 Days / 3 Nights",
-    bestSeason: "Oct – Mar (Royal Festive)",
+    bestSeason: "Oct – Mar",
     nextBatchOffsetDays: 2,
   },
 ];
 
 export default function BlogFeaturedSlider() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [currentYear, setCurrentYear] = useState<number>(2026);
-  const [nextDepartureFormatted, setNextDepartureFormatted] = useState<string>("");
-
-  useEffect(() => {
-    const year = new Date().getFullYear();
-    setCurrentYear(year);
-
-    // Auto swap images and data every 5 seconds (1 to 5 continuously)
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % sliderData.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
+  const [nextDepartureFormatted, setNextDepartureFormatted] =
+    useState("");
 
   const currentSlide = sliderData[activeIndex];
 
   useEffect(() => {
-    const date = new Date(Date.now() + currentSlide.nextBatchOffsetDays * 86400000);
-    setNextDepartureFormatted(
-      date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+    const interval = window.setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % sliderData.length);
+    }, 5000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const date = new Date(
+      Date.now() + currentSlide.nextBatchOffsetDays * 86400000
     );
-  }, [activeIndex, currentSlide.nextBatchOffsetDays]);
+
+    setNextDepartureFormatted(
+      date.toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
+    );
+  }, [currentSlide]);
 
   const handleNext = () => {
     setActiveIndex((prev) => (prev + 1) % sliderData.length);
   };
 
   const handlePrev = () => {
-    setActiveIndex((prev) => (prev - 1 + sliderData.length) % sliderData.length);
+    setActiveIndex(
+      (prev) => (prev - 1 + sliderData.length) % sliderData.length
+    );
   };
 
   return (
-    <section className="relative w-full min-h-[550px] lg:min-h-[650px] py-10 lg:py-12 bg-black text-white font-sans select-none overflow-hidden flex flex-col justify-between">
-      {/* Ultra HD Background Image with AnimatePresence */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentSlide.id}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.97 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="absolute inset-0 z-0 overflow-hidden"
-        >
-          <Image
-            src={currentSlide.image}
-            alt={currentSlide.title}
-            fill
-            priority
-            unoptimized
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-          {/* Gradients for maximum visual quality & readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
-        </motion.div>
-      </AnimatePresence>
+    <section className="relative overflow-hidden bg-[#f8faf7] py-14 sm:py-20 lg:py-24">
+      {/* Background decoration */}
+      <div className="pointer-events-none absolute -left-32 top-20 h-72 w-72 rounded-full bg-[#d9f1e9]/70 blur-3xl" />
+      <div className="pointer-events-none absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-[#ffead7]/60 blur-3xl" />
 
-      {/* Top Bar Navigation */}
-      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex items-center justify-end gap-4">
-        {/* Destination Pills aligned on right */}
-        <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md p-1.5 rounded-full border border-white/20 overflow-x-auto scrollbar-none shadow-xl ml-auto">
-          {sliderData.map((slide, idx) => (
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Section heading */}
+        <div className="mb-9 flex flex-col justify-between gap-5 sm:mb-12 md:flex-row md:items-end">
+          <div className="max-w-2xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#c5e7dc] bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-[#087e70] shadow-sm">
+              <Sparkles size={15} />
+              Travel Inspiration
+            </span>
+
+            <h2 className="mt-5 text-3xl font-extrabold leading-tight text-[#173b35] sm:text-4xl lg:text-5xl">
+              Discover Your Next
+              <span className="block text-[#e88b42]">
+                Favourite Destination
+              </span>
+            </h2>
+
+            <p className="mt-4 max-w-xl text-sm leading-7 text-gray-600 sm:text-base">
+              Explore inspiring destinations, discover local experiences,
+              and find ideas for your next unforgettable holiday.
+            </p>
+          </div>
+
+          {/* Desktop controls */}
+          <div className="hidden items-center gap-3 md:flex">
             <button
+              type="button"
+              onClick={handlePrev}
+              aria-label="Previous destination"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-[#dce9e2] bg-white text-[#173b35] shadow-sm transition hover:border-[#087e70] hover:bg-[#087e70] hover:text-white"
+            >
+              <ChevronLeft size={22} />
+            </button>
+
+            <button
+              type="button"
+              onClick={handleNext}
+              aria-label="Next destination"
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-[#087e70] text-white shadow-md transition hover:bg-[#06675d]"
+            >
+              <ChevronRight size={22} />
+            </button>
+          </div>
+        </div>
+
+        {/* Destination selector */}
+        <div className="mb-7 flex gap-2 overflow-x-auto pb-2">
+          {sliderData.map((slide, index) => (
+            <button
+              type="button"
               key={slide.id}
-              onClick={() => setActiveIndex(idx)}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap ${
-                activeIndex === idx
-                  ? "bg-amber-400 text-black shadow-lg shadow-amber-400/30 scale-105"
-                  : "text-white/80 hover:text-white hover:bg-white/15"
+              onClick={() => setActiveIndex(index)}
+              aria-pressed={activeIndex === index}
+              className={`shrink-0 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider transition-all sm:text-sm ${
+                activeIndex === index
+                  ? "bg-[#173b35] text-white shadow-md"
+                  : "border border-[#e1eae4] bg-white text-gray-600 hover:border-[#087e70] hover:text-[#087e70]"
               }`}
             >
               {slide.title}
             </button>
           ))}
         </div>
-      </div>
 
-      {/* Main Content Area */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto py-10">
-        <div className="max-w-3xl">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide.id}
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
-              className="space-y-6"
-            >
-              {/* Dynamic Tagline (No static 2026) */}
-              <div className="flex items-center gap-3 flex-wrap">
-                <p className="text-xs sm:text-sm font-extrabold tracking-[0.25em] text-amber-300 uppercase">
-                  {currentSlide.taglineBase} {currentYear}
-                </p>
-
-              </div>
-
-              {/* Huge Bold Title */}
-              <div className="my-4 sm:my-6 md:my-8">
-                <h1
-                  className="text-6xl sm:text-8xl lg:text-9xl font-black tracking-wider text-white uppercase leading-none drop-shadow-2xl"
-                  style={{ fontFamily: "'Anton', 'Bebas Neue', 'Impact', sans-serif" }}
+        {/* Featured destination */}
+        <div className="overflow-hidden rounded-[2rem] border border-[#e3ece5] bg-white shadow-[0_20px_65px_rgba(23,59,53,0.08)]">
+          <div className="grid lg:grid-cols-[1.08fr_0.92fr]">
+            {/* Image panel */}
+            <div className="relative min-h-[320px] overflow-hidden sm:min-h-[440px] lg:min-h-[570px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide.id}
+                  initial={{ opacity: 0, scale: 1.04 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.02 }}
+                  transition={{ duration: 0.45 }}
+                  className="absolute inset-0"
                 >
-                  {currentSlide.title}
-                </h1>
-              </div>
+                  <Image
+                    src={currentSlide.image}
+                    alt={`${currentSlide.title} travel destination`}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 55vw"
+                    className="object-cover"
+                  />
+                </motion.div>
+              </AnimatePresence>
 
-              {/* Subtitle Quote Box */}
-              <p className="text-xs sm:text-sm md:text-base text-gray-100 leading-relaxed font-sans max-w-xl bg-black/60 backdrop-blur-md p-5 sm:p-6 rounded-2xl border-l-4 border-amber-400 my-4 shadow-xl">
-                &quot;{currentSlide.quote}&quot;
-              </p>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#102d28]/80 via-black/10 to-transparent" />
 
-              {/* Dynamic Timeline Info Badges (No static 2026) */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-xl py-2">
-                <div className="flex items-center gap-2.5 bg-black/50 backdrop-blur-md px-3.5 py-2.5 rounded-xl border border-white/10">
-                  <Clock className="w-4 h-4 text-amber-400 shrink-0" />
-                  <div>
-                    <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Duration</div>
-                    <div className="text-xs font-extrabold text-white">{currentSlide.duration}</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2.5 bg-black/50 backdrop-blur-md px-3.5 py-2.5 rounded-xl border border-white/10">
-                  <Compass className="w-4 h-4 text-amber-400 shrink-0" />
-                  <div>
-                    <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Best Season</div>
-                    <div className="text-xs font-extrabold text-white">{currentSlide.bestSeason}</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2.5 bg-black/50 backdrop-blur-md px-3.5 py-2.5 rounded-xl border border-white/10">
-                  <Calendar className="w-4 h-4 text-amber-400 shrink-0" />
-                  <div>
-                    <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Next Batch</div>
-                    <div className="text-xs font-extrabold text-amber-300">{nextDepartureFormatted || "Enquire Now"}</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Country Badge & Explore Button */}
-              <div className="flex items-center gap-4 pt-2 flex-wrap">
-                <span className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-amber-400 text-black text-xs font-black uppercase tracking-widest rounded-xl shadow-lg">
-                  <MapPin className="w-4 h-4 fill-black" />
-                  {currentSlide.country}
+              <div className="absolute left-5 top-5 sm:left-7 sm:top-7">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/90 px-4 py-2 text-xs font-bold uppercase tracking-wider text-[#173b35] shadow-sm">
+                  <MapPin size={14} className="text-[#087e70]" />
+                  Featured Destination
                 </span>
-
-                <Link
-                  href={`/blog/${currentSlide.slug}`}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black text-xs font-extrabold uppercase tracking-widest rounded-xl hover:bg-amber-400 transition-all duration-300 shadow-2xl hover:scale-105 group"
-                >
-                  <span>Explore Travel Story</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
 
-      {/* Bottom Slider Controls & Counter */}
-      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex items-center justify-between">
-        <div className="text-xs font-mono font-bold text-gray-400">
-          <span className="text-amber-400 text-base font-extrabold">0{activeIndex + 1}</span> / 0{sliderData.length}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide.id + "-image-caption"}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.35 }}
+                  className="absolute bottom-6 left-5 right-5 text-white sm:bottom-8 sm:left-8 sm:right-8"
+                >
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffd3a6] sm:text-sm">
+                    {currentSlide.taglineBase}
+                  </p>
+
+                  <h3 className="mt-3 text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">
+                    {currentSlide.title}
+                  </h3>
+
+                  <p className="mt-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-white/90 sm:text-sm">
+                    <MapPin size={16} />
+                    {currentSlide.country}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Information panel */}
+            <div className="flex flex-col justify-center p-6 sm:p-9 lg:p-10 xl:p-12">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide.id + "-content"}
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.35 }}
+                >
+                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#087e70]">
+                    Your travel story starts here
+                  </span>
+
+                  <h3 className="mt-4 text-2xl font-extrabold leading-tight text-[#173b35] sm:text-3xl">
+                    Explore the beauty of{" "}
+                    <span className="text-[#e88b42]">
+                      {currentSlide.title}
+                    </span>
+                  </h3>
+
+                  <p className="mt-5 text-sm leading-7 text-gray-600 sm:text-base sm:leading-8">
+                    {currentSlide.quote}
+                  </p>
+
+                  {/* Travel details */}
+                  <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className="flex items-center gap-3 rounded-2xl bg-[#f1f8f4] p-4">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-[#087e70] shadow-sm">
+                        <Clock size={19} />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500">Ideal Duration</p>
+                        <p className="mt-1 text-sm font-bold text-[#173b35]">
+                          {currentSlide.duration}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 rounded-2xl bg-[#fff6ee] p-4">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-[#e88b42] shadow-sm">
+                        <Compass size={19} />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500">Best Season</p>
+                        <p className="mt-1 text-sm font-bold text-[#173b35]">
+                          {currentSlide.bestSeason}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 rounded-2xl border border-[#e8eee9] p-4 sm:col-span-2">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#f1f8f4] text-[#087e70]">
+                        <Calendar size={19} />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500">
+                          Suggested Enquiry Date
+                        </p>
+                        <p className="mt-1 text-sm font-bold text-[#173b35]">
+                          {nextDepartureFormatted || "Enquire for details"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Link
+                    href={`/blog/${currentSlide.slug}`}
+                    className="mt-7 inline-flex w-full items-center justify-center gap-3 rounded-full bg-[#087e70] px-6 py-4 text-sm font-bold text-white shadow-lg shadow-[#087e70]/15 transition hover:-translate-y-0.5 hover:bg-[#06675d] sm:w-auto"
+                  >
+                    Read Travel Guide
+                    <ArrowRight size={18} />
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handlePrev}
-            className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-amber-400 hover:text-black transition-all"
-            aria-label="Previous Destination"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <button
-            onClick={handleNext}
-            className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-amber-400 hover:text-black transition-all"
-            aria-label="Next Destination"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
+        {/* Bottom pagination and mobile controls */}
+        <div className="mt-7 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            {sliderData.map((slide, index) => (
+              <button
+                type="button"
+                key={slide.id}
+                onClick={() => setActiveIndex(index)}
+                aria-label={`Show ${slide.title}`}
+                aria-pressed={activeIndex === index}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  activeIndex === index
+                    ? "w-8 bg-[#087e70]"
+                    : "w-2 bg-[#cbdcd2] hover:bg-[#e88b42]"
+                }`}
+              />
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-bold tabular-nums text-gray-500">
+              <span className="text-[#087e70]">
+                {String(activeIndex + 1).padStart(2, "0")}
+              </span>{" "}
+              / {String(sliderData.length).padStart(2, "0")}
+            </span>
+
+            <div className="flex gap-2 md:hidden">
+              <button
+                type="button"
+                onClick={handlePrev}
+                aria-label="Previous destination"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#dce9e2] bg-white text-[#173b35]"
+              >
+                <ChevronLeft size={20} />
+              </button>
+
+              <button
+                type="button"
+                onClick={handleNext}
+                aria-label="Next destination"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-[#087e70] text-white"
+              >
+                <ChevronRight size={20} />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

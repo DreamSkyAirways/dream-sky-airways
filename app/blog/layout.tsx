@@ -1,9 +1,10 @@
-import type {Metadata} from "next";
-import {servicePageSeo} from "@/lib/seo";
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import { servicePageSeo } from "@/lib/seo";
 
 export const metadata: Metadata = servicePageSeo(
   "Travel Blog – Tips, Destinations & Holiday Guides",
-  "Read travel blogs from Dream Sky Airways for destination guides, trip planning tips, family holidays and budget travel ideas across India and beyond.",
+  "Read travel blogs from Dream Sky Airways for destination guides, trip planning tips, family holidays, and budget travel ideas across India and beyond.",
   "/blog",
   [
     "travel blog",
@@ -11,13 +12,14 @@ export const metadata: Metadata = servicePageSeo(
     "holiday guides",
     "destination blog",
     "trip planning tips",
-  ],
+  ]
 );
 
 export default function BlogLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
-  return children;
+  return <>{children}</>;
 }
+

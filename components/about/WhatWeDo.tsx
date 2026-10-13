@@ -1,154 +1,221 @@
+
 "use client";
 
 import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  Globe2,
+  Plane,
+  MapPinned,
+  Hotel,
+  FileCheck,
+  Compass,
+  MonitorSmartphone,
+  CheckCircle2,
+} from "lucide-react";
 
-// const services = [
-//   {
-//     title: "Domestic & International Tour Planning",
-//     description:
-//       "Dream Sky Airways specializes in customized domestic and international tour planning. From family vacations to honeymoon packages and corporate trips, we design journeys that match your budget, preferences, and travel goals.",
-//   },
-//   {
-//     title: "Flight Ticket Booking",
-//     description:
-//       "Book affordable flight tickets for both domestic and international destinations through our platform. We ensure the best routes, competitive pricing, and hassle-free booking for a smooth travel experience.",
-//   },
-//   {
-//     title: "Complete Travel & Tour Services",
-//     description:
-//       "We offer end-to-end travel solutions including hotels, sightseeing, transportation, and guided tours—so you can enjoy a seamless and stress-free journey from start to finish.",
-//   },
-//   {
-//     title: "Aviation Career Guidance & Job Placement",
-//     description:
-//       "Alongside travel services, we provide free aviation career guidance and job placement support for aspiring pilots, cabin crew, ground staff, and other aviation professionals.",
-//   },
-//   {
-//     title: "Hotel & Accommodation Management",
-//     description:
-//       "Our hotel and accommodation services ensure comfortable stays at trusted partner hotels, offering quality service, safety, and value for money at every destination.",
-//   },
-//   {
-//     title: "Digital Services & Brand Support",
-//     description:
-//       "Dream Sky Airways also delivers professional digital solutions including website development, online marketing, and content creation to support travel businesses and startups in growing their online presence.",
-//   },
-// ];
 const services = [
   {
-    title: "Domestic Tour Planning",
-    image:
-      "/images/domestic_international.png",
+    number: "01",
+    title: "Domestic & International Tours",
+    category: "TOUR PLANNING",
+    image: "/images/domestic_international.png",
     description:
-      "Dream Sky Airways specializes in customized domestic and international tour planning. From family vacations to honeymoon packages and corporate trips, we design journeys that match your budget, preferences, and travel goals.",
+      "Discover beautiful destinations with customized tour plans for family holidays, honeymoons, group trips, and international adventures tailored to your budget.",
+    icon: MapPinned,
   },
   {
+    number: "02",
     title: "Flight Ticket Booking",
-    image:
-      "/images/flight-ticket-booking.png",
+    category: "FLIGHT BOOKINGS",
+    image: "/images/flight-ticket-booking.png",
     description:
-      "Book affordable flight tickets for both domestic and international destinations through our platform. We ensure the best routes, competitive pricing, and hassle-free booking for a smooth travel experience.",
+      "Plan your journey with domestic and international flight bookings. Compare suitable travel options and find convenient routes for your next trip.",
+    icon: Plane,
   },
   {
-    title: "Complete Travel & Tour Services",
-    image:
-     "/images/complete-travel.png",
+    number: "03",
+    title: "Holiday Packages & Experiences",
+    category: "TRAVEL EXPERIENCES",
+    image: "/images/complete-travel.png",
     description:
-      "We offer end-to-end travel solutions including hotels, sightseeing, transportation, and guided tours—so you can enjoy a seamless and stress-free journey from start to finish.",
+      "Enjoy thoughtfully planned holidays with sightseeing, local experiences, transportation, and itineraries designed to make every trip memorable.",
+    icon: Compass,
   },
   {
-    title: "Flight Services ",
-    image:
-      "/images/aviation-careers.png",
+    number: "04",
+    title: "Visa Assistance",
+    category: "TRAVEL DOCUMENTATION",
+    image: "/images/domestic_international.png",
     description:
-      "Book affordable flight tickets for both domestic and international destinations through our platform. We ensure the best routes, competitive pricing, and hassle-free booking for a smooth travel experience.",
+      "Get guidance on visa requirements, application documentation, and travel preparation to help you plan your international journey with confidence.",
+    icon: FileCheck,
   },
   {
-    title: "Hotel & Accommodation Management",
-    image:
-      "/images/hotel-management.png",
+    number: "05",
+    title: "Hotels & Accommodation",
+    category: "STAYS & COMFORT",
+    image: "/images/hotel-management.png",
     description:
-      "Our hotel and accommodation services ensure comfortable stays at trusted partner hotels, offering quality service, safety, and value for money at every destination.",
+      "Find suitable accommodation for every kind of trip, from comfortable family stays to premium hotels and relaxing holiday resorts.",
+    icon: Hotel,
   },
   {
-    title: "Digital Services & Brand Support",
-    image:"/images/digital-service.png",
+    number: "06",
+    title: "Travel Business Digital Support",
+    category: "DIGITAL SOLUTIONS",
+    image: "/images/digital-service.png",
     description:
-      "Dream Sky Airways also delivers professional digital solutions including website development, online marketing, and content creation to support travel businesses and startups in growing their online presence.",
+      "We help travel businesses strengthen their online presence through website development, digital marketing, and travel-focused content solutions.",
+    icon: MonitorSmartphone,
   },
 ];
+
 export default function WhatWeDo() {
   return (
-    <section className="relative overflow-hidden bg-[#050B1A] py-20 text-white">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.18),transparent_40%),radial-gradient(circle_at_bottom_right,rgba(14,165,233,0.14),transparent_35%)]" />
-      
-      <div className="relative mx-auto max-w-7xl px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center rounded-full border border-blue-950 bg-white/5 px-4 py-2 text-sm font-medium text-blue-100 backdrop-blur-md">
-            Our Services
+    <section
+      id="services"
+      className="relative overflow-hidden bg-[#f8faf7] py-16 sm:py-20 lg:py-24"
+    >
+      {/* Soft background decorations */}
+      <div className="pointer-events-none absolute -left-32 top-32 h-72 w-72 rounded-full bg-[#d9f1e9]/60 blur-3xl" />
+      <div className="pointer-events-none absolute -right-32 bottom-20 h-80 w-80 rounded-full bg-[#ffead7]/60 blur-3xl" />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        {/* Section heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="mx-auto mb-12 max-w-3xl text-center sm:mb-16"
+        >
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#bce6d9] bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#087e70] shadow-sm">
+            <Globe2 size={15} />
+            Our Travel Services
           </span>
 
-          <h2 className="mt-5 text-3xl font-bold tracking-tight md:text-5xl">
-            What We Do
+          <h2 className="mt-5 text-3xl font-extrabold leading-tight tracking-tight text-[#173b35] sm:text-4xl lg:text-5xl">
+            Everything You Need
+            <br className="hidden sm:block" /> for Your Next{" "}
+            <span className="text-[#e88b42]">Journey</span>
           </h2>
 
-          <p className="mt-5 text-base leading-8 text-blue-100/80 md:text-lg">
-            Dream Sky Airways is a reliable travel and aviation services company
-            offering complete tour planning, ticket booking, and career support—
-            designed to make every journey smooth, affordable, and memorable.
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base sm:leading-8">
+            From discovering new destinations to arranging flights and
+            comfortable stays, Dream Sky Airways helps make your travel
+            planning simpler, smoother, and more memorable.
           </p>
-        </div>
 
-        <div className="mt-10 space-y-8">
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.08 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -4 }}
-              className="group overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md transition-all duration-500 hover:border-blue-400/30 hover:bg-white/[0.08]"
-            >
-              <div className="flex flex-col md:flex-row">
+          <div className="mx-auto mt-6 flex items-center justify-center gap-2">
+            <span className="h-1 w-10 rounded-full bg-[#087e70]" />
+            <span className="h-1 w-3 rounded-full bg-[#e88b42]" />
+            <span className="h-1 w-3 rounded-full bg-[#bce6d9]" />
+          </div>
+        </motion.div>
+
+        {/* Services grid */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          {services.map((service, index) => {
+            const Icon = service.icon;
+
+            return (
+              <motion.article
+                key={service.number}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: (index % 3) * 0.1,
+                }}
+                viewport={{ once: true, amount: 0.15 }}
+                whileHover={{ y: -6 }}
+                className="group overflow-hidden rounded-3xl border border-[#e5eee8] bg-white shadow-[0_8px_30px_rgba(23,59,53,0.05)] transition-shadow duration-300 hover:shadow-[0_18px_40px_rgba(23,59,53,0.12)]"
+              >
                 {/* Image */}
-                <div className="relative md:w-[380px] lg:w-[450px]">
+                <div className="relative h-56 overflow-hidden sm:h-60">
                   <img
                     src={service.image}
                     alt={service.title}
-                    className="h-[250px] w-full object-cover md:h-[350px]"
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
 
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#050B1A]/40" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#102d28]/65 via-transparent to-black/5" />
 
-                  <div className="absolute left-5 top-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#050B1A]/80 backdrop-blur-md border border-white/10 text-white font-bold">
-                    0{index + 1}
+                  <span className="absolute left-4 top-4 rounded-full border border-white/50 bg-white/95 px-3 py-1.5 text-xs font-bold tracking-wider text-[#173b35]">
+                    {service.number}
+                  </span>
+
+                  <span className="absolute bottom-4 left-4 rounded-full bg-[#087e70] px-3 py-1.5 text-[10px] font-bold tracking-[0.15em] text-white">
+                    {service.category}
+                  </span>
+
+                  <div className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-[#087e70] shadow-lg transition-colors group-hover:bg-[#e88b42] group-hover:text-white">
+                    <Icon size={21} strokeWidth={1.8} />
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="flex flex-1 flex-col justify-center p-8 lg:p-10">
-                  <span className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-sky-400">
-                    Dream Sky Airways
-                  </span>
-
-                  <h3 className="text-2xl lg:text-3xl font-bold text-white transition group-hover:text-sky-300">
+                {/* Card content */}
+                <div className="p-6 sm:p-7">
+                  <h3 className="text-xl font-bold leading-snug text-[#173b35] transition-colors group-hover:text-[#087e70]">
                     {service.title}
                   </h3>
 
-                  <p className="mt-5 max-w-3xl leading-8 text-blue-100/75">
+                  <p className="mt-3 text-sm leading-7 text-gray-600">
                     {service.description}
                   </p>
 
-                  <div className="mt-8 flex items-center gap-3">
-                    <div className="h-1 w-16 rounded-full bg-blue-600" />
-                    <div className="h-1 w-8 rounded-full bg-sky-400" />
+                  <div className="mt-6 border-t border-gray-100 pt-5">
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="flex items-center gap-2 text-xs font-medium text-gray-500">
+                        <CheckCircle2
+                          size={16}
+                          className="shrink-0 text-[#087e70]"
+                        />
+                        Personalized travel solutions
+                      </span>
+
+                      <ArrowRight
+                        size={19}
+                        className="shrink-0 text-[#e88b42] transition-transform duration-300 group-hover:translate-x-1"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.article>
+            );
+          })}
         </div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+          className="mt-12 flex flex-col items-center justify-between gap-5 rounded-3xl bg-[#173b35] p-7 text-center sm:mt-16 sm:flex-row sm:p-10 sm:text-left"
+        >
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#9fe0ce]">
+              Your next adventure starts here
+            </p>
+            <h3 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
+              Ready to plan your next trip?
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-white/70">
+              Let us help you create a journey worth remembering.
+            </p>
+          </div>
+
+          <a
+            href="/packages"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#e88b42] px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#d77931]"
+          >
+            Explore Packages
+            <ArrowRight size={18} />
+          </a>
+        </motion.div>
       </div>
     </section>
   );

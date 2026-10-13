@@ -26,18 +26,15 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.dreamskyairways.com"),
-  title: "Dream Sky Airways | Verified Tour & Travel Agency in India",
+  title: "Dream Sky Tours & Travels | Verified Tour & Travel Services in India",
   description:
-    "Plan your perfect journey with Dream Sky Airways, a leading tour and travel company in India, offering affordable flights, holiday packages, hotels, buses, cabs, visa and travel insurance.",
+    "Plan your perfect journey with Dream Sky Tours & Travels, a leading tour and travel company in India, offering holiday packages, hotels, buses, cabs, visa and travel insurance.",
   keywords: [
-    "Dream Sky Airways",
+    "Dream Sky Tours & Travels",
     "dreamskyairways",
-    "flight booking",
-    "online flight booking India",
-    "cheap flights India",
     "tour and travel company",
     "travel agency India",
-    "best travel agency India",
+    "best tour and travel company India",
     "holiday packages",
     "domestic tour packages",
     "honeymoon packages India",
@@ -47,7 +44,7 @@ export const metadata: Metadata = {
     "cab services",
     "visa services India",
     "travel insurance India",
-    "book flights hotels packages online",
+    "book holiday packages hotels and cabs online",
   ],
   alternates: {
     canonical: "https://www.dreamskyairways.com/",
@@ -70,17 +67,17 @@ export const metadata: Metadata = {
     "google-adsense-account": "ca-pub-3804438885787200",
   },
   openGraph: {
-    title: "Dream Sky Airways | Verified Tour & Travel Agency in India",
+    title: "Dream Sky Tours & Travels | Verified Tour & Travel Services in India",
     description:
-      "Book flights, holiday packages, hotels, and cabs with Dream Sky Airways - an authorized travel agency in India providing reliable travel booking services.",
+      "Book holiday packages, hotels, and cabs with Dream Sky Tours & Travels - an authorized travel company in India providing reliable travel services.",
     url: "https://www.dreamskyairways.com",
-    siteName: "Dream Sky Airways",
+    siteName: "Dream Sky Tours & Travels",
     images: [
       {
         url: "https://www.dreamskyairways.com/ogImage.webp",
         width: 1200,
         height: 630,
-        alt: "Dream Sky Airways Travel Agency",
+        alt: "Dream Sky Tours & Travels",
       },
     ],
     locale: "en_IN",
@@ -88,9 +85,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dream Sky Airways | Verified Tour & Travel Agency in India",
+    title: "Dream Sky Tours & Travels | Verified Tour & Travel Services in India",
     description:
-      "Book flights, holiday packages, hotels, and cabs with Dream Sky Airways - an authorized travel agency in India.",
+      "Book holiday packages, hotels, and cabs with Dream Sky Tours & Travels - an authorized travel company in India.",
     images: ["https://www.dreamskyairways.com/ogImage.webp"],
   },
 };

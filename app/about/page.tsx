@@ -1,4 +1,6 @@
+
 import type { Metadata } from "next";
+
 import AboutHero from "@/components/about/AboutHero";
 import AboutSection from "@/components/about/AboutSection";
 import WhatWeDo from "@/components/about/WhatWeDo";
@@ -6,67 +8,81 @@ import AirlineSlider from "@/components/about/SliderAbout";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Our Journey & Mission – Dream Sky Airways India",
+  title: "About Us | Dream Sky Airways – Your Travel Partner",
   description:
-    "Discover the story of Dream Sky Airways, our mission, values and aviation experience. Learn how we support careers and travel services.",
+    "Discover Dream Sky Airways, your travel partner for holiday packages, flight bookings, hotel stays, visa assistance and memorable travel experiences across India and worldwide.",
   path: "/about",
   keywords: [
-    "company profile dream sky",
-    "aviation business india",
-    "travel management company india",
-    "aviation career support",
-    "travel consulting firm india",
+    "about Dream Sky Airways",
+    "tour and travel company in India",
+    "holiday packages India",
+    "travel agency India",
+    "flight and hotel booking",
+    "international holiday packages",
+    "visa assistance services",
+    "customized travel packages",
   ],
 });
+
+const siteUrl = "https://www.dreamskyairways.com";
+const aboutUrl = `${siteUrl}/about`;
+
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "About Dream Sky Airways",
+  url: aboutUrl,
+  description:
+    "Discover Dream Sky Airways and our travel services, including holiday packages, flights, hotels, visa assistance and personalized travel experiences.",
+  mainEntity: {
+    "@type": "Organization",
+    name: "Dream Sky Airways",
+    url: siteUrl,
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: siteUrl,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "About Us",
+      item: aboutUrl,
+    },
+  ],
+};
+
 export default function AboutPage() {
   return (
-      <>
-      {/* About Page Schema */}
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: `{
-            "@context": "https://schema.org",
-            "@type": "AboutPage",
-            "name": "About Us - Dream Sky Airways",
-            "url": "https://www.dreamskyairways.com/about",
-            "description": "Learn more about Dream Sky Airways, our mission, values, and commitment to providing trusted travel, visa, and insurance services in India."
-            }`,
+          __html: JSON.stringify(aboutSchema),
         }}
       />
-      <script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: `{
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://www.dreamskyairways.com"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "About Us",
-          "item": "https://www.dreamskyairways.com/about"
-        }
-      ]
-    }`,
-  }}
-/>
 
-    
-    <main className="mb-10">
-      <AboutHero />
-      <AboutSection />
-      <WhatWeDo />
-      <AirlineSlider />
-    
-      
-    </main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema),
+        }}
+      />
+
+      <main className="min-h-screen overflow-hidden bg-[#f7f9f6] text-[#183b35]">
+        <AboutHero />
+        <AboutSection />
+        <WhatWeDo />
+        {/* <AirlineSlider /> */}
+      </main>
     </>
   );
 }
