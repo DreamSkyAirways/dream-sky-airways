@@ -52,14 +52,31 @@ export default function BlogDescription({ blog }: Props) {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen text-gray-900 font-sans pb-20">
+    <div className="bg-gray-50
+     min-h-screen
+      text-gray-900
+       font-sans pb-20">
 
       {/* Top Back Navigation Bar */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <div className="bg-white
+       border-b 
+       border-gray-200
+        sticky top-0
+         z-30 shadow-xs">
+        <div className="max-w-7xl
+         mx-auto px-4 
+         sm:px-6 lg:px-8
+          py-4 flex 
+          items-center
+           justify-between">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-sm font-bold text-gray-700 hover:text-blue-600 transition-colors"
+            className="inline-flex
+             items-center gap-2
+              text-sm font-bold
+               text-gray-700
+                hover:text-blue-600
+                 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Travel Blog
           </Link>
@@ -67,7 +84,15 @@ export default function BlogDescription({ blog }: Props) {
           <div className="flex items-center gap-3">
             <button
               onClick={handleCopyLink}
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-full text-xs font-semibold transition-colors"
+              className="inline-flex
+               items-center 
+               gap-1.5 px-3.5
+                py-1.5 bg-gray-100
+                 hover:bg-gray-200 
+                 text-gray-800 
+                 rounded-full 
+                 text-xs font-semibold 
+                 transition-colors"
             >
               {copied ? (
                 <>
@@ -84,30 +109,68 @@ export default function BlogDescription({ blog }: Props) {
       </div>
 
       {/* Main Article Container */}
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 pt-10">
+      <article className="max-w-4xl
+       mx-auto px-4
+        sm:px-6 pt-10">
 
         {/* Article Meta Header */}
         <div className="space-y-4 mb-8">
-          <div className="flex items-center gap-3 flex-wrap">
-            <span className="bg-blue-600 text-white text-xs font-extrabold uppercase tracking-widest px-3.5 py-1 rounded-full shadow-sm">
+          <div className="flex 
+          items-center 
+          gap-3 
+          flex-wrap">
+            <span className="bg-blue-600 
+            text-white text-xs
+             font-extrabold
+              uppercase tracking-widest
+               px-3.5 py-1 rounded-full
+                shadow-sm">
               Featured Guide
             </span>
-            <span className="bg-amber-100 text-amber-900 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+            <span className="bg-amber-100 
+            text-amber-900
+             text-xs font-bold
+              px-3 py-1 rounded-full
+               flex items-center
+                gap-1">
               <Sparkles className="w-3 h-3 text-amber-600" /> Verified Content
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight tracking-tight">
+          <h1 className="text-3xl
+           sm:text-4xl 
+           md:text-5xl 
+           font-extrabold
+            text-gray-900 
+            leading-tight
+             tracking-tight">
             {blog.title}
           </h1>
 
-          <p className="text-lg sm:text-xl text-gray-600 font-medium leading-relaxed">
+          <p className="text-lg 
+          sm:text-xl 
+          text-gray-600 
+          font-medium
+           leading-relaxed">
             {blog.excerpt}
           </p>
 
-          <div className="flex items-center justify-between flex-wrap gap-4 pt-4 border-t border-gray-200 text-sm text-gray-500">
+          <div className="flex
+           items-center 
+          justify-between 
+          flex-wrap 
+          gap-4 pt-4
+           border-t 
+           border-gray-200 
+           text-sm text-gray-500">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-blue-950 text-amber-300 font-black flex items-center justify-center text-sm shadow-md">
+              <div className="w-11 h-11
+               rounded-2xl bg-blue-950
+                text-amber-300 
+                font-black flex
+                 items-center
+                  justify-center
+                   text-sm shadow-md">
                 DS
               </div>
               <div>
@@ -129,14 +192,19 @@ export default function BlogDescription({ blog }: Props) {
         </div>
 
         {/* Hero Featured Image */}
-        <div className="relative h-[320px] sm:h-[450px] md:h-[520px] rounded-3xl overflow-hidden shadow-2xl mb-12 bg-gray-900 border border-gray-200">
+        <div className="relative h-[280px]
+         sm:h-[380px] md:h-[450px]
+          rounded-3xl overflow-hidden
+           shadow-2xl mb-12 
+           bg-gray-900 border border-gray-200">
           {blog.image ? (
             <Image
               src={blog.image}
               alt={blog.title}
               fill
               priority
-              className="object-cover"
+              unoptimized
+              className="object-cover object-[center_30%] transition-all duration-500"
               sizes="(max-width: 1200px) 100vw, 1200px"
             />
           ) : null}

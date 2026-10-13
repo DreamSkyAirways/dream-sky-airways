@@ -117,27 +117,11 @@ body {
 
 
 
+/* Global input defaults (allow transparent override for dark mode) */
 input,
 textarea,
 select {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  caret-color: #000000 !important;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #6b7280 !important;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-select:-webkit-autofill {
-  -webkit-text-fill-color: #000000 !important;
-  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
-  transition: background-color 5000s ease-in-out 0s;
+  caret-color: auto;
 }
 
 

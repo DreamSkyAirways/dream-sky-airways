@@ -7,7 +7,11 @@ import { format } from "date-fns";
 
 import "react-day-picker/dist/style.css";
 
-const DepartureCalendar = () => {
+interface DepartureCalendarProps {
+  isDark?: boolean;
+}
+
+const DepartureCalendar = ({ isDark = false }: DepartureCalendarProps) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Date | undefined>(new Date());
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -53,11 +57,11 @@ const DepartureCalendar = () => {
   return (
     <div ref={containerRef} className="lg:col-span-2 relative">
       <div onClick={toggleOpen} className="cursor-pointer">
-        <h2 className="text-3xl font-semibold text-gray-900">
+        <h2 className={`text-3xl font-semibold ${isDark ? "text-white" : "text-gray-900"}`}>
           {selected ? format(selected, "dd") : "--"}
         </h2>
 
-        <p className="text-gray-600">
+        <p className={isDark ? "text-gray-300" : "text-gray-600"}>
           {selected ? format(selected, "MMM yyyy, EEEE") : "Select Date"}
         </p>
       </div>
@@ -65,19 +69,21 @@ const DepartureCalendar = () => {
       {/* Calendar Popup */}
       {open && (
         <div
-          className="
+          className={`
             absolute
             top-full
             left-1/2
             -translate-x-1/2
             mt-4
-            bg-white
             shadow-2xl
             rounded-3xl
             p-6
             z-[9999]
-            border border-gray-100
-          "
+            ${isDark
+              ? "bg-slate-900/95 backdrop-blur-2xl border border-white/10 text-white"
+              : "bg-white border border-gray-100 text-gray-900"
+            }
+          `}
         >
           <DayPicker
             mode="single"
@@ -92,25 +98,32 @@ const DepartureCalendar = () => {
             classNames={{
               months: "flex gap-5",
               month: "space-y-4",
-              month_caption: "flex justify-center font-semibold text-lg",
+              month_caption: `flex justify-center font-bold text-lg ${isDark ? "text-white" : "text-gray-900"}`,
               weekdays: "flex justify-between",
-              weekday: "w-10 text-center text-gray-400 text-sm",
+              weekday: `w-10 text-center text-sm ${isDark ? "text-gray-400" : "text-gray-400"}`,
               week: "flex gap-2",
-              day: "w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-200 cursor-pointer",
-              selected: "bg-blue-600 text-white hover:bg-blue-600",
-              today: "border border-blue-600 rounded-full",
+              day: `w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition ${isDark
+                ? "hover:bg-white/10 text-gray-200"
+                : "hover:bg-gray-200 text-gray-800"
+                }`,
+              selected: isDark
+                ? "bg-white text-black font-extrabold hover:bg-gray-100 shadow-md"
+                : "bg-black text-white hover:bg-neutral-800",
+              today: isDark
+                ? "border border-white text-white rounded-full"
+                : "border border-black rounded-full",
             }}
             components={{
               Chevron: (props) =>
                 props.orientation === "left" ? (
-                  <ChevronLeft size={18} />
+                  <ChevronLeft size={18} className={isDark ? "text-white" : "text-gray-700"} />
                 ) : (
-                  <ChevronRight size={18} />
+                  <ChevronRight size={18} className={isDark ? "text-white" : "text-gray-700"} />
                 ),
             }}
           />
 
-          <div className="mt-5 text-sm text-gray-500">
+          <div className={`mt-5 text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>
             Showing our lowest prices
           </div>
         </div>

@@ -1,135 +1,154 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, HelpCircle, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 
 const faqData = [
-{
-question: "How can I book a tour package?",
-answer:
-"You can book a tour package by contacting our travel experts, filling out the inquiry form, or calling our support team directly.",
-},
-{
-question: "Do you provide customized travel packages?",
-answer:
-"Yes, we create customized domestic and international tour packages according to your budget, destination, and travel preferences.",
-},
-{
-question: "Are flight tickets included in the package?",
-answer:
-"It depends on the selected package. Some packages include flights while others only include hotel stays and sightseeing.",
-},
-{
-question: "Can I cancel or reschedule my booking?",
-answer:
-"Yes, bookings can be cancelled or rescheduled according to our cancellation and refund policy.",
-},
-{
-question: "Do you offer group discounts?",
-answer:
-"Yes, we offer special discounts for family tours, corporate trips, school tours, and large group bookings.",
-},
-{
-question: "What payment methods do you accept?",
-answer:
-"We accept UPI, Debit Card, Credit Card, Net Banking, and Bank Transfer payments.",
-},
-{
-question: "Do you provide visa assistance?",
-answer:
-"Yes, we assist travelers with visa documentation and application guidance for international destinations.",
-},
-{
-question: "Is customer support available 24/7?",
-answer:
-"Yes, our dedicated travel support team is available 24/7 to assist you before, during, and after your trip.",
-},
+  {
+    question: "How can I book a tour package?",
+    answer:
+      "You can book a tour package by contacting our travel experts, filling out the online inquiry form, or calling our 24/7 support team directly.",
+  },
+  {
+    question: "Do you provide customized travel packages?",
+    answer:
+      "Yes, we create customized domestic and international tour packages tailored to your budget, preferred destination, and flight schedules.",
+  },
+  {
+    question: "Are flight tickets included in the package?",
+    answer:
+      "It depends on your selected package. We offer all-inclusive packages with flights, as well as standalone hotel and sightseeing deals.",
+  },
+  {
+    question: "Can I cancel or reschedule my booking?",
+    answer:
+      "Yes, bookings can be cancelled or rescheduled according to our hassle-free cancellation and refund policy.",
+  },
+  {
+    question: "Do you offer group and family discounts?",
+    answer:
+      "Yes, special discounted rates are available for family vacations, corporate retreats, and group bookings.",
+  },
+  {
+    question: "What payment methods do you accept?",
+    answer:
+      "We accept all major UPI apps, Debit Cards, Credit Cards, Net Banking, and direct Bank Transfers securely.",
+  },
+  {
+    question: "Do you provide international visa assistance?",
+    answer:
+      "Yes, our visa specialists assist travelers with documentation guidance and embassy appointment scheduling.",
+  },
+  {
+    question: "Is customer support available 24/7 during my trip?",
+    answer:
+      "Yes, our dedicated travel support team is available round the clock to assist you before, during, and after your journey.",
+  },
 ];
 
 const FAQSection = () => {
-const [activeIndex, setActiveIndex] = useState<number | null>(0);
+  const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
-const toggleFAQ = (index: number) => {
-setActiveIndex(activeIndex === index ? null : index);
-};
+  const toggleFAQ = (index: number) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
 
-return ( <section className="py-20 bg-white"> <div className="container mx-auto px-4">
+  return (
+    <section className="py-16 sm:py-24 bg-white px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto select-none">
+      <div className="container mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          
+          {/* LEFT COLUMN: Sticky Badge, Big Split Heading & Description (Matching UI) */}
+          <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-6">
+            {/* Top Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-100 text-red-600 text-xs sm:text-sm font-semibold">
+              <HelpCircle size={15} className="text-red-600" />
+              <span>Frequently asked questions</span>
+            </div>
 
-    {/* Heading */}
-    <div className="text-center mb-14">
-      <span className="text-blue-700 font-semibold uppercase tracking-widest">
-        FAQ
-      </span>
+            {/* Split Title - "questions" in Red */}
+            <div className="space-y-1">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.1]">
+                Frequently asked
+              </h2>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-red-600 tracking-tight leading-[1.1]">
+                questions
+              </h2>
+            </div>
 
-      <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-3">
-        Frequently Asked Questions
-      </h2>
+            {/* Subtitle Paragraph */}
+            <p className="text-gray-500 text-sm sm:text-base leading-relaxed max-w-md pt-1">
+              Explore answers to common questions about flight reservations, customized holiday packages, cancellation policies, and round-the-clock traveler assistance.
+            </p>
 
-      <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-        Find answers to the most common questions about our travel
-        packages, bookings, cancellations, and support services.
-      </p>
-    </div>
-
-    {/* FAQ Accordion */}
-    <div className="max-w-4xl mx-auto space-y-4">
-      {faqData.map((faq, index) => (
-        <div
-          key={index}
-          className="border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
-        >
-          <button
-            onClick={() => toggleFAQ(index)}
-            className="w-full flex items-center justify-between p-6 text-left bg-white"
-          >
-            <h3 className="text-lg font-semibold text-gray-900">
-              {faq.question}
-            </h3>
-
-            {activeIndex === index ? (
-              <ChevronUp className="text-blue-700 flex-shrink-0" />
-            ) : (
-              <ChevronDown className="text-blue-700 flex-shrink-0" />
-            )}
-          </button>
-
-          <div
-            className={`overflow-hidden transition-all duration-300 ${
-              activeIndex === index
-                ? "max-h-40 opacity-100"
-                : "max-h-0 opacity-0"
-            }`}
-          >
-            <div className="px-6 pb-6 text-gray-600 leading-relaxed">
-              {faq.answer}
+            {/* CTA Support Button */}
+            <div className="pt-2">
+              <Link href="/contact">
+                <button className="inline-flex items-center gap-2 px-7 py-3.5 bg-red-600 hover:bg-red-700 text-white rounded-2xl font-bold text-sm shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer">
+                  <span>Contact Support</span>
+                  <ArrowRight size={16} />
+                </button>
+              </Link>
             </div>
           </div>
+
+          {/* RIGHT COLUMN: Vertically Scrollable Questions & Answers Accordion Stack (4 Questions Visible) */}
+          <div className="lg:col-span-7 max-h-[430px] sm:max-h-[460px] overflow-y-auto pr-2 sm:pr-4 space-y-4 scrollbar-thin scrollbar-thumb-red-200 hover:scrollbar-thumb-red-400">
+            {faqData.map((faq, index) => {
+              const isOpen = activeIndex === index;
+
+              return (
+                <div
+                  key={index}
+                  className={`border rounded-2xl sm:rounded-3xl p-5 sm:p-6 transition-all duration-300 cursor-pointer ${
+                    isOpen
+                      ? "bg-white border-red-200 shadow-md"
+                      : "bg-gray-50/80 border-gray-100 hover:border-red-200 hover:bg-white"
+                  }`}
+                  onClick={() => toggleFAQ(index)}
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <h3 className="text-base sm:text-xl font-bold text-gray-900 leading-snug">
+                      {faq.question}
+                    </h3>
+
+                    <div
+                      className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${
+                        isOpen
+                          ? "bg-red-600 text-white shadow-md rotate-180"
+                          : "bg-red-50 text-red-600 hover:bg-red-600 hover:text-white"
+                      }`}
+                    >
+                      <ChevronDown size={18} />
+                    </div>
+                  </div>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                      >
+                        <p className="text-gray-600 text-sm sm:text-base leading-relaxed mt-3 pt-3 border-t border-gray-100">
+                          {faq.answer}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+
         </div>
-      ))}
-    </div>
-
-    {/* Bottom CTA */}
-    <div className="mt-14 text-center">
-      <h3 className="text-2xl font-bold text-gray-900 mb-3">
-        Still Have Questions?
-      </h3>
-
-      <p className="text-gray-600 mb-6">
-        Our travel experts are ready to help you plan your perfect trip.
-      </p>
-       <Link href="/contact">
-      <button className="px-8 py-3 bg-blue-700 hover:bg-blue-800 text-white rounded-xl font-medium transition-all duration-300">
-        Contact Us
-      </button>
-      </Link>
-    </div>
-
-  </div>
-</section>
-
-);
+      </div>
+    </section>
+  );
 };
 
 export default FAQSection;
-

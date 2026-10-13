@@ -39,6 +39,24 @@ const PersonalInformationForm = ({
     country: profile?.country || "",
   });
 
+  const [personalDetails, setPersonalDetails] =
+    useState({
+      firstName: profile?.firstName || "",
+      lastName: profile?.lastName || "",
+      phoneNumber: profile?.phoneNumber
+        ? String(profile.phoneNumber)
+        : "",
+      dateOfBirth: profile?.dateOfBirth
+        ? new Date(profile.dateOfBirth)
+          .toISOString()
+          .split("T")[0]
+        : "",
+      gender: profile?.gender || "",
+      city: profile?.city || "",
+      state: profile?.state || "",
+      country: profile?.country || "",
+    });
+
   useEffect(() => {
     fetchProfileInfo();
   }, []);
@@ -46,18 +64,27 @@ const PersonalInformationForm = ({
   const fetchProfileInfo = async () => {
     try {
       const res = await api.get("/auth/profile", {
-        withCredentials: true,
-      });
-      console.log(res.data.profile);
-      setPersonalDetails(res.data.profile);
-    } catch (error) {}
-  };
+        withCredentials: true
+      })
+      console.log(res.data.profile)
+      setPersonalDetails(res.data.profile)
+    } catch (error) {
 
-  const [imageFile, setImageFile] = useState<File | null>(null);
+    }
+  }
 
   const [imagePreview, setImagePreview] = useState(profile?.profileImage || "");
 
-  const [savingDetails, setSavingDetails] = useState(false);
+  const [imagePreview, setImagePreview] =
+    useState(profile?.profileImage || "");
+
+
+
+  const [savingDetails, setSavingDetails] =
+    useState(false);
+
+  const [uploadingImage, setUploadingImage] =
+    useState(false);
 
   const [uploadingImage, setUploadingImage] = useState(false);
 
@@ -153,7 +180,8 @@ const PersonalInformationForm = ({
       setImageFile(null);
 
       setSuccess(
-        response.data.message || "Profile image uploaded successfully.",
+        response.data.message ||
+        "Profile image uploaded successfully."
       );
     } catch (err: any) {
       console.error("Profile image upload error:", err);
@@ -161,7 +189,8 @@ const PersonalInformationForm = ({
       console.error("Backend response:", err?.response?.data);
 
       setError(
-        err?.response?.data?.message || "Unable to upload profile image.",
+        err?.response?.data?.message ||
+        "Unable to upload profile image."
       );
     } finally {
       setUploadingImage(false);
@@ -228,14 +257,15 @@ const PersonalInformationForm = ({
           country: personalDetails.country.trim(),
         },
         {
-          withCredentials: true,
-        },
+          withCredentials: true
+        }
       );
 
       const updatedProfile = response.data.profile;
 
       setSuccess(
-        response.data.message || "Personal information updated successfully.",
+        response.data.message ||
+        "Personal information updated successfully."
       );
 
       if (updatedProfile) {
@@ -246,7 +276,7 @@ const PersonalInformationForm = ({
 
       setError(
         err?.response?.data?.message ||
-          "Unable to update personal information.",
+        "Unable to update personal information."
       );
     } finally {
       setSavingDetails(false);

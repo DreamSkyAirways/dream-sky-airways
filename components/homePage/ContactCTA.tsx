@@ -1,97 +1,144 @@
 "use client";
 
 import Link from "next/link";
-import { Phone, Mail, ArrowRight } from "lucide-react";
+import { Phone, Mail, ArrowRight, CheckCircle2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const ContactCTA = () => {
-return ( <section className="py-20 bg-gradient-to-r from-blue-950 via-blue-950 to-blue-800 relative overflow-hidden">
+  return (
+    <section className="py-16 sm:py-24 bg-white px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
+      <div className="container mx-auto">
+        <div className="relative bg-gray-50 border border-gray-100 rounded-[36px] p-8 sm:p-14 lg:p-20 shadow-sm max-w-[1700px] mx-auto overflow-hidden">
 
-  {/* Background Blur */}
-  <div className="absolute -top-20 -left-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl"></div>
-  <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-cyan-500/20 rounded-full blur-3xl"></div>
+          {/* Subtle Background Glow Accents */}
+          <div className="absolute -top-24 -right-24 w-80 h-80 bg-red-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
 
-  <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto text-center relative z-10">
 
-    <div className="max-w-5xl mx-auto text-center">
+            {/* Top Subtitle Tag */}
+            <p className="text-2xl sm:text-2xl font-light tracking-wide text-gray-600 mb-2">
+              Ready For Your Next
+            </p>
 
-      <span className="inline-block px-4 py-2 bg-white/10 text-blue-200 rounded-full text-sm font-medium backdrop-blur-sm">
-        Start Your Journey Today
-      </span>
+            {/* Character-by-Character Upside Flip Animated Header */}
+            <div className="flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-8 gap-y-1 py-1 mb-4 sm:mb-6">
+              {/* DREAM */}
+              <div className="flex items-center gap-0.5 sm:gap-2">
+                {"DREAM".split("").map((letter, idx) => (
+                  <motion.span
+                    key={idx}
+                    animate={{
+                      rotateX: [0, 360],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      repeatDelay: 3.5,
+                      delay: idx * 0.08,
+                      ease: [0.45, 0.05, 0.25, 0.95],
+                    }}
+                    whileHover={{
+                      rotateX: 180,
+                      scale: 1.25,
+                      transition: { duration: 0.4 },
+                    }}
+                    className="text-2xl xs:text-3xl sm:text-6xl font-extrabold text-red-600 tracking-tight inline-block cursor-pointer select-none will-change-transform"
+                    style={{ transformStyle: "preserve-3d" }}
+                  >
+                    {letter}
+                  </motion.span>
+                ))}
+              </div>
 
-      <h2 className="text-4xl md:text-6xl font-bold text-white mt-6 leading-tight">
-        Ready For Your Next
-        <span className="block text-blue-300">
-          Dream Vacation?
-        </span>
-      </h2>
+              {/* VACATION? */}
+              <div className="flex items-center gap-0.5 sm:gap-2">
+                {"VACATION?".split("").map((letter, idx) => (
+                  <motion.span
+                    key={idx + 5}
+                    animate={{
+                      rotateX: [0, 360],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      repeatDelay: 3.5,
+                      delay: (idx + 5) * 0.08,
+                      ease: [0.45, 0.05, 0.25, 0.95],
+                    }}
+                    whileHover={{
+                      rotateX: 180,
+                      scale: 1.25,
+                      transition: { duration: 0.4 },
+                    }}
+                    className="text-2xl xs:text-3xl sm:text-6xl font-extrabold text-gray-900 tracking-tight inline-block cursor-pointer select-none will-change-transform"
+                    style={{ transformStyle: "preserve-3d" }}
+                  >
+                    {letter}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
 
-      <p className="text-blue-100 text-lg mt-6 max-w-3xl mx-auto">
-        Discover amazing destinations, exclusive holiday packages,
-        affordable flights, and unforgettable travel experiences with
-        Dream Sky Airways.
-      </p>
+            {/* Description Paragraph */}
+            <p className="text-gray-500 text-xs sm:text-lg max-w-2xl mx-auto mb-6 sm:mb-10 leading-relaxed">
+              Discover amazing destinations, exclusive holiday packages, affordable flight deals, and 24/7 dedicated support with Dream Sky Airways.
+            </p>
 
-      {/* Buttons */}
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mt-10">
+            {/* Buttons Row */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-14">
+              <Link
+                href="/contact"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 sm:px-8 sm:py-4 bg-red-600 hover:bg-red-700 text-white rounded-xl sm:rounded-2xl font-bold uppercase tracking-wider text-xs sm:text-sm shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer"
+              >
+                <span>Book Your Trip</span>
+                <ArrowRight size={16} className="sm:w-[18px] sm:h-[18px]" />
+              </Link>
 
-        <Link
-          href="/contact"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-900 rounded-2xl font-semibold hover:bg-blue-50 transition-all duration-300"
-        >
-          Book Your Trip
-          <ArrowRight size={18} />
-        </Link>
+              <a
+                href="tel:+917291000329"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 sm:px-8 sm:py-4 bg-white border border-gray-200 hover:border-gray-300 text-gray-900 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm shadow-sm transition-all hover:bg-gray-100/60 active:scale-95 cursor-pointer"
+              >
+                <Phone size={16} className="text-red-500 sm:w-[18px] sm:h-[18px]" />
+                <span>Call +91 72910 00329</span>
+              </a>
+            </div>
 
-        <a
-          href="tel:+917291000329"
-          className="inline-flex items-center gap-2 px-8 py-4 border border-white/30 text-white rounded-2xl hover:bg-white/10 transition-all duration-300"
-        >
-          <Phone size={18} />
-          Call Now
-        </a>
+            {/* Contact Information Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-5 text-left max-w-3xl mx-auto pt-4 sm:pt-6 border-t border-gray-200/60">
 
-      </div>
+              <div className="bg-white border border-gray-200/80 rounded-xl sm:rounded-2xl p-3.5 sm:p-6 flex items-center gap-3 sm:gap-4 shadow-sm hover:border-red-200 transition-colors">
+                <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-red-50 text-red-500 border border-red-200 flex items-center justify-center shrink-0">
+                  <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-wider block">Call Support 24/7</span>
+                  <a href="tel:+917291000329" className="text-gray-900 font-extrabold text-sm sm:text-lg hover:text-red-600 transition-colors">
+                    +91 72910 00329
+                  </a>
+                </div>
+              </div>
 
-      {/* Contact Info */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-14">
+              <div className="bg-white border border-gray-200/80 rounded-2xl p-3.5 sm:p-6 flex items-center gap-3 sm:gap-4 shadow-sm hover:border-red-200 transition-colors">
+                <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-red-50 text-red-500 border border-red-200 flex items-center justify-center shrink-0">
+                  <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-wider block">Email Assistance</span>
+                  <a href="mailto:info@dreamskyairways.com" className="text-gray-900 font-extrabold text-xs xs:text-sm sm:text-lg hover:text-red-600 transition-colors">
+                    info@dreamskyairways.com
+                  </a>
+                </div>
+              </div>
 
-        <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 border border-white/10">
-          <div className="flex items-center justify-center mb-4">
-            <Phone className="text-blue-300" size={28} />
+            </div>
+
           </div>
 
-          <h3 className="text-white font-semibold text-xl mb-2">
-            Call Us
-          </h3>
-
-          <p className="text-blue-100">
-            +91 72910 00329
-          </p>
         </div>
-
-        <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 border border-white/10">
-          <div className="flex items-center justify-center mb-4">
-            <Mail className="text-blue-300" size={28} />
-          </div>
-
-          <h3 className="text-white font-semibold text-xl mb-2">
-            Email Us
-          </h3>
-
-          <p className="text-blue-100">
-            info@dreamskyairways.com
-          </p>
-        </div>
-
       </div>
-
-    </div>
-
-  </div>
-</section>
-
-);
+    </section>
+  );
 };
 
 export default ContactCTA;
-

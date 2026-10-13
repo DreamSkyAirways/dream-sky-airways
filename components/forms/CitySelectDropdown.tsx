@@ -44,6 +44,7 @@ interface CityInputFieldProps {
   placeholder?: string;
   subLabel?: string;
   inputClassName?: string;
+  isDark?: boolean;
 }
 
 export default function CityInputField({
@@ -54,11 +55,20 @@ export default function CityInputField({
   onChange,
   placeholder = "Select City",
   subLabel = "City or Airport",
-  inputClassName = "w-full text-2xl sm:text-3xl font-semibold outline-none placeholder:text-gray-400 border-b pb-3",
+  inputClassName,
+  isDark = false,
 }: CityInputFieldProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const instanceId = useId();
+
+  const defaultInputClass = isDark
+    ? "w-full text-xl sm:text-2xl font-extrabold outline-none placeholder:text-gray-400 bg-transparent text-white border-none shadow-none ring-0"
+    : "w-full text-2xl sm:text-3xl font-semibold outline-none placeholder:text-gray-400 border-b pb-3";
+
+  const activeInputClass = isDark
+    ? "w-full text-xl sm:text-2xl font-extrabold outline-none placeholder:text-gray-400 bg-transparent text-white border-none shadow-none ring-0"
+    : (inputClassName || defaultInputClass);
 
   // Function to open this dropdown and notify others to close
   const openDropdown = () => {
@@ -118,29 +128,33 @@ export default function CityInputField({
 
   return (
     <div ref={containerRef} className="relative w-full">
-      {label && (
-        <div className="flex items-center gap-2 text-gray-500 text-sm mb-2">
-          {icon || <MapPin size={18} />}
-          <span>{label}</span>
-        </div>
-      )}
+      {/* Container: Transparent Dark Glass Box when isDark is true */}
+      <div className={isDark ? "bg-slate-900/60 backdrop-blur-md border border-white/15 hover:border-white/30 rounded-2xl p-3.5 sm:p-4 text-white shadow-md focus-within:border-white focus-within:bg-slate-900/80 transition-all duration-200" : ""}>
+        {label && (
+          <div className={`flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider mb-1.5 ${isDark ? "text-gray-300" : "text-gray-500"}`}>
+            {icon || <MapPin size={15} />}
+            <span>{label}</span>
+          </div>
+        )}
 
-      <input
-        type="text"
-        name={name}
-        value={value}
-        onClick={openDropdown}
-        onFocus={openDropdown}
-        onChange={(e) => {
-          onChange(e.target.value);
-          openDropdown();
-        }}
-        placeholder={placeholder}
-        className={inputClassName}
-        autoComplete="off"
-      />
+        <input
+          type="text"
+          name={name}
+          value={value}
+          onClick={openDropdown}
+          onFocus={openDropdown}
+          onChange={(e) => {
+            onChange(e.target.value);
+            openDropdown();
+          }}
+          placeholder={placeholder}
+          className={activeInputClass}
+          style={isDark ? { backgroundColor: "transparent", color: "white" } : undefined}
+          autoComplete="off"
+        />
 
-      {subLabel && <p className="text-gray-500 text-sm mt-1">{subLabel}</p>}
+        {subLabel && <p className={`text-xs mt-1 font-medium ${isDark ? "text-gray-400" : "text-gray-500"}`}>{subLabel}</p>}
+      </div>
 
       {/* City Dropdown Menu */}
       <AnimatePresence>
@@ -150,16 +164,25 @@ export default function CityInputField({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 6, scale: 0.98 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
-            className="absolute left-0 top-full mt-2 w-full min-w-[280px] max-w-sm sm:max-w-md bg-white rounded-2xl shadow-2xl border border-gray-200 z-[9999] overflow-hidden text-left"
+            className={`absolute left-0 top-full mt-2 w-full min-w-[280px] max-w-sm sm:max-w-md rounded-2xl shadow-2xl z-[9999] overflow-hidden text-left ${isDark
+              ? "bg-slate-900/95 backdrop-blur-2xl border border-white/10 text-white"
+              : "bg-white border border-gray-200 text-gray-900"
+              }`}
           >
             {/* Header Title */}
-            <div className="bg-gray-50 px-4 py-2.5 border-b border-gray-100 flex items-center justify-between text-xs font-bold text-gray-500 uppercase tracking-wider">
+            <div className={`px-4 py-2.5 border-b flex items-center justify-between text-xs font-bold uppercase tracking-wider ${isDark
+              ? "bg-slate-950/80 border-white/10 text-white"
+              : "bg-gray-50 border-gray-100 text-gray-700"
+              }`}>
               <span>{value ? "Search Results" : "Popular Destinations & Cities"}</span>
-              <span className="text-[10px] text-blue-600 font-semibold">Select City</span>
+              <span className={isDark ? "text-gray-300" : "text-black"}>Select City</span>
             </div>
 
             {/* City Options List */}
-            <div className="max-h-64 overflow-y-auto divide-y divide-gray-100 scrollbar-thin scrollbar-thumb-gray-300">
+            <div className={`max-h-64 overflow-y-auto divide-y scrollbar-thin ${isDark
+              ? "divide-white/5 scrollbar-thumb-white/20"
+              : "divide-gray-100 scrollbar-thumb-gray-300"
+              }`}>
               {filteredCities.length > 0 ? (
                 filteredCities.map((item, idx) => {
                   const isSelected = value.toLowerCase().includes(item.city.toLowerCase());
@@ -167,12 +190,20 @@ export default function CityInputField({
                     <div
                       key={idx}
                       onClick={() => handleSelect(item)}
-                      className={`flex items-center justify-between p-3 cursor-pointer hover:bg-blue-50/80 transition-colors group ${
-                        isSelected ? "bg-blue-50/50" : ""
-                      }`}
+                      className={`flex items-center justify-between p-3 cursor-pointer transition-colors group ${isDark
+                        ? isSelected
+                          ? "bg-white/15 text-white font-bold"
+                          : "hover:bg-white/10 text-gray-200"
+                        : isSelected
+                          ? "bg-gray-100 font-bold"
+                          : "hover:bg-gray-50"
+                        }`}
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-blue-100/70 text-blue-600 flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${isDark
+                          ? "bg-white/10 text-white group-hover:bg-white group-hover:text-black"
+                          : "bg-gray-100 text-black group-hover:bg-black group-hover:text-white"
+                          }`}>
                           {item.type === "international" ? (
                             <Compass size={16} />
                           ) : item.type === "beach" ? (
@@ -183,32 +214,41 @@ export default function CityInputField({
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-sm text-gray-900 group-hover:text-blue-600 transition-colors">
+                            <span className={`font-bold text-sm transition-colors ${isDark
+                              ? "text-white group-hover:text-white"
+                              : "text-gray-900 group-hover:text-black"
+                              }`}>
                               {item.city}
                             </span>
                             {item.code && (
-                              <span className="text-xs font-mono font-semibold text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded">
+                              <span className={`text-xs font-mono font-semibold px-1.5 py-0.5 rounded ${isDark
+                                ? "bg-white/10 text-gray-300"
+                                : "bg-gray-100 text-gray-500"
+                                }`}>
                                 {item.code}
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-gray-500 line-clamp-1">{item.name}</p>
+                          <p className={`text-xs line-clamp-1 ${isDark ? "text-gray-400" : "text-gray-500"}`}>{item.name}</p>
                         </div>
                       </div>
 
-                      {isSelected && <Check size={16} className="text-blue-600 shrink-0" />}
+                      {isSelected && <Check size={16} className={isDark ? "text-white shrink-0" : "text-black shrink-0"} />}
                     </div>
                   );
                 })
               ) : (
-                <div className="p-4 text-center text-sm text-gray-500">
+                <div className={`p-4 text-center text-sm ${isDark ? "text-gray-400" : "text-gray-500"}`}>
                   No cities matching &quot;{value}&quot;
                 </div>
               )}
             </div>
 
             {/* Footer hint */}
-            <div className="bg-blue-50/40 px-4 py-2 text-[11px] text-blue-800 font-medium text-center border-t border-blue-100">
+            <div className={`px-4 py-2 text-[11px] font-medium text-center border-t ${isDark
+              ? "bg-slate-950/80 border-white/10 text-gray-300"
+              : "bg-gray-50 border-gray-200 text-gray-700"
+              }`}>
               💡 Type any city name or select from the list above
             </div>
           </motion.div>

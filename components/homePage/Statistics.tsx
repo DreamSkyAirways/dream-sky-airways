@@ -2,151 +2,170 @@
 
 import { useState } from "react";
 import {
-Users,
-MapPinned,
-Plane,
-ChevronDown,
-ChevronUp,
+  Users,
+  MapPinned,
+  Plane,
+  ChevronDown,
+  ChevronUp,
+  Award,
+  Sparkles,
 } from "lucide-react";
 
 const stats = [
-{
-icon: Users,
-value: "10K+",
-label: "Happy Travelers",
-},
-{
-icon: Plane,
-value: "500+",
-label: "Tour Packages",
-},
-{
-icon: MapPinned,
-value: "50+",
-label: "Destinations",
-},
-{
-icon: Users,
-value: "99%",
-label: "Customer Satisfaction",
-},
+  {
+    icon: Users,
+    value: "10K+",
+    label: "Happy Travelers",
+    subtext: "Satisfied customers across India & abroad",
+  },
+  {
+    icon: Plane,
+    value: "500+",
+    label: "Tour Packages",
+    subtext: "Handcrafted flight & holiday deals",
+  },
+  {
+    icon: MapPinned,
+    value: "50+",
+    label: "Destinations",
+    subtext: "Top domestic & international locations",
+  },
+  {
+    icon: Award,
+    value: "99%",
+    label: "Satisfaction Rate",
+    subtext: "Positive ratings & repeat bookings",
+  },
 ];
 
 const faqs = [
-{
-question: "Do you provide customized tour packages?",
-answer:
-"Yes, we create customized domestic and international tour packages according to your budget and preferences.",
-},
-{
-question: "Can I book flights and hotels separately?",
-answer:
-"Yes, we offer flight bookings, hotel reservations, and complete holiday packages.",
-},
-{
-question: "Do you offer group discounts?",
-answer:
-"Yes, special discounts are available for family, corporate, and group bookings.",
-},
-{
-question: "Is customer support available 24/7?",
-answer:
-"Yes, our travel support team is available around the clock to assist travelers.",
-},
+  {
+    question: "Do you provide customized tour packages?",
+    answer:
+      "Yes, we create customized domestic and international tour packages tailored to your preferences, schedule, and budget.",
+  },
+  {
+    question: "Can I book flights and hotels separately?",
+    answer:
+      "Absolultely! We offer standalone flight tickets, individual hotel reservations, or complete bundled vacation packages.",
+  },
+  {
+    question: "Do you offer group and corporate discounts?",
+    answer:
+      "Yes, special discounted rates are available for corporate travel, family reunions, and large group bookings.",
+  },
+  {
+    question: "Is customer support available 24/7 during my trip?",
+    answer:
+      "Yes, our dedicated travel support team is available round the clock to assist you before, during, and after your trip.",
+  },
 ];
 
+import { motion } from "framer-motion";
+
 const Statistics = () => {
-const [active, setActive] = useState<number | null>(0);
+  const [active, setActive] = useState<number | null>(0);
 
-return ( <section className="py-20 bg-gradient-to-b from-slate-950 to-blue-950 md:px-15"> <div className="container mx-auto px-4">
+  return (
+    <section className="py-12 sm:py-20 bg-white text-gray-900 px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
+      <div className="container mx-auto">
 
-
-    {/* Heading */}
-    <div className="text-center mb-14 ">
-      <span className="text-blue-400 font-semibold uppercase tracking-widest">
-        Our Achievements
-      </span>
-
-      <h2 className="text-4xl md:text-5xl font-bold text-white mt-3">
-        Trusted By Thousands Of Travelers
-      </h2>
-
-      <p className="text-gray-300 mt-4 max-w-2xl mx-auto">
-        We help travelers discover amazing destinations with reliable,
-        affordable, and unforgettable travel experiences.
-      </p>
-    </div>
-
-    {/* Statistics */}
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
-      {stats.map((item, index) => {
-        const Icon = item.icon;
-
-        return (
-          <div
-            key={index}
-            className="bg-white/5 border border-white/10 rounded-3xl p-8 text-center backdrop-blur-sm hover:border-blue-500 transition-all duration-300"
-          >
-            <div className="w-16 h-16 mx-auto rounded-2xl bg-blue-800 flex items-center justify-center mb-4">
-              <Icon className="w-8 h-8 text-white" />
+        {/* Centered Title Header */}
+        <div className="text-center mb-8 sm:mb-10">
+          <div className="flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-10 gap-y-1 py-1">
+            {/* OUR */}
+            <div className="flex items-center gap-0.5 sm:gap-3">
+              {"OUR".split("").map((letter, idx) => (
+                <motion.span
+                  key={idx}
+                  animate={{
+                    rotateX: [0, 360],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatDelay: 3.5,
+                    delay: idx * 0.08,
+                    ease: [0.45, 0.05, 0.25, 0.95],
+                  }}
+                  whileHover={{
+                    rotateX: 180,
+                    scale: 1.25,
+                    transition: { duration: 0.4 },
+                  }}
+                  className="text-2xl xs:text-3xl sm:text-7xl font-extrabold text-red-600 tracking-tight inline-block cursor-pointer select-none will-change-transform"
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
             </div>
 
-            <h3 className="text-4xl font-bold text-white">
-              {item.value}
-            </h3>
-
-            <p className="text-gray-300 mt-2">
-              {item.label}
-            </p>
+            {/* ACHIEVEMENTS */}
+            <div className="flex items-center gap-0.5 sm:gap-3">
+              {"ACHIEVEMENTS".split("").map((letter, idx) => (
+                <motion.span
+                  key={idx + 3}
+                  animate={{
+                    rotateX: [0, 360],
+                  }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatDelay: 3.5,
+                    delay: (idx + 3) * 0.08,
+                    ease: [0.45, 0.05, 0.25, 0.95],
+                  }}
+                  whileHover={{
+                    rotateX: 180,
+                    scale: 1.25,
+                    transition: { duration: 0.4 },
+                  }}
+                  className="text-2xl xs:text-3xl sm:text-7xl font-extrabold text-gray-900 tracking-tight inline-block cursor-pointer select-none will-change-transform"
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </div>
           </div>
-        );
-      })}
-    </div>
+        </div>
 
-    {/* FAQ Dropdown */}
-    <div className="max-w-4xl mx-auto">
-      <h3 className="text-3xl font-bold text-white text-center mb-8">
-        Frequently Asked Questions
-      </h3>
+        {/* Statistics Grid - 4 Boxes in 2 Rows on Mobile */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+          {stats.map((item, index) => {
+            const Icon = item.icon;
 
-      <div className="space-y-4">
-        {faqs.map((faq, index) => (
-          <div
-            key={index}
-            className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden"
-          >
-            <button
-              onClick={() =>
-                setActive(active === index ? null : index)
-              }
-              className="w-full flex items-center justify-between p-5 text-left"
-            >
-              <span className="text-white font-medium">
-                {faq.question}
-              </span>
+            return (
+              <div
+                key={index}
+                className="group bg-gray-50/80 border border-gray-100 rounded-2xl sm:rounded-3xl p-4 sm:p-8 text-center transition-all duration-300 hover:border-red-200 hover:bg-white hover:shadow-xl hover:-translate-y-1.5"
+              >
+                <div className="w-10 h-10 sm:w-14 sm:h-14 mx-auto rounded-full border border-red-400 text-red-500 bg-red-50/60 flex items-center justify-center mb-3 sm:mb-5 group-hover:scale-110 transition-transform">
+                  <Icon className="w-5 h-5 sm:w-7 sm:h-7 text-red-500" />
+                </div>
 
-              {active === index ? (
-                <ChevronUp className="text-blue-400" />
-              ) : (
-                <ChevronDown className="text-blue-400" />
-              )}
-            </button>
+                <h3 className="text-2xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
+                  {item.value}
+                </h3>
 
-            {active === index && (
-              <div className="px-5 pb-5 text-gray-300">
-                {faq.answer}
+                <p className="text-gray-900 font-bold mt-1 sm:mt-2 text-xs sm:text-lg">
+                  {item.label}
+                </p>
+
+                <p className="text-gray-500 text-[10px] sm:text-xs mt-0.5 sm:mt-1 leading-relaxed">
+                  {item.subtext}
+                </p>
               </div>
-            )}
-          </div>
-        ))}
+            );
+          })}
+        </div>
+
+       
+
       </div>
-    </div>
-
-  </div>
-</section>
-
-
-);
+    </section>
+  );
 };
 
 export default Statistics;

@@ -57,7 +57,7 @@ export const blogs: BlogPost[] = [
   {
     title: "Jaipur Pink City Royal Heritage & Palace Guide",
     slug: "jaipur-pink-city-royal-heritage-guide",
-    image: "/Packages/domestic/jaipur_1_hawa_mahal.webp",
+    image: "/Blog/slider/jaipur.png",
     category: "India",
     readTime: "6 min read",
     date: "2026",
@@ -203,7 +203,7 @@ export const blogs: BlogPost[] = [
   {
     title: "Kashmir Romantic Paradise Honeymoon Guide",
     slug: "kashmir-romantic-paradise-honeymoon-guide",
-    image: "/Packages/honeymoon/manali_1_beas_river.webp",
+    image: "/Blog/slider/kashmir.png",
     category: "Honeymoon",
     readTime: "7 min read",
     date: "2026",
@@ -217,7 +217,7 @@ export const blogs: BlogPost[] = [
   {
     title: "Goa Beach Honeymoon & Tour Package Guide",
     slug: "goa-tour-package-guide",
-    image: "/Packages/domestic/goa_4_sunset_beach.webp",
+    image: "/Blog/slider/goa.png",
     category: "Honeymoon",
     readTime: "6 min read",
     date: "2026",
@@ -247,7 +247,7 @@ export const blogs: BlogPost[] = [
   {
     title: "Rishikesh Travel Guide: Rafting, Camping & Yoga Stays",
     slug: "rishikesh-travel-guide-rafting-yoga",
-    image: "/Packages/Rishikesh/Rishikesh3.webp",
+    image: "/Blog/slider/rishikesh.png",
     category: "Adventure",
     readTime: "7 min read",
     date: "2026",
@@ -261,7 +261,7 @@ export const blogs: BlogPost[] = [
   {
     title: "Manali Snow Adventure & Solang Valley Paragliding",
     slug: "manali-snow-adventure-solang-valley",
-    image: "/Packages/honeymoon/manali_2_solang_valley.webp",
+    image: "/Blog/slider/manali.png",
     category: "Adventure",
     readTime: "6 min read",
     date: "2026",
