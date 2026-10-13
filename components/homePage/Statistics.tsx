@@ -1,15 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import {
-  Users,
-  MapPinned,
-  Plane,
-  ChevronDown,
-  ChevronUp,
-  Award,
-  Sparkles,
+    Award,
+    MapPinned,
+    Plane,
+    Users
 } from "lucide-react";
+import { useState } from "react";
 
 const stats = [
   {

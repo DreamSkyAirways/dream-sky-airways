@@ -8,7 +8,7 @@ import api from "@/server/api";
 
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import ProfileNavigation from "@/components/profile/ProfileNavigation";
-import PersonalDetails from "@/components/profile/PersonalDetails";
+// import PersonalDetails from "@/components/profile/PersonalDetails";
 import EnquiryStatus from "@/components/profile/EnquiryStatus";
 import ChangePassword from "@/components/profile/ChangePassword";
 
@@ -103,7 +103,7 @@ const Page = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
           <div className="lg:col-span-2 space-y-6">
-            <PersonalDetails  />
+            {/* <PersonalDetails  /> */}
 
             <EnquiryStatus />
           </div>

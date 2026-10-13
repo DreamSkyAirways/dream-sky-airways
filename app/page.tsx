@@ -42,7 +42,7 @@ export default function Home() {
           <Statistics />
         </div>
         <div>
-          <AirlineSlider />
+          {/* <AirlineSlider /> */}
         </div>
         <div>
           <CustomersSaying />

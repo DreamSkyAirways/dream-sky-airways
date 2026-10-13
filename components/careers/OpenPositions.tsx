@@ -28,65 +28,65 @@ export const jobs = [
   //   ],
   // },
 
-  {
-    id: 2,
-    title: "Tour Agent",
-    slug: "tour-agent",
-    department: "Travel Services",
-    location: "Delhi, India",
-    type: "Full Time",
-    experience: "1-3 Years",
-    image: "/images/careers/tour-agent.png",
-    secondaryImage: "/images/careers/tour-agent.png",
-    description:
-      "Assist customers in planning and booking holiday packages, flights, hotels, and transportation services.",
-    responsibilities: [
-      "Design customized travel itineraries.",
-      "Book flights, hotels, and tour packages.",
-      "Provide destination guidance to customers.",
-      "Handle travel documentation requirements.",
-    ],
-  },
+  // {
+  //   id: 2,
+  //   title: "Tour Agent",
+  //   slug: "tour-agent",
+  //   department: "Travel Services",
+  //   location: "Delhi, India",
+  //   type: "Full Time",
+  //   experience: "1-3 Years",
+  //   image: "/images/careers/tour-agent.png",
+  //   secondaryImage: "/images/careers/tour-agent.png",
+  //   description:
+  //     "Assist customers in planning and booking holiday packages, flights, hotels, and transportation services.",
+  //   responsibilities: [
+  //     "Design customized travel itineraries.",
+  //     "Book flights, hotels, and tour packages.",
+  //     "Provide destination guidance to customers.",
+  //     "Handle travel documentation requirements.",
+  //   ],
+  // },
 
-  {
-    id: 3,
-    title: "Tour Executive",
-    slug: "tour-executive",
-    department: "Tour Operations",
-    location: "Noida, India",
-    type: "Full Time",
-    experience: "1-4 Years",
-    image: "/images/careers/tour-executive.png",
-    secondaryImage: "/images/careers/tour-executive.png",
-    description:
-      "Manage tour operations, customer relationships, and ensure smooth execution of travel experiences.",
-    responsibilities: [
-      "Coordinate with hotels and transport vendors.",
-      "Manage tour schedules and logistics.",
-      "Handle customer feedback and support.",
-      "Ensure high-quality travel experiences.",
-    ],
-  },
+  // {
+  //   id: 3,
+  //   title: "Tour Executive",
+  //   slug: "tour-executive",
+  //   department: "Tour Operations",
+  //   location: "Noida, India",
+  //   type: "Full Time",
+  //   experience: "1-4 Years",
+  //   image: "/images/careers/tour-executive.png",
+  //   secondaryImage: "/images/careers/tour-executive.png",
+  //   description:
+  //     "Manage tour operations, customer relationships, and ensure smooth execution of travel experiences.",
+  //   responsibilities: [
+  //     "Coordinate with hotels and transport vendors.",
+  //     "Manage tour schedules and logistics.",
+  //     "Handle customer feedback and support.",
+  //     "Ensure high-quality travel experiences.",
+  //   ],
+  // },
 
-  {
-    id: 4,
-    title: "Tour Manager",
-    slug: "tour-manager",
-    department: "Management",
-    location: "Remote / Noida",
-    type: "Full Time",
-    experience: "3-6 Years",
-    image: "/images/careers/tour-manager.png",
-    secondaryImage: "/images/careers/tour-manager.png",
-    description:
-      "Lead tour teams, manage operations, and oversee end-to-end execution of domestic and international tours.",
-    responsibilities: [
-      "Manage tour executives and travel partners.",
-      "Plan tour budgets and schedules.",
-      "Ensure customer satisfaction.",
-      "Develop new travel packages and experiences.",
-    ],
-  },
+  // {
+  //   id: 4,
+  //   title: "Tour Manager",
+  //   slug: "tour-manager",
+  //   department: "Management",
+  //   location: "Remote / Noida",
+  //   type: "Full Time",
+  //   experience: "3-6 Years",
+  //   image: "/images/careers/tour-manager.png",
+  //   secondaryImage: "/images/careers/tour-manager.png",
+  //   description:
+  //     "Lead tour teams, manage operations, and oversee end-to-end execution of domestic and international tours.",
+  //   responsibilities: [
+  //     "Manage tour executives and travel partners.",
+  //     "Plan tour budgets and schedules.",
+  //     "Ensure customer satisfaction.",
+  //     "Develop new travel packages and experiences.",
+  //   ],
+  // },
 
   {
     id: 5,
@@ -187,25 +187,25 @@ export const jobs = [
     ],
   },
 
-  {
-    id: 10,
-    title: "Tour Guide",
-    slug: "tour-guide",
-    department: "Tour Operations",
-    location: "Multiple Locations",
-    type: "Full Time",
-    experience: "0-2 Years",
-    image: "/images/careers/tour-guide.png",
-    secondaryImage: "/images/careers/tour-guide.png",
-    description:
-      "Lead travelers, provide destination insights, and ensure memorable travel experiences.",
-    responsibilities: [
-      "Guide tourists during tours and activities.",
-      "Explain local culture and attractions.",
-      "Ensure traveler safety and comfort.",
-      "Coordinate with local service providers.",
-    ],
-  },
+  // {
+  //   id: 10,
+  //   title: "Tour Guide",
+  //   slug: "tour-guide",
+  //   department: "Tour Operations",
+  //   location: "Multiple Locations",
+  //   type: "Full Time",
+  //   experience: "0-2 Years",
+  //   image: "/images/careers/tour-guide.png",
+  //   secondaryImage: "/images/careers/tour-guide.png",
+  //   description:
+  //     "Lead travelers, provide destination insights, and ensure memorable travel experiences.",
+  //   responsibilities: [
+  //     "Guide tourists during tours and activities.",
+  //     "Explain local culture and attractions.",
+  //     "Ensure traveler safety and comfort.",
+  //     "Coordinate with local service providers.",
+  //   ],
+  // },
 
   // {
   //   id: 11,
