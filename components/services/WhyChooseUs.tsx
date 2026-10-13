@@ -1,81 +1,146 @@
 "use client";
 
 import React from "react";
-import { Headphones, ShieldCheck, Tag, Compass, Award } from "lucide-react";
+import {
+  Headphones,
+  ShieldCheck,
+  Tag,
+  Compass,
+  Award,
+  ArrowUpRight,
+  Sparkles,
+} from "lucide-react";
 
 const POINTS = [
   {
     code: "01",
-    title: "24/7 DEDICATED CONCIERGE",
-    desc: "1-on-1 personal travel managers available 24/7 with under 30 seconds call connect.",
+    title: "Personalised Travel Planning",
+    desc: "Get help planning a trip around your destination, budget, travel dates and preferences.",
     icon: Headphones,
   },
   {
     code: "02",
-    title: "BEST PRICE & ZERO HIDDEN FEES",
-    desc: "Wholesale direct GDS airfares and 100% transparent billing with zero surge charges.",
+    title: "Transparent Pricing",
+    desc: "Review available options and pricing details before confirming your travel arrangements.",
     icon: Tag,
   },
   {
     code: "03",
-    title: "100% TAILOR-MADE ITINERARIES",
-    desc: "Fully customized holiday packages tailored to your schedule with free date amendments.",
+    title: "Trips Made for You",
+    desc: "Explore holiday itineraries designed around your interests, schedule and travel style.",
     icon: Compass,
   },
   {
     code: "04",
-    title: "99.2% VISA APPROVAL ASSURANCE",
-    desc: "Certified 1-on-1 document vetting, doorstep biometrics & $500k medical insurance.",
+    title: "Travel Guidance & Support",
+    desc: "Get guidance with travel documentation, visa requirements and booking-related queries.",
     icon: ShieldCheck,
   },
   {
     code: "05",
-    title: "GPS SAFETY & PUNCTUALITY",
-    desc: "Live GPS tracked Volvo bus fleet, verified cab chauffeurs & 99.5% on-time guarantee.",
+    title: "Convenient Travel Options",
+    desc: "Explore suitable flights, hotels, cab transfers and holiday experiences for your trip.",
     icon: Award,
   },
 ];
 
 export default function WhyChooseUs() {
   return (
-    <section className="w-full bg-white text-black font-sans py-6 sm:py-12 px-4 sm:px-8 lg:px-16 border-t border-gray-100 select-none max-w-[1700px] mx-auto">
-      <div className="space-y-6 sm:space-y-8">
-        {/* Simple Compact Title */}
-        <div className="text-center space-y-1 sm:space-y-2">
-          <h2 className="text-2xl xs:text-3xl sm:text-5xl font-extrabold uppercase tracking-tight">
-            <span className="text-red-600">WHY</span> <span className="text-black">CHOOSE US</span>
+    <section className="relative w-full overflow-hidden border-t border-[#e4ece7] bg-[#f8faf7] px-4 py-16 font-sans text-[#173b35] sm:px-8 sm:py-20 lg:px-16">
+      {/* Background decoration */}
+      <div className="pointer-events-none absolute -left-24 top-10 h-64 w-64 rounded-full bg-[#087e70]/[0.05] blur-3xl" />
+      <div className="pointer-events-none absolute -right-24 bottom-0 h-64 w-64 rounded-full bg-[#e88b42]/[0.07] blur-3xl" />
+
+      <div className="relative mx-auto max-w-7xl space-y-10 sm:space-y-12">
+        {/* Section heading */}
+        <div className="mx-auto max-w-3xl space-y-4 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#087e70]/15 bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#087e70] shadow-sm sm:text-sm">
+            <Sparkles size={16} />
+            The Dream Sky Difference
+          </div>
+
+          <h2 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+            Why Travel With{" "}
+            <span className="text-[#087e70]">Dream Sky Airways?</span>
           </h2>
+
+          <p className="mx-auto max-w-2xl text-sm leading-7 text-gray-600 sm:text-base">
+            From choosing your destination to organising the details, we help
+            make planning your next holiday simpler and more convenient.
+          </p>
         </div>
 
-        {/* 5 Simple Compact Cards with Red Accent Hover */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        {/* Benefits grid */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {POINTS.map((item, idx) => {
             const Icon = item.icon;
+
             return (
-              <div
-                key={idx}
-                className="group bg-neutral-50 border border-gray-200 p-4 sm:p-5 rounded-xl sm:rounded-2xl space-y-2 sm:space-y-3 hover:border-red-600 hover:bg-red-50/30 transition duration-300 cursor-pointer"
+              <article
+                key={item.code}
+                className={`group relative overflow-hidden rounded-3xl border border-[#e1ebe5] bg-white p-6 shadow-[0_8px_30px_rgba(23,59,53,0.04)] transition-all duration-500 hover:-translate-y-1.5 hover:border-[#087e70]/40 hover:shadow-[0_18px_40px_rgba(23,59,53,0.09)] sm:p-7 ${
+                  idx === 3 ? "lg:col-start-1" : ""
+                }`}
               >
-                <div className="flex items-center justify-between">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-black text-white group-hover:bg-red-600 flex items-center justify-center transition-colors duration-300">
-                    <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                {/* Top accent */}
+                <div className="absolute left-0 top-0 h-1 w-0 bg-[#087e70] transition-all duration-500 group-hover:w-full" />
+
+                <div className="mb-6 flex items-center justify-between">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#e8f4ef] text-[#087e70] transition-all duration-300 group-hover:bg-[#087e70] group-hover:text-white">
+                    <Icon size={23} strokeWidth={1.8} />
                   </div>
-                  <span className="font-mono text-[10px] sm:text-xs font-bold text-gray-400 group-hover:text-red-600 transition-colors duration-300">
-                    {item.code}
-                  </span>
+
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-sm font-bold tracking-wider text-gray-400 transition-colors group-hover:text-[#087e70]">
+                      {item.code}
+                    </span>
+                    <ArrowUpRight
+                      size={17}
+                      className="text-gray-300 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-[#e88b42]"
+                    />
+                  </div>
                 </div>
 
-                <div className="space-y-0.5 sm:space-y-1">
-                  <h3 className="text-xs sm:text-base font-extrabold text-black group-hover:text-red-600 uppercase tracking-tight transition-colors duration-300">
-                    {item.title}
-                  </h3>
-                  <p className="text-[11px] sm:text-xs text-gray-600 group-hover:text-gray-900 leading-relaxed font-medium transition-colors duration-300">
-                    {item.desc}
-                  </p>
+                <h3 className="mb-3 text-lg font-bold leading-snug text-[#173b35] transition-colors duration-300 group-hover:text-[#087e70] sm:text-xl">
+                  {item.title}
+                </h3>
+
+                <p className="text-sm leading-7 text-gray-600">
+                  {item.desc}
+                </p>
+
+                <div className="mt-6 h-px w-full bg-[#edf2ee]" />
+
+                <div className="mt-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#087e70]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#e88b42]" />
+                  Your Journey, Your Way
                 </div>
-              </div>
+              </article>
             );
           })}
+        </div>
+
+        {/* Bottom message */}
+        <div className="flex flex-col items-center justify-between gap-5 rounded-3xl bg-[#173b35] p-6 text-center text-white sm:flex-row sm:px-8 sm:py-7 sm:text-left">
+          <div>
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-[#f2b47e]">
+              Start Exploring
+            </p>
+            <h3 className="text-xl font-bold sm:text-2xl">
+              Let&apos;s plan your next adventure.
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-white/70">
+              Tell us where you want to go, and explore the possibilities.
+            </p>
+          </div>
+
+          <a
+            href="/contact"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[#e88b42] px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:bg-[#d87830] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#f2b47e] focus:ring-offset-2 focus:ring-offset-[#173b35]"
+          >
+            Plan Your Trip
+            <ArrowUpRight size={18} />
+          </a>
         </div>
       </div>
     </section>

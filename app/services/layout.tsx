@@ -1,22 +1,30 @@
-import type {Metadata} from "next";
-import {servicePageSeo} from "@/lib/seo";
+
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import { servicePageSeo } from "@/lib/seo";
 
 export const metadata: Metadata = servicePageSeo(
-  "Travel Services – Flights, Hotels, Packages, Visa & More",
-  "Explore all Dream Sky Airways services: flight booking, hotels, holiday packages, buses, cabs, visa assistance and travel insurance under one roof.",
+  "Tour & Travel Services | Holiday Packages & Trip Planning – Dream Sky Airways",
+  "Explore tour and travel services from Dream Sky Airways, including holiday packages, domestic tours, honeymoon and family vacations, hotel reservations, cab transfers, visa assistance, and personalised trip planning.",
   "/services",
   [
-    "travel services India",
-    "flight hotel package booking",
-    "one stop travel agency",
-    "visa and insurance services",
-  ],
+    "tour and travel services",
+    "holiday packages India",
+    "domestic tour packages",
+    "honeymoon holiday packages",
+    "family vacation packages",
+    "hotel booking services",
+    "cab and transfer services",
+    "visa assistance",
+    "travel agency India",
+    "Dream Sky Airways",
+  ]
 );
 
 export default function ServicesLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
-  return children;
+  return <>{children}</>;
 }
