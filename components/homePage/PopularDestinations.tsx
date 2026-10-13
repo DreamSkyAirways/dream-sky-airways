@@ -2,167 +2,104 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRef } from "react";
+import { ChevronLeft, ChevronRight, Star, MapPin } from "lucide-react";
 import { packages } from "@/components/data/package";
-import { useRef, useEffect } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { Star, MapPin } from "lucide-react";
 
-import { motion } from "framer-motion";
+const SERIF = "'Fraunces', 'Iowan Old Style', Georgia, serif";
 
+/**
+ * Compact cards: square photo, price chip on the photo,
+ * title + location + duration underneath. Slider is controlled by the visitor.
+ */
 export default function PopularDestinations() {
-  const sliderRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLUListElement>(null);
 
-  const scrollLeft = () => {
-    if (!sliderRef.current) return;
-    sliderRef.current.scrollBy({
-      left: -420,
-      behavior: "smooth",
-    });
-  };
-
-  const scrollRight = () => {
-    if (!sliderRef.current) return;
-    const container = sliderRef.current;
-    if (
-      container.scrollLeft + container.clientWidth >=
-      container.scrollWidth - 10
-    ) {
-      container.scrollTo({
-        left: 0,
-        behavior: "smooth",
-      });
-    } else {
-      container.scrollBy({
-        left: 420,
-        behavior: "smooth",
-      });
+  const scrollByCard = (direction: 1 | -1) => {
+    const el = sliderRef.current;
+    if (!el) return;
+    const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 10;
+    if (direction === 1 && atEnd) {
+      el.scrollTo({ left: 0, behavior: "smooth" });
+      return;
     }
+    el.scrollBy({ left: direction * Math.min(el.clientWidth * 0.8, 520), behavior: "smooth" });
   };
 
-  // Auto Slide every 5s
-  useEffect(() => {
-    const interval = setInterval(() => {
-      scrollRight();
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  const arrowClass =
+    "flex h-10 w-10 items-center justify-center rounded-full border border-neutral-300 text-neutral-800 transition-colors hover:border-neutral-900 hover:bg-neutral-900 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900";
 
   return (
-    <section className="py-12 bg-white px-4 sm:px-8 lg:px-12 max-w-[1700px] mx-auto">
-      <div className="container mx-auto">
-        {/* Centered Title Header */}
-        <div className="text-center mb-10">
-          <p className="text-2xl sm:text-2xl font-light tracking-wide text-gray-600 mb-1">
-            Explore the
+    <section
+      aria-labelledby="popular-packages-heading"
+      className="mx-auto w-full max-w-[1700px] bg-white px-4 py-12 sm:px-8 sm:py-16 lg:px-12 xl:px-16"
+    >
+      <div className="mb-6 flex items-end justify-between gap-4 sm:mb-8">
+        <div className="max-w-xl">
+          <h2
+            id="popular-packages-heading"
+            className="text-2xl font-medium leading-tight tracking-tight text-neutral-900 sm:text-4xl"
+            style={{ fontFamily: SERIF }}
+          >
+            Popular holiday packages
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-neutral-600 sm:text-base">
+            Flights, stays and sightseeing included. Prices are per person.
           </p>
-          <div className="flex items-center justify-center gap-0.5 sm:gap-3 py-1">
-            {"BEAUTIFUL".split("").map((letter, idx) => (
-              <motion.span
-                key={idx}
-                animate={{
-                  rotateX: [0, 360],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  repeatDelay: 3.5,
-                  delay: idx * 0.08,
-                  ease: [0.45, 0.05, 0.25, 0.95],
-                }}
-                whileHover={{
-                  rotateX: 180,
-                  scale: 1.25,
-                  transition: { duration: 0.4 },
-                }}
-                className="text-3xl xs:text-4xl sm:text-7xl font-extrabold text-gray-900 tracking-tight inline-block cursor-pointer select-none will-change-transform"
-                style={{ transformStyle: "preserve-3d" }}
-              >
-                {letter}
-              </motion.span>
-            ))}
-          </div>
         </div>
-
-        {/* Navigation Buttons Row */}
-        <div className="flex justify-end gap-2 mb-4">
-          <button
-            onClick={scrollLeft}
-            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-black hover:text-white text-gray-800 flex items-center justify-center transition-all duration-300 shadow-sm"
-            aria-label="Previous Destinations"
-          >
-            <FaChevronLeft size={14} />
+        <div className="flex shrink-0 gap-2">
+          <button type="button" onClick={() => scrollByCard(-1)} aria-label="Previous packages" className={arrowClass}>
+            <ChevronLeft size={18} aria-hidden="true" />
           </button>
-          <button
-            onClick={scrollRight}
-            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-black hover:text-white text-gray-800 flex items-center justify-center transition-all duration-300 shadow-sm"
-            aria-label="Next Destinations"
-          >
-            <FaChevronRight size={14} />
+          <button type="button" onClick={() => scrollByCard(1)} aria-label="Next packages" className={arrowClass}>
+            <ChevronRight size={18} aria-hidden="true" />
           </button>
-        </div>
-
-        {/* Tall Cards Carousel Slider - 2 Images Visible on Mobile */}
-        <div
-          ref={sliderRef}
-          className="flex gap-2.5 sm:gap-5 overflow-x-auto scrollbar-hide scroll-smooth pb-4 pt-1"
-        >
-          {packages.map((pkg) => (
-            <div
-              key={pkg.id}
-              className="flex-shrink-0 w-[calc(50%-5px)] sm:w-[340px] lg:w-[360px]"
-            >
-              <Link href={`/packages/${pkg.slug}`}>
-                <div className="group relative h-[280px] sm:h-[480px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1.5 cursor-pointer bg-black">
-                  {/* Full Card Background Image */}
-                  <Image
-                    src={pkg.images?.[0] || "/placeholder.jpg"}
-                    alt={pkg.title}
-                    fill
-                    className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-                  />
-
-                  {/* Gradient Overlay for Text Visibility */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-
-                  {/* Top Floating Badges */}
-                  <div className="absolute top-2 left-2 right-2 sm:top-4 sm:left-4 sm:right-4 flex items-center justify-between z-10">
-                    <span className="bg-black/40 backdrop-blur-md text-white text-[9px] sm:text-xs font-medium px-1.5 py-0.5 sm:px-3 sm:py-1.5 rounded-full border border-white/20">
-                      {pkg.duration}
-                    </span>
-
-                    <span className="bg-white/95 backdrop-blur-md text-gray-900 text-[9px] sm:text-sm font-bold px-1.5 py-0.5 sm:px-3 sm:py-1 rounded-full shadow-md flex items-center gap-0.5 sm:gap-1">
-                      <Star size={10} className="text-amber-500 fill-amber-500 sm:w-3.5 sm:h-3.5" />
-                      <span>{pkg.rating || "4.7"}</span>
-                    </span>
-                  </div>
-
-                  {/* Bottom Text Content Overlaid on Image */}
-                  <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-6 z-10 text-white">
-                    <p className="text-[9px] sm:text-sm text-gray-300 font-medium flex items-center gap-1 mb-0.5 sm:mb-1">
-                      <MapPin size={10} className="text-gray-300 shrink-0 sm:w-3.5 sm:h-3.5" />
-                      <span className="truncate">{pkg.location}</span>
-                    </p>
-
-                    <h3 className="text-xs sm:text-2xl font-bold text-white leading-snug tracking-tight line-clamp-1 sm:line-clamp-2 drop-shadow-sm">
-                      {pkg.title}
-                    </h3>
-
-                    <div className="mt-1.5 sm:mt-4 pt-1 sm:pt-3 border-t border-white/15 flex items-center justify-between">
-                      <div>
-                        <span className="text-[8px] sm:text-[11px] uppercase tracking-wider text-gray-300 block leading-none">Starting From</span>
-                        <span className="text-xs sm:text-xl font-extrabold text-white">{pkg.price}</span>
-                      </div>
-                      <span className="text-[9px] sm:text-xs font-bold text-white underline underline-offset-4 group-hover:text-amber-400 transition-colors">
-                        Explore →
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </div>
-          ))}
         </div>
       </div>
+
+      <ul
+        ref={sliderRef}
+        className="scrollbar-hide -mx-1 flex snap-x snap-mandatory gap-3 overflow-x-auto px-1 pb-2 motion-safe:scroll-smooth sm:gap-4"
+      >
+        {packages.map((pkg) => (
+          <li
+            key={pkg.id}
+            className="w-[calc(50%-6px)] shrink-0 snap-start sm:w-[210px] lg:w-[230px]"
+          >
+            <Link
+              href={`/packages/${pkg.slug}`}
+              className="group block rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
+            >
+              <div className="relative aspect-square overflow-hidden rounded-2xl bg-neutral-200">
+                <Image
+                  src={pkg.images?.[0] || "/placeholder.jpg"}
+                  alt={`${pkg.title} holiday package`}
+                  fill
+                  sizes="(min-width: 1024px) 230px, (min-width: 640px) 210px, 50vw"
+                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                />
+                <span className="absolute right-2 top-2 flex items-center gap-1 rounded-full bg-black/55 px-2 py-0.5 text-[11px] font-medium text-white backdrop-blur-sm">
+                  <Star size={11} aria-hidden="true" className="fill-amber-400 text-amber-400" />
+                  {pkg.rating || "4.7"}
+                </span>
+                <span className="absolute bottom-2 left-2 rounded-full bg-white px-3 py-1 text-xs font-semibold text-neutral-900 shadow-sm sm:text-sm">
+                  {pkg.price}
+                </span>
+              </div>
+
+              <h3 className="mt-2.5 text-sm font-semibold leading-snug text-neutral-900 line-clamp-1 sm:text-base">
+                {pkg.title}
+              </h3>
+              <p className="mt-0.5 flex items-center gap-1 text-xs text-neutral-600">
+                <MapPin size={12} aria-hidden="true" className="shrink-0" />
+                <span className="truncate">{pkg.location}</span>
+                <span aria-hidden="true">•</span>
+                <span className="shrink-0">{pkg.duration}</span>
+              </p>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

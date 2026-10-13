@@ -1,18 +1,16 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Destination, destinationsData } from "@/app/data/destinations";
 
 interface HeroShowcaseProps {
   destinations?: Destination[];
 }
 
-/**
- * Reusable helper function to dynamically append Cloudinary optimization parameters.
- * Automatically inserts transformations directly after '/upload/' in the URL.
- */
+const AUTOPLAY_MS = 6000;
 
+/** Inserts Cloudinary transformations right after '/upload/'. */
 const getCloudinaryUrl = (url: string, transform: string): string => {
   if (!url) return url;
   if (url.includes("/upload/") && !url.includes(`upload/${transform}`)) {
@@ -21,175 +19,156 @@ const getCloudinaryUrl = (url: string, transform: string): string => {
   return url;
 };
 
+/**
+ * Design: photo-first. Big sentence-case serif title anchored bottom-left,
+ * a quiet destination index on the right where the active item carries an
+ * autoplay progress line (the one memorable detail).
+ */
 export default function HeroShowcase({
   destinations = destinationsData,
 }: HeroShowcaseProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const reduceMotion = useReducedMotion();
 
-  const activeDestination = destinations[currentIndex] || destinations[0];
+  const active = destinations[currentIndex] || destinations[0];
 
-  // Smooth scroll thumbnail container to center selected card
-  const scrollToCard = useCallback((index: number) => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const card = container.children[index] as HTMLElement;
-      if (card) {
-        const cardOffsetLeft = card.offsetLeft;
-        const cardWidth = card.offsetWidth;
-        const containerWidth = container.offsetWidth;
-        const scrollPosition = cardOffsetLeft - containerWidth / 2 + cardWidth / 2;
-
-        container.scrollTo({
-          left: Math.max(0, scrollPosition),
-          behavior: "smooth",
-        });
-      }
-    }
-  }, []);
-
-  // Optimized Auto-play timer: runs continuously every 6s without thrashing/re-creating interval on every index change
+  // Autoplay tied to the current index so the progress line stays in sync
   useEffect(() => {
-    if (!destinations.length) return;
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % destinations.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, [destinations.length]);
+    if (destinations.length < 2) return;
+    const t = setTimeout(
+      () => setCurrentIndex((i) => (i + 1) % destinations.length),
+      AUTOPLAY_MS
+    );
+    return () => clearTimeout(t);
+  }, [currentIndex, destinations.length]);
 
-  // Scroll carousel to active card when index changes
+  // Keep the active item visible in the index
   useEffect(() => {
-    scrollToCard(currentIndex);
-  }, [currentIndex, scrollToCard]);
+    itemRefs.current[currentIndex]?.scrollIntoView({
+      behavior: reduceMotion ? "auto" : "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }, [currentIndex, reduceMotion]);
 
-  const handleSelect = (index: number) => {
-    setCurrentIndex(index);
-  };
+  if (!active) return null;
 
   return (
-    <section className="relative w-full min-h-[640px] lg:h-screen lg:min-h-[750px] bg-black overflow-hidden select-none">
-      {/* 1. Full-bleed Background Image with Framer Motion Effect */}
-      <AnimatePresence mode="wait">
+    <section
+      aria-roledescription="carousel"
+      aria-label="Featured destinations"
+      className="relative w-full min-h-[640px] lg:h-screen lg:min-h-[720px] overflow-hidden bg-[#14181c] text-white"
+    >
+      {/* Background photo */}
+      <AnimatePresence mode="popLayout">
         <motion.div
-          key={activeDestination.id}
-          initial={{ opacity: 0, scale: 1.08 }}
+          key={active.id}
+          initial={{ opacity: 0, scale: reduceMotion ? 1 : 1.05 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1.04 }}
-          transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
-          className="absolute inset-0 w-full h-full will-change-transform"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
+          className="absolute inset-0"
         >
           <img
-            src={getCloudinaryUrl(activeDestination.image, "f_auto,q_auto,w_1920")}
-            alt={activeDestination.title}
-            className="w-full h-full object-cover object-center"
+            src={getCloudinaryUrl(active.image, "f_auto,q_auto,w_1920")}
+            alt=""
+            className="h-full w-full object-cover"
             fetchPriority="high"
             decoding="async"
           />
-          {/* Subtle overlay gradients for contrast */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-black/60" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/10 to-transparent" />
         </motion.div>
       </AnimatePresence>
 
-      {/* 2. Main Hero Grid Content */}
-      <div className="relative z-10 w-full h-full max-w-[1700px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 pt-28 sm:pt-36 lg:pt-40 pb-10 flex flex-col justify-between">
-        {/* Top Space for Header Alignment */}
-        <div className="w-full" />
+      {/* Single scrim: darker at bottom where the text sits */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/35" />
 
-        {/* Center Content Row: Left Text + Right Thumbnails */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end my-auto w-full">
-          {/* Left Text Block */}
-          <div className="lg:col-span-6 xl:col-span-6 text-white space-y-5">
-            {/* Subtitle / Location tag */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`sub-${activeDestination.id}`}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.5 }}
-                className="flex items-center gap-3"
-              >
-                <span className="w-8 h-[3px] bg-white/80 rounded-full" />
-                <span className="text-sm sm:text-base font-medium tracking-wide text-gray-200 uppercase">
-                  {activeDestination.location}
-                </span>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Giant Title */}
-            <AnimatePresence mode="wait">
-              <motion.h1
-                key={`title-${activeDestination.id}`}
-                initial={{ opacity: 0, y: 25 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white uppercase tracking-tight leading-none drop-shadow-md"
-              >
-                {activeDestination.title}
-              </motion.h1>
-            </AnimatePresence>
-
-            {/* Description */}
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={`desc-${activeDestination.id}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-sm sm:text-base text-gray-300 max-w-lg leading-relaxed line-clamp-3 font-light"
-              >
-                {activeDestination.description}
-              </motion.p>
-            </AnimatePresence>
-          </div>
-
-          {/* Right Card Carousel Showcase (Uniform Size & Smooth Scroll) */}
-          <div className="lg:col-span-6 xl:col-span-6 overflow-hidden">
-            <div
-              ref={scrollContainerRef}
-              className="flex items-center gap-4 overflow-x-auto pb-4 pt-2 px-1 scrollbar-hide scroll-smooth snap-x"
+      <div className="relative z-10 mx-auto flex h-full min-h-[640px] w-full max-w-[1600px] flex-col justify-end gap-10 px-5 pb-8 pt-32 sm:px-10 lg:min-h-[720px] lg:flex-row lg:items-end lg:justify-between lg:gap-16 lg:px-14 lg:pb-14">
+        {/* Text */}
+        <div className="max-w-2xl" aria-live="polite">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active.id}
+              initial={{ opacity: 0, y: reduceMotion ? 0 : 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              {destinations.map((item, index) => {
-                const isActive = index === currentIndex;
-                return (
-                  <div
-                    key={item.id}
-                    onClick={() => handleSelect(index)}
-                    className={`relative shrink-0 cursor-pointer snap-start transition-all duration-300 rounded-2xl overflow-hidden shadow-2xl w-40 sm:w-48 h-60 sm:h-68 ${isActive
-                      ? "opacity-100 z-20"
-                      : "opacity-70 hover:opacity-100 z-10"
-                      }`}
+              <p className="mb-3 text-base text-white/80 sm:text-lg">
+                {active.location}
+              </p>
+              <h1
+                className="text-5xl font-medium leading-[0.95] tracking-tight sm:text-7xl lg:text-8xl"
+                style={{ fontFamily: "'Fraunces', 'Iowan Old Style', Georgia, serif" }}
+              >
+                {active.title}
+              </h1>
+              <p className="mt-6 max-w-md text-base leading-relaxed text-white/80 line-clamp-3">
+                {active.description}
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Destination index */}
+        <nav
+          aria-label="Choose destination"
+          className="w-full lg:w-[340px] lg:shrink-0"
+        >
+          <ul className="scrollbar-hide flex gap-3 overflow-x-auto pb-1 lg:max-h-[340px] lg:flex-col lg:gap-0 lg:overflow-y-auto lg:overflow-x-hidden">
+            {destinations.map((item, index) => {
+              const isActive = index === currentIndex;
+              return (
+                <li key={item.id} className="shrink-0 lg:shrink">
+                  <button
+                    ref={(el) => {
+                      itemRefs.current[index] = el;
+                    }}
+                    type="button"
+                    onClick={() => setCurrentIndex(index)}
+                    aria-current={isActive}
+                    className={`group relative flex w-56 items-center gap-3 rounded-lg p-2 text-left transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:w-full ${
+                      isActive ? "bg-white/15 backdrop-blur-md" : "hover:bg-white/10"
+                    }`}
                   >
-                    {/* Thumbnail Image */}
                     <img
-                      src={getCloudinaryUrl(item.image, "f_auto,q_auto,w_500")}
-                      alt={item.title}
-                      className="w-full h-full object-cover"
+                      src={getCloudinaryUrl(item.image, "f_auto,q_auto,w_160,h_160,c_fill")}
+                      alt=""
+                      className="h-12 w-12 shrink-0 rounded-md object-cover"
                       loading="lazy"
                       decoding="async"
                     />
-
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-
-                    {/* Card Content Overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                      <p className="text-[10px] sm:text-xs text-gray-300 font-medium tracking-wide uppercase line-clamp-1">
-                        {item.location}
-                      </p>
-                      <h3 className="text-xs sm:text-sm lg:text-base font-bold text-white uppercase tracking-tight leading-tight line-clamp-2 mt-1">
+                    <span className="min-w-0">
+                      <span
+                        className={`block truncate text-sm font-semibold ${
+                          isActive ? "text-white" : "text-white/75"
+                        }`}
+                      >
                         {item.title}
-                      </h3>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+                      </span>
+                      <span className="block truncate text-xs text-white/60">
+                        {item.location}
+                      </span>
+                    </span>
+
+                    {/* Autoplay progress */}
+                    {isActive && (
+                      <span className="absolute inset-x-2 bottom-0 h-[2px] overflow-hidden rounded-full bg-white/20">
+                        <motion.span
+                          key={`progress-${currentIndex}`}
+                          className="block h-full bg-white"
+                          initial={{ width: reduceMotion ? "100%" : "0%" }}
+                          animate={{ width: "100%" }}
+                          transition={{ duration: AUTOPLAY_MS / 1000, ease: "linear" }}
+                        />
+                      </span>
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
       </div>
     </section>
   );

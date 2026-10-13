@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { Plane, Hotel, Package, Car } from "lucide-react";
 import { IoBusOutline } from "react-icons/io5";
 
@@ -11,48 +12,79 @@ import BusForm from "@/components/forms/BusForm";
 import CarForm from "@/components/forms/CabForm";
 
 const serviceTabs = [
-  { id: "Flight", label: "Flight", icon: Plane },
-  { id: "Hotel", label: "Hotel", icon: Hotel },
-  { id: "Package", label: "Package", icon: Package },
-  { id: "Bus", label: "Bus", icon: IoBusOutline },
-  { id: "CarRental", label: "Car Rental", icon: Car },
+  { id: "Flight", label: "Flights", icon: Plane },
+  { id: "Hotel", label: "Hotels", icon: Hotel },
+  { id: "Package", label: "Packages", icon: Package },
+  { id: "Bus", label: "Buses", icon: IoBusOutline },
+  { id: "CarRental", label: "Car rental", icon: Car },
 ] as const;
 
 type ServiceTab = (typeof serviceTabs)[number]["id"];
 
+/**
+ * Design: one clean panel that floats over the bottom of the hero.
+ * Tabs sit inside the panel as a text row; the active tab is marked by an
+ * underline that slides between tabs (the only motion, and it answers a click).
+ */
 export default function DarkBookingSearch() {
   const [selectedOption, setSelectedOption] = useState<ServiceTab>("Flight");
 
   return (
-    <section className="relative z-30 w-full px-4 sm:px-8 lg:px-12 xl:px-16 max-w-[1700px] mx-auto mt-4 sm:-mt-40 lg:-mt-44">
-      {/* Top Tabs Attached Bar */}
-      <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide max-w-fit">
-        {serviceTabs.map(({ id, label, icon: Icon }) => {
-          const isActive = selectedOption === id;
-          return (
-            <button
-              key={id}
-              type="button"
-              onClick={() => setSelectedOption(id)}
-              className={`flex items-center gap-2.5 px-6 py-3.5 rounded-t-2xl text-xs sm:text-sm font-bold transition-all duration-200 shrink-0 ${isActive
-                ? "bg-white text-neutral-900 shadow-md"
-                : "bg-neutral-900/90 text-white/80 hover:text-white hover:bg-neutral-800"
+    <section
+      aria-label="Search and book"
+      className="relative z-30 mx-auto mt-4 w-full max-w-[1700px] px-4 sm:-mt-12 sm:px-8 lg:-mt-14 lg:px-12 xl:px-16"
+    >
+      <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white text-neutral-900 shadow-[0_30px_70px_-20px_rgba(0,0,0,0.35)]">
+        {/* Tabs */}
+        <div
+          role="tablist"
+          aria-label="Booking type"
+          className="scrollbar-hide flex overflow-x-auto border-b border-neutral-200 bg-neutral-50 px-2 sm:px-4"
+        >
+          {serviceTabs.map(({ id, label, icon: Icon }) => {
+            const isActive = selectedOption === id;
+            return (
+              <button
+                key={id}
+                id={`tab-${id}`}
+                role="tab"
+                type="button"
+                aria-selected={isActive}
+                aria-controls={`panel-${id}`}
+                onClick={() => setSelectedOption(id)}
+                className={`relative flex shrink-0 items-center gap-2 px-4 py-4 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-neutral-900 sm:px-6 ${
+                  isActive
+                    ? "text-neutral-900"
+                    : "text-neutral-500 hover:text-neutral-800"
                 }`}
-            >
-              <Icon className="w-4.5 h-4.5" />
-              <span>{label}</span>
-            </button>
-          );
-        })}
-      </div>
+              >
+                <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+                <span>{label}</span>
+                {isActive && (
+                  <motion.span
+                    layoutId="booking-tab-underline"
+                    className="absolute inset-x-3 bottom-0 h-[3px] rounded-t-full bg-neutral-900"
+                    transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
 
-      {/* Main White Booking Card containing Full Interactive Forms */}
-      <div className="bg-white rounded-b-3xl rounded-tr-3xl p-4 sm:p-6 lg:p-8 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.15)] border border-gray-100/80 text-gray-900">
-        {selectedOption === "Flight" && <FlightForm isDark={false} />}
-        {selectedOption === "Hotel" && <HotelForm isDark={false} />}
-        {selectedOption === "Package" && <PackageForm isDark={false} />}
-        {selectedOption === "Bus" && <BusForm isDark={false} />}
-        {selectedOption === "CarRental" && <CarForm isDark={false} />}
+        {/* Form */}
+        <div
+          role="tabpanel"
+          id={`panel-${selectedOption}`}
+          aria-labelledby={`tab-${selectedOption}`}
+          className="p-4 sm:p-6 lg:p-8"
+        >
+          {selectedOption === "Flight" && <FlightForm isDark={false} />}
+          {selectedOption === "Hotel" && <HotelForm isDark={false} />}
+          {selectedOption === "Package" && <PackageForm isDark={false} />}
+          {selectedOption === "Bus" && <BusForm isDark={false} />}
+          {selectedOption === "CarRental" && <CarForm isDark={false} />}
+        </div>
       </div>
     </section>
   );
